@@ -1,0 +1,60 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+namespace raytracer {
+    class Ray
+    class ShapeFactory
+    class IShape
+    class Triangle
+    class Sphere
+
+    ShapeFactory <--> IShape
+    IShape --> Triangle
+    IShape --> Sphere
+
+    class ILight
+    class LightFactory
+    class AmbiantLight
+    class DirectionalLight
+
+    LightFactory <--> ILight
+    ILight --> AmbiantLight
+    ILight --> DirectionalLight
+
+    class IMaterial
+    class MaterialFactory
+    class Wood
+    class Metal
+
+    MaterialFactory <--> IMaterial
+    IMaterial --> Wood
+    IMaterial --> Metal
+
+    class Camera
+    class Scenes {
+        +render()
+        --
+        IMaterial
+    }
+
+    class Object
+
+    Object --> IShape
+    Object --> IMaterial
+
+    Scenes --> Object
+    Scenes --> Camera
+    Scenes --> ILight
+}
+
+namespace maths {
+    class Vector3D
+    class Point3D
+}
+
+namespace parser {
+    class PluginParser
+    class ObjectParser
+}
+
+@endl
