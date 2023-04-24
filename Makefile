@@ -1,17 +1,30 @@
 ##
 ## EPITECH PROJECT, 2023
-## Raytracer
+## bootstrap
 ## File description:
 ## Makefile
 ##
 
-all:
-	echo "all"
+NAME=raytracer
+
+SRC=		main.cpp 			\
+			Vector3D.cpp
+
+OBJ=$(SRC:.cpp=.o)
+
+CXXFLAGS= -Wall -Wextra -Werror -std=c++17
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CXX) -o $(NAME) $(OBJ)
 
 clean:
-	echo "clean"
+	rm -f $(OBJ)
 
-fclean:
-	echo "fclean"
+fclean: clean
+	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
