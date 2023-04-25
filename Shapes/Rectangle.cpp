@@ -10,7 +10,9 @@
 
 namespace raytracer {
     Rectangle3D::Rectangle3D() : origin(), bottom_side(), left_side() {};
-    Rectangle3D::Rectangle3D(Math::Point3D origin, Math::Vector3D bottom_side, Math::Vector3D left_side): origin(origin), bottom_side(bottom_side), left_side(left_side) {}
+    Rectangle3D::Rectangle3D(Math::Point3D origin, Math::Vector3D bottom_side, Math::Vector3D left_side): origin(origin), bottom_side(bottom_side), left_side(left_side) {};
+    Rectangle3D::Rectangle3D(const Rectangle3D &other): origin(other.origin), bottom_side(other.bottom_side), left_side(other.left_side) {};
+
 
     Rectangle3D &Rectangle3D::operator=(const Rectangle3D &other) {
         origin = other.origin;
@@ -28,7 +30,7 @@ namespace raytracer {
         };
     }
 
-    bool hits(UNUSED raytracer::Ray ray)
+    bool Rectangle3D::hits(UNUSED raytracer::Ray ray)
     {
         return false;
     }

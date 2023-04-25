@@ -16,7 +16,7 @@
         class IShape {
             public:
                 virtual ~IShape() = default;
-                virtual bool hits(raytracer::Ray ray);
+                virtual bool hits(raytracer::Ray ray) = 0;
         };
     }
 
