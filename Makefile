@@ -8,7 +8,10 @@
 NAME=raytracer
 
 SRC=		main.cpp 			\
-			Vector3D.cpp
+			Shapes/Rectangle.cpp \
+			Shapes/Sphere.cpp \
+			Shapes/Triangle.cpp \
+			Maths/Vector3D.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

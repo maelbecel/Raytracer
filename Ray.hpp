@@ -8,9 +8,9 @@
 #ifndef RAY_HPP_
     #define RAY_HPP_
 
-    #include "Point3D.hpp"
+    #include "./Maths/Point3D.hpp"
 
-    namespace RayTracer {
+    namespace raytracer {
         class Ray {
             public:
                 Ray(): Origin(), Direction() {};

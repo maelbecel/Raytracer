@@ -8,11 +8,11 @@
 #ifndef CAMERA_HPP_
     #define CAMERA_HPP_
 
-    #include "Point3D.hpp"
-    #include "Rectangle.hpp"
+    #include "./Maths/Point3D.hpp"
+    #include "./Shapes/Rectangle.hpp"
     #include "Ray.hpp"
 
-    namespace RayTracer {
+    namespace raytracer {
         class Camera {
             public:
                 Camera(): origin() {
