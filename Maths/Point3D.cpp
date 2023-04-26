@@ -46,9 +46,19 @@ namespace Math {
         return *this;
     }
 
+    Vector3D Point3D::sub(const Point3D &other)
+    {
+        return Vector3D(X - other.X, Y - other.Y, Z - other.Z);
+    }
+
     double Point3D::dot(const Point3D &other)
     {
         return X * other.X + Y * other.Y + Z * other.Z;
+    }
+
+    double Point3D::dot(const Vector3D &vector)
+    {
+        return X * vector.X + Y * vector.Y + Z * vector.Z;
     }
 
     Point3D Point3D::cross(const Point3D &other)

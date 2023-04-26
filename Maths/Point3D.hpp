@@ -24,7 +24,9 @@
                 Point3D &operator-(const Vector3D &other);
                 Point3D &operator-(const Point3D &other);
 
+                Vector3D sub(const Point3D &other);
                 double dot(const Point3D &other);
+                double dot(const Vector3D &vector);
                 Point3D cross(const Point3D &other);
 
                 double X;

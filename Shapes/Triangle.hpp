@@ -23,6 +23,7 @@
                 Triangle &operator=(const Triangle &other);
 
                 bool hits(raytracer::Ray ray);
+                Math::Vector3D getNormal(Math::Point3D point);
 
                 Math::Point3D A;
                 Math::Point3D B;

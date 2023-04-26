@@ -9,17 +9,20 @@
 
 namespace raytracer {
 
-    void Scene::get_ray(raytracer::Ray r)
+    void Scene::get_ray(raytracer::Ray r, Math::Point3D point)
     {
-        int x = 1;
         for (std::shared_ptr<raytracer::Object> object : this->getObjects()) {
             if (object->getShape() == nullptr)
-                std::cout << "Object " << x -1 << " has no shape" << std::endl;
+                std::cerr << "Object has no shape" << std::endl;
             else if (object->getShape()->hits(r)) {
-                _file << x * 50 << " " << x * 50 << " " << x * 50 << std::endl;
+                Math::Vector3D normal = object->getShape()->getNormal(point);
+                Math::Vector3D lightDir = _lights[0]->getLightVector(point);
+                double dot = normal.dot(lightDir);
+                if (dot < 0)
+                    dot = 0;
+                _file << (int)(object->getColor().R * dot) << " " << (int)(object->getColor().G * dot) << " " << (int)(object->getColor().B * dot) << std::endl;
                 return;
             }
-            x++;
         }
         _file << "0 0 0" << std::endl;
     }
@@ -31,7 +34,7 @@ namespace raytracer {
                 double u = j / WIDTH ;
                 double v = i / HEIGHT ;
                 raytracer::Ray r = _camera->ray(u, v);
-                get_ray(r);
+                get_ray(r, _camera->screen.pointAt(u, v));
             }
         }
     }

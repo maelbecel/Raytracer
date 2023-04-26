@@ -22,26 +22,46 @@ namespace raytracer {
 
     bool Triangle::hits(raytracer::Ray ray)
     {
-        Math::Point3D edge1 = B - A;
-        Math::Point3D edge2 = C - A;
-        Math::Point3D h = ray.Direction.cross(edge2);
+        const double EPSILON = 0.0000001;
+
+        Math::Vector3D edge1 = B.sub(A);
+        Math::Vector3D edge2 = C.sub(A);
+        Math::Vector3D h = ray.Direction.cross(edge2);
         double a = edge1.dot(h);
-        if (a > -0.00001 && a < 0.00001)
+
+        if (a > -EPSILON && a < EPSILON)
             return false;
-        double f = 1 / a;
-        Math::Point3D s = ray.Origin - A;
+
+        double f = 1.0 / a;
+        Math::Vector3D s = ray.Origin.sub(A);
         double u = f * s.dot(h);
+
         if (u < 0.0 || u > 1.0)
             return false;
-        Math::Point3D q = s.cross(edge1);
+
+        Math::Vector3D q = s.cross(edge1);
         double v = f * ray.Direction.dot(q);
-        if (v < 0.0 || u + v > 1.0)
+
+        if (v < 0.0 || u + v > 1.0) {
             return false;
+        }
+
         double t = f * edge2.dot(q);
-        if (t > 0.00001)
-            return true;
-        else
-            return false;
+        return (t > EPSILON);
     }
 
+    Math::Vector3D Triangle::getNormal(Math::Point3D point)
+    {
+        Math::Point3D center = {
+            (A.X + B.X + C.X) / 3,
+            (A.Y + B.Y + C.Y) / 3,
+            (A.Z + B.Z + C.Z) / 3
+        };
+        Math::Vector3D normal = {
+            point.X - center.X,
+            point.Y - center.Y,
+            point.Z - center.Z
+        };
+        return normal;
+    }
 }

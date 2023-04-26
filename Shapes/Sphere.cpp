@@ -14,8 +14,6 @@ namespace raytracer {
 
     bool Sphere::hits(raytracer::Ray ray)
     {
-        std::cout << "\tRay : " << ray.Direction.X << " " << ray.Direction.Y << " " << ray.Direction.Z << std::endl;
-        std::cout << "\tCenter : " << Center.X << " " << Center.Y << " " << Center.Z << std::endl;
         Math::Point3D point = ray.Origin - Center;
         Math::Vector3D oc(point.X, point.Y, point.Z);
         double a = ray.Direction.dot(ray.Direction);
@@ -25,4 +23,14 @@ namespace raytracer {
         std::cout << "\tDiscriminant : " << discriminant << std::endl;
         return (discriminant > 0);
     };
+
+    Math::Vector3D Sphere::getNormal(Math::Point3D point)
+    {
+        Math::Vector3D normal = {
+            point.X - Center.X,
+            point.Y - Center.Y,
+            point.Z - Center.Z
+        };
+        return normal;
+    }
 }

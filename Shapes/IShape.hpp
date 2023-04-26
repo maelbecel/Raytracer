@@ -17,6 +17,7 @@
             public:
                 virtual ~IShape() = default;
                 virtual bool hits(raytracer::Ray ray) = 0;
+                virtual Math::Vector3D getNormal(Math::Point3D point) = 0;
         };
     }
 

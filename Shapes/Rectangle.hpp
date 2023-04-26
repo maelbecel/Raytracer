@@ -26,8 +26,9 @@
                 Math::Vector3D left_side;
 
                 Math::Point3D pointAt(double u, double v);
+                Math::Vector3D getNormal(Math::Point3D point);
 
-                bool hits(UNUSED raytracer::Ray ray);
+                bool hits(raytracer::Ray ray);
 
             protected:
             private:

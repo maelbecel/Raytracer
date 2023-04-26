@@ -34,4 +34,19 @@ namespace raytracer {
     {
         return false;
     }
+
+    Math::Vector3D Rectangle3D::getNormal(Math::Point3D point)
+    {
+        Math::Point3D center;
+        center.X = origin.X + bottom_side.X / 2 + left_side.X / 2;
+        center.Y = origin.Y + bottom_side.Y / 2 + left_side.Y / 2;
+        center.Z = origin.Z + bottom_side.Z / 2 + left_side.Z / 2;
+
+        Math::Vector3D normal = {
+            point.X - center.X,
+            point.Y - center.Y,
+            point.Z - center.Z
+        };
+        return normal;
+    }
 }

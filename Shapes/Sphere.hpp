@@ -23,6 +23,7 @@
                 ~Sphere() {};
 
                 bool hits(raytracer::Ray ray);
+                Math::Vector3D getNormal(Math::Point3D point);
 
                 Math::Point3D Center;
                 double Radius;
