@@ -13,7 +13,16 @@
     #include "Camera.hpp"
     #include "Lights/ILight.hpp"
     #include "Object.hpp"
+    #include "Object.hpp"
+    #include "./Shapes/Sphere.hpp"
+    #include "./Shapes/Triangle.hpp"
+    #include "./Maths/Point3D.hpp"
+    #include <iostream>
+    #include <fstream>
     #include <memory>
+
+    #define HEIGHT 1080
+    #define WIDTH 1920
 
     namespace raytracer {
         class Scene {
@@ -26,6 +35,8 @@
                 };
 
                 void render(void);
+                void get_ray(raytracer::Ray r);
+
                 void addCamera(std::shared_ptr<Camera> camera) {_camera = camera;};
                 void addLight(std::shared_ptr<ILight> light) {_lights.push_back(light);};
                 void addObject(std::shared_ptr<Object> object) {_objects.push_back(object);};
@@ -36,6 +47,7 @@
 
             protected:
             private:
+                std::ofstream _file = std::ofstream("image.ppm");
                 std::shared_ptr<Camera> _camera;
                 std::vector<std::shared_ptr<ILight>> _lights;
                 std::vector<std::shared_ptr<Object>> _objects;

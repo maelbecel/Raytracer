@@ -12,6 +12,7 @@ SRC=		main.cpp 			\
 			Shapes/Rectangle.cpp \
 			Shapes/Sphere.cpp \
 			Maths/Vector3D.cpp \
+			Scene.cpp\
 			Maths/Point3D.cpp
 
 OBJ=$(SRC:.cpp=.o)
