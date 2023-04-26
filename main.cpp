@@ -38,8 +38,8 @@ int main ()
     std::shared_ptr<raytracer::Sphere> sphere = std::make_shared<raytracer::Sphere>(Math::Point3D(0, 0, 1), 0.2);
     std::shared_ptr<raytracer::Object> object2 = std::make_shared<raytracer::Object>();
     std::shared_ptr<raytracer::Object> object3 = std::make_shared<raytracer::Object>();
-    std::shared_ptr<raytracer::Sphere> sphere2 = std::make_shared<raytracer::Sphere>(Math::Point3D(0.1, 0, 1), 0.2);
-    std::shared_ptr<raytracer::Sphere> sphere3 = std::make_shared<raytracer::Sphere>(Math::Point3D(0, 0.1, 1), 0.2);
+    std::shared_ptr<raytracer::Sphere> sphere2 = std::make_shared<raytracer::Sphere>(Math::Point3D(0.4, 0, 1), 0.2);
+    std::shared_ptr<raytracer::Sphere> sphere3 = std::make_shared<raytracer::Sphere>(Math::Point3D(0, 0.4, 1), 0.2);
     object->setShape(sphere);
     object2->setShape(sphere2);
     object3->setShape(sphere3);
