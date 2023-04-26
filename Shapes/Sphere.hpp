@@ -19,6 +19,7 @@
                 Sphere();
                 Sphere(Math::Point3D center, double radius);
                 Sphere(const Sphere &other);
+
                 ~Sphere() {};
 
                 bool hits(raytracer::Ray ray);

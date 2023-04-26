@@ -11,7 +11,8 @@ SRC=		main.cpp 			\
 			Shapes/Triangle.cpp \
 			Shapes/Rectangle.cpp \
 			Shapes/Sphere.cpp \
-			Maths/Vector3D.cpp
+			Maths/Vector3D.cpp \
+			Maths/Point3D.cpp
 
 OBJ=$(SRC:.cpp=.o)
 
@@ -21,6 +22,9 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CXX) -o $(NAME) $(OBJ)
+
+debug: CXXFLAGS += -g
+debug: re
 
 clean:
 	rm -f $(OBJ)

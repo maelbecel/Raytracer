@@ -14,98 +14,33 @@
         class Point3D;
         class Vector3D {
             public:
-                Vector3D(): X(0), Y(0), Z(0) {};
-                Vector3D(double x, double y, double z): X(x), Y(y), Z(z) {}
-                Vector3D(const Vector3D &other): X(other.X), Y(other.Y), Z(other.Z) {}
-                Vector3D &operator=(const Vector3D &other) {
-                    X = other.X;
-                    Y = other.Y;
-                    Z = other.Z;
-                    return *this;
-                }
-                Vector3D &operator+(const Vector3D &other) {
-                    X += other.X;
-                    Y += other.Y;
-                    Z += other.Z;
-                    return *this;
-                }
-                Vector3D &operator-(const Vector3D &other) {
-                    X -= other.X;
-                    Y -= other.Y;
-                    Z -= other.Z;
-                    return *this;
-                }
-                Vector3D &operator*(const Vector3D &other) {
-                    X *= other.X;
-                    Y *= other.Y;
-                    Z *= other.Z;
-                    return *this;
-                }
-                Vector3D &operator/(const Vector3D &other) {
-                    X /= other.X;
-                    Y /= other.Y;
-                    Z /= other.Z;
-                    return *this;
-                }
-                Vector3D &operator+=(const Vector3D &other) {
-                    X += other.X;
-                    Y += other.Y;
-                    Z += other.Z;
-                    return *this;
-                }
-                Vector3D &operator-=(const Vector3D &other) {
-                    X -= other.X;
-                    Y -= other.Y;
-                    Z -= other.Z;
-                    return *this;
-                }
-                Vector3D &operator*=(const Vector3D &other) {
-                    X *= other.X;
-                    Y *= other.Y;
-                    Z *= other.Z;
-                    return *this;
-                }
-                Vector3D &operator/=(const Vector3D &other) {
-                    X /= other.X;
-                    Y /= other.Y;
-                    Z /= other.Z;
-                    return *this;
-                }
-                Vector3D &operator*(double x) {
-                    X *= x;
-                    Y *= x;
-                    Z *= x;
-                    return *this;
-                }
-                Vector3D &operator/(double x) {
-                    X /= x;
-                    Y /= x;
-                    Z /= x;
-                    return *this;
-                }
-                Vector3D &operator*=(double x) {
-                    X *= x;
-                    Y *= x;
-                    Z *= x;
-                    return *this;
-                }
-                Vector3D &operator/=(double x) {
-                    X /= x;
-                    Y /= x;
-                    Z /= x;
-                    return *this;
-                }
-                Vector3D &operator=(const Point3D &other);
+                Vector3D();
+                Vector3D(double x, double y, double z);
+                Vector3D(const Vector3D &other);
 
                 ~Vector3D() = default;
 
-                double length(void) {
-                    return sqrt(X * X + Y * Y + Z * Z);
-                }
+                Vector3D &operator=(const Vector3D &other);
+                Vector3D &operator+(const Vector3D &other);
+                Vector3D &operator-(const Vector3D &other);
+                Vector3D &operator*(const Vector3D &other);
+                Vector3D &operator/(const Vector3D &other);
+                Vector3D &operator+=(const Vector3D &other);
+                Vector3D &operator-=(const Vector3D &other);
+                Vector3D &operator*=(const Vector3D &other);
+                Vector3D &operator/=(const Vector3D &other);
+                Vector3D &operator*(double x);
+                Vector3D &operator/(double x);
+                Vector3D &operator*=(double x);
+                Vector3D &operator/=(double x);
+                Vector3D &operator=(const Point3D &other);
 
-                double dot(const Vector3D &other) {
-                    return X * other.X + Y * other.Y + Z * other.Z;
-                }
+
+                double length(void);
+                double dot(const Vector3D &other);
+                double dot(const Point3D &point);
+                Vector3D cross(const Vector3D &other);
+                Point3D cross(const Point3D &point);
 
                 double X;
                 double Y;

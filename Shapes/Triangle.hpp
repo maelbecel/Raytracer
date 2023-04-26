@@ -18,15 +18,15 @@
                 Triangle();
                 Triangle(Math::Point3D a, Math::Point3D b, Math::Point3D c);
                 Triangle(const Triangle &other);
-                Triangle &operator=(const Triangle &other);
+
                 ~Triangle() {};
+                Triangle &operator=(const Triangle &other);
+
+                bool hits(raytracer::Ray ray);
 
                 Math::Point3D A;
                 Math::Point3D B;
                 Math::Point3D C;
-
-                bool hits(UNUSED raytracer::Ray ray);
-
             protected:
             private:
         };

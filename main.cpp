@@ -8,6 +8,7 @@
 #include "Camera.hpp"
 #include "Scene.hpp"
 #include "./Shapes/Sphere.hpp"
+#include "./Shapes/Triangle.hpp"
 #include "./Maths/Point3D.hpp"
 #include <iostream>
 #include <fstream>
@@ -18,6 +19,8 @@ void get_ray(std::ofstream& file, raytracer::Scene scene, raytracer::Ray r)
     int x = 1;
     for (std::shared_ptr<raytracer::Object> object : scene.getObjects()) {
         std::cout << "Check for object " << x -1 << std::endl;
+        if (object->getShape() == nullptr)
+            std::cout << "Object " << x -1 << " has no shape" << std::endl;
         if (object->getShape()->hits(r)) {
             file << x * 50 << " " << x * 50 << " " << x * 50 << std::endl;
             return;
@@ -38,11 +41,16 @@ int main ()
     std::shared_ptr<raytracer::Sphere> sphere = std::make_shared<raytracer::Sphere>(Math::Point3D(0, 0, 1), 0.2);
     std::shared_ptr<raytracer::Object> object2 = std::make_shared<raytracer::Object>();
     std::shared_ptr<raytracer::Object> object3 = std::make_shared<raytracer::Object>();
+    std::shared_ptr<raytracer::Object> object4 = std::make_shared<raytracer::Object>();
     std::shared_ptr<raytracer::Sphere> sphere2 = std::make_shared<raytracer::Sphere>(Math::Point3D(0.4, 0, 1), 0.2);
     std::shared_ptr<raytracer::Sphere> sphere3 = std::make_shared<raytracer::Sphere>(Math::Point3D(0, 0.4, 1), 0.2);
+    std::shared_ptr<raytracer::Triangle> triangle = std::make_shared<raytracer::Triangle>(Math::Point3D(0, 0, 1), Math::Point3D(0.4, 0, 1), Math::Point3D(0, 0.4, 1));
+    object4->setShape(triangle);
+
     object->setShape(sphere);
     object2->setShape(sphere2);
     object3->setShape(sphere3);
+    scene.addObject(object4);
     scene.addObject(object);
     scene.addObject(object2);
     scene.addObject(object3);

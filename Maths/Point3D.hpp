@@ -13,38 +13,19 @@
     namespace Math {
         class Point3D {
             public:
-                Point3D(): X(0), Y(0), Z(0) {};
-                Point3D(double x, double y, double z): X(x), Y(y), Z(z) {}
-                Point3D(const Point3D &other): X(other.X), Y(other.Y), Z(other.Z) {}
-                Point3D &operator=(const Point3D &other) {
-                    X = other.X;
-                    Y = other.Y;
-                    Z = other.Z;
-                    return *this;
-                }
-
-                Point3D &operator+(const Vector3D &other) {
-                    X += other.X;
-                    Y += other.Y;
-                    Z += other.Z;
-                    return *this;
-                }
-
-                Point3D &operator-(const Vector3D &other) {
-                    X -= other.X;
-                    Y -= other.Y;
-                    Z -= other.Z;
-                    return *this;
-                }
-
-                Point3D &operator-(const Point3D &other) {
-                    X -= other.X;
-                    Y -= other.Y;
-                    Z -= other.Z;
-                    return *this;
-                }
+                Point3D();
+                Point3D(double x, double y, double z);
+                Point3D(const Point3D &other);
 
                 ~Point3D() = default;
+
+                Point3D &operator=(const Point3D &other);
+                Point3D &operator+(const Vector3D &other);
+                Point3D &operator-(const Vector3D &other);
+                Point3D &operator-(const Point3D &other);
+
+                double dot(const Point3D &other);
+                Point3D cross(const Point3D &other);
 
                 double X;
                 double Y;
