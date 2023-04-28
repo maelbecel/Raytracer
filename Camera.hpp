@@ -15,7 +15,7 @@
         class Camera {
             public:
                 Camera() {};
-                Camera(Math::Vector3D from, Math::Vector3D at, Math::Vector3D vup, double vfov, double ratio, double aperture, double focus, double t0, double t1);
+                Camera(Math::Vector3D from, Math::Vector3D at, Math::Vector3D vup, double vfov, double ratio, double aperture, double focus);
                 Ray getRay(double s, double t) const;
                 ~Camera() = default;
             private:
@@ -25,7 +25,6 @@
                 Math::Vector3D _vertical;
                 Math::Vector3D _u, _v, _w;
                 double _lens_radius;
-                double time0, time1;
         };
     }
 

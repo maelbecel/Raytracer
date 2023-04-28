@@ -1,4 +1,4 @@
-@startuml
+@startuml bogos
 'https://plantuml.com/class-diagram
 
 namespace raytracer {
@@ -31,10 +31,12 @@ namespace raytracer {
     IMaterial --> Metal
 
     class Camera
-    class Scenes {
+    class Scene {
         +render()
         --
-        IMaterial
+        std::vector<Object> objects
+        std::vector<ILight> lights
+        Camera camera
     }
 
     class Object
@@ -42,14 +44,24 @@ namespace raytracer {
     Object --> IShape
     Object --> IMaterial
 
-    Scenes --> Object
-    Scenes --> Camera
-    Scenes --> ILight
+    Scene --> Object
+    Scene --> Camera
+    Scene --> LightFactory
 }
 
 namespace maths {
-    class Vector3D
-    class Vector3D
+    class Vector3D {
+        + double dot(Vector3D)
+        + double length(void)
+        + double X
+        + double Y
+        + double Z
+    }
+    class Point3D {
+        double X
+        double Y
+        double Z
+    }
 }
 
 namespace parser {

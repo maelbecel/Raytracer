@@ -10,6 +10,7 @@
 #include "Material/Lambertian.hpp"
 #include "Material/Metal.hpp"
 #include "Material/Dielectric.hpp"
+#include "Parser/Parser.hpp"
 
 raytracer::Scene randomScene(void)
 {
@@ -58,28 +59,23 @@ raytracer::Scene randomScene(void)
 
 int main ()
 {
+    // Parser
+
+    Parser::Parser parser("scene.cfg");
+
     // Image
 
     const auto aspect_ratio = 16.0 / 9.0;
-    const int image_width = 800;
+    const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 200;
+    const int samples_per_pixel = 5;
     const int depth = 4;
+
+    raytracer::Camera cam = parser.parseCamera();
 
     // Scene
 
     raytracer::Scene world = randomScene();
-
-
-    // Camera
-
-    Math::Vector3D lookfrom(13,2,3);
-    Math::Vector3D lookat(0,0,0);
-    Math::Vector3D vup(0,1,0);
-    auto dist_to_focus = 10.0;
-    auto aperture = 0.1;
-
-    raytracer::Camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
 
     // Render
 

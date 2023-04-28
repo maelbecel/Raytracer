@@ -9,10 +9,11 @@ NAME=raytracer
 
 SRC=		main.cpp 					\
 			Ray.cpp	  		  			\
-			Camera.cpp	  		  			\
+			Camera.cpp	  		  		\
 			Scene.cpp	    			\
 			Maths/Vector3D.cpp	    	\
-			Object/HitRecord.cpp
+			Object/HitRecord.cpp		\
+			Parser/Parser.cpp			\
 
 OBJ=$(SRC:.cpp=.o)
 
@@ -21,7 +22,7 @@ CXXFLAGS= -Wall -Wextra -Werror -std=c++17
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) -o $(NAME) $(OBJ)
+	$(CXX) -o $(NAME) $(OBJ) -lconfig++
 
 debug: CXXFLAGS += -g
 debug: re
