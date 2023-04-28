@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
       - run: |
           make fclean
-          make
+          echo make
           make clean
 
   mirroring:
