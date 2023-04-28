@@ -7,15 +7,12 @@
 
 NAME=raytracer
 
-SRC=		main.cpp 				\
-			Shapes/Triangle.cpp 	\
-			Shapes/Rectangle.cpp	\
-			Shapes/Sphere.cpp 		\
-			Lights/Ambiant.cpp 		\
-			Maths/Vector3D.cpp 		\
-			Scene.cpp				\
-			Object.cpp				\
-			Maths/Point3D.cpp
+SRC=		main.cpp 					\
+			Ray.cpp	  		  			\
+			Camera.cpp	  		  			\
+			Scene.cpp	    			\
+			Maths/Vector3D.cpp	    	\
+			Object/HitRecord.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

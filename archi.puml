@@ -49,7 +49,7 @@ namespace raytracer {
 
 namespace maths {
     class Vector3D
-    class Point3D
+    class Vector3D
 }
 
 namespace parser {

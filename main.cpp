@@ -7,40 +7,99 @@
 
 #include "Camera.hpp"
 #include "Scene.hpp"
+#include "Material/Lambertian.hpp"
+#include "Material/Metal.hpp"
+#include "Material/Dielectric.hpp"
+
+raytracer::Scene randomScene(void)
+{
+    raytracer::Scene world;
+
+    auto ground_material = std::make_shared<raytracer::Lambertian>(Math::Color(0.5, 0.5, 0.5));
+    world.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(0,-1000,0), 1000, ground_material));
+
+    for (int a = -11; a < 11; a++) {
+        for (int b = -11; b < 11; b++) {
+            auto choose_mat = random_double();
+            Math::Vector3D center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
+
+            if ((center - Math::Vector3D(4, 0.2, 0)).len() > 0.9) {
+                std::shared_ptr<raytracer::IMaterial> sphere_material;
+
+                if (choose_mat < 0.8) {
+                    // diffuse
+                    auto albedo = Math::Vector3D::random() * Math::Vector3D::random();
+                    sphere_material = std::make_shared<raytracer::Lambertian>(albedo);
+                    world.addObject(std::make_shared<raytracer::Sphere>(center, 0.2, sphere_material));
+                } else if (choose_mat < 0.95) {
+                    // metal
+                    auto albedo = Math::Vector3D::random(0.5, 1);
+                    auto fuzz = random_double() * 0.5;
+                    sphere_material = std::make_shared<raytracer::Metal>(albedo, fuzz);
+                    world.addObject(std::make_shared<raytracer::Sphere>(center, 0.2, sphere_material));
+                } else {
+                    // glass
+                    sphere_material = std::make_shared<raytracer::Dielectric>(1.5);
+                    world.addObject(std::make_shared<raytracer::Sphere>(center, 0.2, sphere_material));
+                }
+            }
+        }
+    }
+    auto material1 = std::make_shared<raytracer::Dielectric>(1.5);
+    world.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(0, 1, 0), 1.0, material1));
+
+    auto material2 = std::make_shared<raytracer::Lambertian>(Math::Vector3D(0.4, 0.2, 0.1));
+    world.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(-4, 1, 0), 1.0, material2));
+
+    auto material3 = std::make_shared<raytracer::Metal>(Math::Vector3D(0.7, 0.6, 0.5), 0.0);
+    world.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(4, 1, 0), 1.0, material3));
+    return world;
+}
 
 int main ()
 {
-    raytracer::Scene scene;
-    std::shared_ptr<raytracer::Camera> camera = std::make_shared<raytracer::Camera>();
-    scene.addCamera(camera);
+    // Image
 
-    std::shared_ptr<raytracer::Triangle> triangle = std::make_shared<raytracer::Triangle>(Math::Point3D(0, 0, 0.5), Math::Point3D(0.25, 0.25, 1), Math::Point3D(-0.25, 0.25, 1));
-    std::shared_ptr<raytracer::Object> object = std::make_shared<raytracer::Object>();
-    object->setShape(triangle);
-    object->setColor(raytracer::Color(255, 0, 0));
-    scene.addObject(object);
+    const auto aspect_ratio = 16.0 / 9.0;
+    const int image_width = 800;
+    const int image_height = static_cast<int>(image_width / aspect_ratio);
+    const int samples_per_pixel = 200;
+    const int depth = 4;
 
-    std::shared_ptr<raytracer::Triangle> triangle2 = std::make_shared<raytracer::Triangle>(Math::Point3D(0, 0, 0.5), Math::Point3D(0.25, -0.25, 1), Math::Point3D(-0.25, -0.25, 1));
-    std::shared_ptr<raytracer::Object> object2 = std::make_shared<raytracer::Object>();
-    object2->setShape(triangle2);
-    object2->setColor(raytracer::Color(0, 255, 0));
-    scene.addObject(object2);
+    // Scene
 
-    std::shared_ptr<raytracer::Triangle> triangle3 = std::make_shared<raytracer::Triangle>(Math::Point3D(0, 0, 0.5), Math::Point3D(0.25, -0.25, 1), Math::Point3D(0.25, 0.25, 1));
-    std::shared_ptr<raytracer::Object> object3 = std::make_shared<raytracer::Object>();
-    object3->setShape(triangle3);
-    object3->setColor(raytracer::Color(0, 0, 255));
-    scene.addObject(object3);
+    raytracer::Scene world = randomScene();
 
-    std::shared_ptr<raytracer::Triangle> triangle4 = std::make_shared<raytracer::Triangle>(Math::Point3D(0, 0, 0.5), Math::Point3D(-0.25, -0.25, 1), Math::Point3D(-0.25, 0.25, 1));
-    std::shared_ptr<raytracer::Object> object4 = std::make_shared<raytracer::Object>();
-    object4->setShape(triangle4);
-    object4->setColor(raytracer::Color(255, 255, 0));
-    scene.addObject(object4);
 
-    std::shared_ptr<raytracer::Ambiant> ambiant = std::make_shared<raytracer::Ambiant>(Math::Point3D(1, 0, 0));
-    scene.addLight(ambiant);
+    // Camera
 
-    scene.render();
+    Math::Vector3D lookfrom(13,2,3);
+    Math::Vector3D lookat(0,0,0);
+    Math::Vector3D vup(0,1,0);
+    auto dist_to_focus = 10.0;
+    auto aperture = 0.1;
+
+    raytracer::Camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+
+    // Render
+
+    std::ofstream _file("ImageP6.ppm", std::ios::binary);
+
+    _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
+    for (int j = image_height-1; j >= 0; --j) {
+        std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
+        for (int i = 0; i < image_width; ++i) {
+            Math::Color pixel_color(0, 0, 0);
+            for (int s = 0; s < samples_per_pixel; ++s) {
+                auto u = (i + random_double()) / (image_width-1);
+                auto v = (j + random_double()) / (image_height-1);
+                raytracer::Ray r = cam.getRay(u, v);
+                pixel_color += world.rayColor(r, depth);
+            }
+            raytracer::Scene::writePixel(_file, pixel_color, samples_per_pixel);
+        }
+    }
+    std::cerr << "\nDone.\n";
+    return 0;
 }
 

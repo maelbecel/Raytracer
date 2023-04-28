@@ -8,11 +8,14 @@
 #ifndef IMATERIAL_HPP_
     #define IMATERIAL_HPP_
 
+    #include "../Ray.hpp"
+    #include "../Object/HitRecord.hpp"
+
     namespace raytracer {
         class IMaterial {
             public:
-                IMaterial();
-                ~IMaterial();
+                ~IMaterial() = default ;
+                virtual bool scatter(const Ray& r_in, const HitRecord& rec, Math::Color& attenuation, Ray& scattered) const = 0;
 
             protected:
             private:
