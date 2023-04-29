@@ -52,4 +52,56 @@ namespace Parser {
 
         return Math::Vector3D(x, y, z);
     }
+
+    int Parser::getImageWidth(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return root["image"]["width"];
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return 0;
+    }
+
+    int Parser::getImageHeight(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return root["image"]["height"];
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return 0;
+    }
+
+    int Parser::getSamplesPerPixel(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return root["image"]["samples"];
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return 0;
+    }
+
+    int Parser::getMaxDepth(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return root["image"]["maxDepth"];
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return 0;
+    }
 }

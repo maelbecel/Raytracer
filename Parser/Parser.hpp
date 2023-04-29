@@ -20,6 +20,10 @@ namespace Parser {
             ~Parser() = default;
 
             raytracer::Camera parseCamera(void);
+            int getImageWidth(void);
+            int getImageHeight(void);
+            int getSamplesPerPixel(void);
+            int getMaxDepth(void);
         protected:
         private:
             Math::Vector3D parseVector3D(const libconfig::Setting &setting);

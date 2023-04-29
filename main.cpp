@@ -19,33 +19,6 @@ raytracer::Scene randomScene(void)
     auto ground_material = std::make_shared<raytracer::Lambertian>(Math::Color(0.5, 0.5, 0.5));
     world.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(0,-1000,0), 1000, ground_material));
 
-    for (int a = -11; a < 11; a++) {
-        for (int b = -11; b < 11; b++) {
-            auto choose_mat = random_double();
-            Math::Vector3D center(a + 0.9*random_double(), 0.2, b + 0.9*random_double());
-
-            if ((center - Math::Vector3D(4, 0.2, 0)).len() > 0.9) {
-                std::shared_ptr<raytracer::IMaterial> sphere_material;
-
-                if (choose_mat < 0.8) {
-                    // diffuse
-                    auto albedo = Math::Vector3D::random() * Math::Vector3D::random();
-                    sphere_material = std::make_shared<raytracer::Lambertian>(albedo);
-                    world.addObject(std::make_shared<raytracer::Sphere>(center, 0.2, sphere_material));
-                } else if (choose_mat < 0.95) {
-                    // metal
-                    auto albedo = Math::Vector3D::random(0.5, 1);
-                    auto fuzz = random_double() * 0.5;
-                    sphere_material = std::make_shared<raytracer::Metal>(albedo, fuzz);
-                    world.addObject(std::make_shared<raytracer::Sphere>(center, 0.2, sphere_material));
-                } else {
-                    // glass
-                    sphere_material = std::make_shared<raytracer::Dielectric>(1.5);
-                    world.addObject(std::make_shared<raytracer::Sphere>(center, 0.2, sphere_material));
-                }
-            }
-        }
-    }
     auto material1 = std::make_shared<raytracer::Dielectric>(1.5);
     world.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(0, 1, 0), 1.0, material1));
 
@@ -65,11 +38,10 @@ int main ()
 
     // Image
 
-    const auto aspect_ratio = 16.0 / 9.0;
-    const int image_width = 400;
-    const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 5;
-    const int depth = 4;
+    const int image_width = parser.getImageWidth();
+    const int image_height = parser.getImageHeight();
+    const int samples_per_pixel = parser.getSamplesPerPixel();
+    const int depth = parser.getMaxDepth();
 
     raytracer::Camera cam = parser.parseCamera();
 
