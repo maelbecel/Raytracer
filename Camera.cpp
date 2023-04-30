@@ -8,7 +8,7 @@
 #include "Camera.hpp"
 
 namespace raytracer {
-    Camera::Camera(Math::Vector3D from, Math::Vector3D at, Math::Vector3D vup, double vfov, double ratio, double aperture, double focus)
+    Camera::Camera(Math::Vector3D from, Math::Vector3D at, Math::Vector3D vup, double vfov, double ratio, double aperture, double focus, double t0, double t1)
     {
         double theta = vfov * M_PI / 180;
         double h = tan(theta / 2);
@@ -23,12 +23,14 @@ namespace raytracer {
         _vertical = focus * viewport_height * _v;
         _lower_left_corner = _origin - _horizontal / 2 - _vertical / 2 - focus * _w;
         _lens_radius = aperture / 2;
+        time0 = t0;
+        time1 = t1;
     }
 
     Ray Camera::getRay(double s, double t) const
     {
         Math::Vector3D rd = _lens_radius * Math::Vector3D::random_in_unit_disk();
         Math::Vector3D offset = _u * rd.getX() + _v * rd.getY();
-        return Ray(_origin + offset, _lower_left_corner + s * _horizontal + t * _vertical - _origin - offset);
+        return Ray(_origin + offset, _lower_left_corner + s * _horizontal + t * _vertical - _origin - offset, time0 + (time1 - time0) * random_double());
     }
 }

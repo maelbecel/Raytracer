@@ -53,7 +53,17 @@
                     rec.setP(r.at(rec.getT()));
                     Math::Vector3D outward_normal = (rec.getP() - _center) / _radius;
                     rec.setFaceNormal(r, outward_normal);
+                    get_sphere_uv(outward_normal, rec.u, rec.v);
                     rec.setMaterial(_material);
+                    return true;
+                }
+
+                virtual bool bounding_box(UNUSED double time0, UNUSED double time1, raytracer::AABB& output_box) const override
+                {
+                    output_box = AABB(
+                        _center - Math::Vector3D(_radius, _radius, _radius),
+                        _center + Math::Vector3D(_radius, _radius, _radius)
+                    );
                     return true;
                 }
 
@@ -62,6 +72,13 @@
                 Math::Vector3D _center;
                 double _radius;
                 std::shared_ptr<IMaterial> _material;
+                static void get_sphere_uv(const Math::Vector3D &p, double &u, double &v) {
+                    double theta = acos(-p.getY());
+                    double phi = atan2(-p.getZ(), p.getX()) + M_PI;
+
+                    u = phi / (2 * M_PI);
+                    v = theta / M_PI;
+                }
 
         };
     }

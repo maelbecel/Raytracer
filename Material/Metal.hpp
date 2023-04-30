@@ -19,9 +19,14 @@
                 virtual bool scatter(const Ray& r_in, const HitRecord& rec, Math::Color& attenuation, Ray& scattered) const override
                 {
                     Math::Vector3D reflected = Math::Vector3D::reflect(r_in.Direction.unit_vector(), rec.getNormal());
-                    scattered = Ray(rec.getP(), reflected + _fuzz * Math::Vector3D::random_in_unit_sphere());
+                    scattered = Ray(rec.getP(), reflected + _fuzz * Math::Vector3D::random_in_unit_sphere(), r_in.time());
                     attenuation = _albedo;
                     return (scattered.Direction.dot(rec.getNormal()) > 0);
+                }
+
+                virtual Math::Color emitted(UNUSED double u,UNUSED  double v,UNUSED  const Math::Vector3D &p) const override
+                {
+                    return Math::Color(0, 0, 0);
                 }
 
             protected:

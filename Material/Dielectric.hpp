@@ -28,8 +28,13 @@
                         direction = Math::Vector3D::reflect(unit_direction, rec.getNormal());
                     else
                         direction = Math::Vector3D::refract(unit_direction, rec.getNormal(), refraction_ratio);
-                    scattered = Ray(rec.getP(), direction);
+                    scattered = Ray(rec.getP(), direction, r_in.time());
                     return true;
+                }
+
+                virtual Math::Color emitted(UNUSED double u, UNUSED double v, UNUSED const Math::Vector3D &p) const override
+                {
+                    return Math::Color(0, 0, 0);
                 }
 
             protected:

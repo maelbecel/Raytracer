@@ -14,6 +14,8 @@ SRC=		main.cpp 					\
 			Maths/Vector3D.cpp	    	\
 			Object/HitRecord.cpp		\
 			Parser/Parser.cpp			\
+			Texture/Perlin.cpp	    	\
+			Object/HitRecord.cpp
 
 OBJ=$(SRC:.cpp=.o)
 

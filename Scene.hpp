@@ -18,9 +18,6 @@
     #include <iostream>
     #include <fstream>
     #include <memory>
-
-     #define clamp(x, min, max) (x < min) ? min : (x > max) ? max : x
-
     namespace raytracer {
         class Scene {
             public:
@@ -28,12 +25,13 @@
                 ~Scene() = default;
 
                 bool hit(const raytracer::Ray &r, double min, double max, raytracer::HitRecord &rec);
-                Math::Color rayColor(raytracer::Ray r, int depth);
+                bool bounding_box(double time0, double time1, AABB &output) const;
+                Math::Color rayColor(Ray r, const Math::Color &background, int depth);
 
                 static void writePixel(std::ofstream &out, Math::Color pixel, int samples);
 
                 void addObject(std::shared_ptr<raytracer::IShape> object);
-                std::vector<std::shared_ptr<raytracer::IShape>> getObjects(void);
+                std::vector<std::shared_ptr<raytracer::IShape>> getObjects(void) const;
             protected:
             private:
                 std::vector<std::shared_ptr<raytracer::IShape>> _objects;

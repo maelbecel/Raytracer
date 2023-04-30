@@ -15,9 +15,9 @@ namespace raytracer {
         auto b = pixel.getZ();
 
         auto scale = 1.0 / samples;
-        r = clamp(sqrt(scale * r), 0.0, 0.999);
-        g = clamp(sqrt(scale * g), 0.0, 0.999);
-        b = clamp(sqrt(scale * b), 0.0, 0.999);
+        r = CLAMP(sqrt(scale * r), 0.0, 0.999);
+        g = CLAMP(sqrt(scale * g), 0.0, 0.999);
+        b = CLAMP(sqrt(scale * b), 0.0, 0.999);
 
         out.put(static_cast<int>(256 * r));
         out.put(static_cast<int>(256 * g));
@@ -29,28 +29,27 @@ namespace raytracer {
         _objects.push_back(object);
     }
 
-    std::vector<std::shared_ptr<raytracer::IShape>> Scene::getObjects(void)
+    std::vector<std::shared_ptr<raytracer::IShape>> Scene::getObjects(void) const
     {
         return _objects;
     }
 
-
-    Math::Color Scene::rayColor(Ray r, int depth)
+    Math::Color Scene::rayColor(Ray r, const Math::Color &background, int depth)
     {
         HitRecord rec;
 
         if (depth <= 0)
             return Math::Color(0, 0, 0);
-        if (hit(r, 0.001, INFINITY, rec)) {
-            Ray scattered;
-            Math::Color attenuation;
-            if (rec.getMaterial()->scatter(r, rec, attenuation, scattered))
-                return attenuation * rayColor(scattered, depth - 1);
-            return Math::Color(0, 0, 0);
-        }
-        Math::Vector3D unitDirection = r.Direction.unit_vector();
-        auto t = 0.5 * (unitDirection.getY() + 1.0);
-        return (1.0 - t) * Math::Color(1.0, 1.0, 1.0) + t * Math::Color(0.5, 0.7, 1.0);
+        if (!hit(r, 0.001, INFINITY, rec))
+            return background;
+
+        Ray scattered;
+        Math::Color attenuation;
+        Math::Color emitted = rec.getMaterial()->emitted(rec.getU(), rec.getV(), rec.getP());
+
+        if (!rec.getMaterial()->scatter(r, rec, attenuation, scattered))
+            return emitted;
+        return emitted + attenuation * rayColor(scattered, background, depth - 1);
     }
 
     bool Scene::hit(const Ray &r, double min, double max, HitRecord &rec)
@@ -67,5 +66,25 @@ namespace raytracer {
             }
         }
         return hitAnything;
+    }
+
+    bool Scene::bounding_box(double time0, double time1, AABB &output) const
+    {
+        if (_objects.empty())
+            return false;
+
+        AABB tempBox;
+        bool firstBox = true;
+
+        for (const auto& object : _objects) {
+            if (!object->bounding_box(time0, time1, tempBox))
+                return false;
+            if (firstBox)
+                output = tempBox;
+            else
+                output = output.surrounding_box(tempBox);
+            firstBox = false;
+        }
+        return true;
     }
 }

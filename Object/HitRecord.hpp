@@ -27,6 +27,8 @@
 
                 ~HitRecord() {};
                 double getT() const { return t; };
+                double getU() const { return u; };
+                double getV() const { return v; };
                 Math::Vector3D getP() const { return p; };
                 Math::Vector3D getNormal() const { return normal; };
                 bool isFrontFace() const { return front_face; };
@@ -38,6 +40,7 @@
                 void setMaterial(std::shared_ptr<IMaterial> material) { this->material = material; };
 
                 void setFaceNormal(const Ray &, const Math::Vector3D &);
+                double u, v;
             private:
                 Math::Vector3D p;
                 Math::Vector3D normal;

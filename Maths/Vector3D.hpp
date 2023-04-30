@@ -15,6 +15,7 @@
 
     using std::sqrt;
 
+    #define CLAMP(x, min, max) (x < min) ? min : (x > max) ? max : x
     #define random_double() rand() / (RAND_MAX + 1.0)
     #define random_double_mm(min, max) min + (max - min) * random_double()
 
@@ -29,6 +30,10 @@
                 double getX() const { return _x; };
                 double getY() const { return _y; };
                 double getZ() const { return _z; };
+
+                void setX(double i) {_x = i;};
+                void setY(double i) {_y = i;};
+                void setZ(double i) {_z = i;};
 
                 Vector3D operator-() const;
                 Vector3D &operator+=(const Vector3D &other);
