@@ -31,7 +31,7 @@ namespace Parser {
             return raytracer::Camera(parseVector3D(root["camera"]["lookFrom"]),
                                     parseVector3D(root["camera"]["lookAt"]),
                                     parseVector3D(root["camera"]["up"]), root["camera"]["fov"],
-                                    ratio, root["camera"]["aperture"], root["camera"]["focus"]);
+                                    ratio, root["camera"]["aperture"], root["camera"]["focus"], 0, 1);
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found." << std::endl;
         } catch (const libconfig::SettingTypeException &stex) {

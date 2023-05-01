@@ -12,7 +12,6 @@ SRC=		main.cpp 					\
 			Camera.cpp	  		  		\
 			Scene.cpp	    			\
 			Maths/Vector3D.cpp	    	\
-			Object/HitRecord.cpp		\
 			Parser/Parser.cpp			\
 			Texture/Perlin.cpp	    	\
 			Object/HitRecord.cpp
