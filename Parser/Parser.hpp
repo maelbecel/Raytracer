@@ -11,7 +11,10 @@
 #include <libconfig.h++>
 #include <iostream>
 #include "../Camera.hpp"
+#include "../Scene.hpp"
 #include "../Maths/Vector3D.hpp"
+#include "../Shapes/ShapeFactory.hpp"
+#include "../Material/MaterialFactory.hpp"
 
 namespace Parser {
     class Parser {
@@ -20,6 +23,7 @@ namespace Parser {
             ~Parser() = default;
 
             raytracer::Camera parseCamera(void);
+            raytracer::Scene parseScene(void);
             int getImageWidth(void);
             int getImageHeight(void);
             int getSamplesPerPixel(void);

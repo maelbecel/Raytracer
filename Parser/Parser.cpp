@@ -49,8 +49,13 @@ namespace Parser {
         x = setting[0];
         y = setting[1];
         z = setting[2];
-
         return Math::Vector3D(x, y, z);
+    }
+
+    raytracer::Scene Parser::parseScene(void)
+    {
+        raytracer::Scene scene;
+        return scene;
     }
 
     int Parser::getImageWidth(void)
