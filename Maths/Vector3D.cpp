@@ -158,4 +158,10 @@ namespace Math {
         return r_out_perp + r_out_parallel;
     }
 
+    Vector3D Vector3D::normalize() const
+    {
+        double len = sqrt(_x * _x + _y * _y + _z * _z);
+        return Vector3D(_x / len, _y / len, _z / len);
+    }
+
 }

@@ -20,8 +20,6 @@
 
                 virtual Math::Color value(UNUSED double u , UNUSED double v, const Math::Vector3D &p ) const override {
                     return Math::Color(1, 1, 1) * 0.5 * (1 + sin(scale * p.getZ() + 10 * noise.turb(p)));
-                    // return Math::Color(1, 1, 1) * noise.turb(scale * p);
-                    // return Math::Color(1, 1, 1) * 0.5 * (1 + noise.noise(scale * p));
                 }
 
             protected:

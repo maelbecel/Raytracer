@@ -53,6 +53,7 @@
                 double dot(const Vector3D &other) const;
                 Vector3D cross(const Vector3D &other) const;
                 Vector3D unit_vector() const;
+                Vector3D normalize() const;
 
                 static Vector3D random_in_unit_sphere();
                 static Vector3D random_unit_vector();

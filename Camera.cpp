@@ -15,6 +15,7 @@ namespace raytracer {
         double viewport_height = 2.0 * h;
         double viewport_width = ratio * viewport_height;
 
+        _ratio = ratio;
         _w = (from - at).unit_vector();
         _u = vup.cross(_w).unit_vector();
         _v = _w.cross(_u);

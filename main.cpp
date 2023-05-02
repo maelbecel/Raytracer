@@ -24,26 +24,41 @@
 #include "Texture/Noise.hpp"
 #include "Texture/Image.hpp"
 #include "Parser/Parser.hpp"
+#include "Shapes/Triangle.hpp"
+#include "Shapes/Plan.hpp"
 
 raytracer::Scene final_scene()
 {
     raytracer::Scene objects;
 
-    auto light = std::make_shared<raytracer::DiffuseLight>(Math::Color(15, 15, 5));
+    auto light_red = std::make_shared<raytracer::DiffuseLight>(Math::Color(20, 0, 0));
+    auto light_green = std::make_shared<raytracer::DiffuseLight>(Math::Color(0, 20, 0));
+    auto light_blue = std::make_shared<raytracer::DiffuseLight>(Math::Color(0, 0, 20));
+    auto light_yellow = std::make_shared<raytracer::DiffuseLight>(Math::Color(10, 10, 0));
+
     auto white = std::make_shared<raytracer::Lambertian>(Math::Color(.8, .8, .8));
     auto green = std::make_shared<raytracer::Lambertian>(Math::Color(.1, .8, .3));
     auto glass = std::make_shared<raytracer::Dielectric>(1.5);
+    auto metalle = std::make_shared<raytracer::Metal>(Math::Color(.8, .8, .8), 0);
+    auto metal = std::make_shared<raytracer::Metal>(Math::Color(.8, .4, .3), 0.5);
+    auto blue = std::make_shared<raytracer::Lambertian>(Math::Color(.1, .3, .8));
 
-    objects.addObject(std::make_shared<raytracer::YZRectangle>(0, 555, 0, 555, 555, white));
-    objects.addObject(std::make_shared<raytracer::YZRectangle>(0, 555, 0, 555, 0, white));
-    objects.addObject(std::make_shared<raytracer::XZRectangle>(213, 343, 227, 332, 554, light));
+    objects.addObject(std::make_shared<raytracer::YRotation>(std::make_shared<raytracer::XZRectangle>(0, 100, 455, 555, 554, light_blue), 0));
+    // objects.addObject(std::make_shared<raytracer::YRotation>(std::make_shared<raytracer::XZRectangle>(0, 100, 0, 100, 554, light_red), 0));
+    // objects.addObject(std::make_shared<raytracer::YRotation>(std::make_shared<raytracer::XZRectangle>(455, 555, 0, 100, 554, light_yellow), 0));
+    // objects.addObject(std::make_shared<raytracer::YRotation>(std::make_shared<raytracer::XZRectangle>(455, 555, 455, 555, 554, light_green), 0));
+
+
+
+    objects.addObject(std::make_shared<raytracer::YZRectangle>(0, 555, 0, 555, 555, metal));
+    objects.addObject(std::make_shared<raytracer::YZRectangle>(0, 555, 0, 555, 0, metal));
     objects.addObject(std::make_shared<raytracer::XZRectangle>(0, 555, 0, 555, 0, white));
-    objects.addObject(std::make_shared<raytracer::XZRectangle>(0, 555, 0, 555, 555, white));
-    objects.addObject(std::make_shared<raytracer::XYRectangle>(0, 555, 0, 555, 555, white));
+    objects.addObject(std::make_shared<raytracer::XZRectangle>(0, 555, 0, 555, 555, metal));
+    objects.addObject(std::make_shared<raytracer::XYRectangle>(0, 555, 0, 555, 555, metal));
+    objects.addObject(std::make_shared<raytracer::XYRectangle>(-10000, 10000, -10000, 10000, -801, white));
 
-    objects.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(220, 200, 150), 50, green));
-    objects.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(150, 200, 50), 50, glass));
-
+    objects.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(320, 200, 100), 80, white));
+    objects.addObject(std::make_shared<raytracer::Translation>(std::make_shared<raytracer::YRotation>(std::make_shared<raytracer::Box>(Math::Color(0, 0, 0), Math::Vector3D(165, 330, 165), metalle), 15), Math::Vector3D(265, 0, 295)));
 
     return objects;
 }
@@ -53,12 +68,12 @@ int main ()
     // Parser
 
     Parser::Parser parser("scene.cfg");
+    raytracer::Camera cam = parser.parseCamera();
 
     // Image
 
-    const auto aspect_ratio = (float)((float)parser.getImageWidth() / (float)parser.getImageHeight());
-    const int image_width = parser.getImageWidth();
     const int image_height = parser.getImageHeight();
+    const int image_width = parser.getImageHeight() * cam.getRatio();
     const int samples_per_pixel = parser.getSamplesPerPixel();
     const int depth = parser.getMaxDepth();
 
@@ -70,14 +85,7 @@ int main ()
     // Camera
 
     Math::Vector3D background(0, 0, 0);
-    Math::Vector3D lookfrom(278,278, -800);
-    Math::Vector3D lookat(278 , 278 ,0);
-    Math::Vector3D vup(0,1,0);
-    auto dist_to_focus = 10.0;
-    auto vfov = 40.0;
-    auto aperture = 0.1;
 
-    raytracer::Camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, 0, 1);
 
     // Render
 

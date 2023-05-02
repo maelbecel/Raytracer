@@ -24,7 +24,6 @@ namespace Parser {
 
             raytracer::Camera parseCamera(void);
             raytracer::Scene parseScene(void);
-            int getImageWidth(void);
             int getImageHeight(void);
             int getSamplesPerPixel(void);
             int getMaxDepth(void);

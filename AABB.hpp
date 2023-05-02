@@ -16,6 +16,15 @@
             public:
                 AABB() {};
                 AABB(const Math::Vector3D &a, const Math::Vector3D &b) {_min = a; _max = b;}
+                AABB(const AABB &box, const Math::Vector3D v)
+                {
+                    _min = Math::Vector3D(fmin(box.min().getX(), v.getX()),
+                                            fmin(box.min().getY(), v.getY()),
+                                            fmin(box.min().getZ(), v.getZ()));
+                    _max = Math::Vector3D(fmax(box.max().getX(), v.getX()),
+                                            fmax(box.max().getY(), v.getY()),
+                                            fmax(box.max().getZ(), v.getZ()));
+                }
 
                 Math::Vector3D min() const {return _min;}
                 Math::Vector3D max() const {return _max;}
