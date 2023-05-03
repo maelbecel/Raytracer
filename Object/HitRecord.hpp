@@ -46,7 +46,7 @@
                 Math::Vector3D normal;
                 double t;
                 bool front_face;
-                std::shared_ptr<IMaterial> material;
+                std::shared_ptr<IMaterial> material = nullptr;
         };
     }
 

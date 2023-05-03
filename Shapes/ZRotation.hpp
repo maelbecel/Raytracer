@@ -2,19 +2,18 @@
 ** EPITECH PROJECT, 2023
 ** Raytracer
 ** File description:
-** YRotation
+** XRotation
 */
 
-#ifndef YROTATION_HPP_
-    #define YROTATION_HPP_
+#ifndef ZROTATION_HPP_
+    #define ZROTATION_HPP_
 
     #include "IShape.hpp"
 
-    namespace raytracer
-    {
-        class YRotation : public IShape {
+    namespace raytracer {
+        class ZRotation : public IShape {
             public:
-                YRotation(std::shared_ptr<IShape> p, double angle) : ptr(p)
+                ZRotation(std::shared_ptr<IShape> p, double angle) : ptr(p)
                 {
                     auto radians = angle * M_PI / 180;
 
@@ -32,10 +31,10 @@
                                 auto y = j * bbox.max().getY() + (1 - j) * bbox.min().getY();
                                 auto z = k * bbox.max().getZ() + (1 - k) * bbox.min().getZ();
 
-                                auto newx =  cos_theta * x + sin_theta * z;
-                                auto newz = -sin_theta * x + cos_theta * z;
+                                auto newx =  cos_theta * x + sin_theta * y;
+                                auto newy = -sin_theta * x + cos_theta * y;
 
-                                Math::Vector3D tester(newx, y, newz);
+                                Math::Vector3D tester(newx, newy, z);
 
                                 min.setX(fmin(min.getX(), tester.getX()));
                                 max.setX(fmax(max.getX(), tester.getX()));
@@ -55,25 +54,27 @@
                     Math::Vector3D origin(r.Origin);
                     Math::Vector3D direction(r.Direction);
 
-                    origin.setX(cos_theta * r.Origin.getX() - sin_theta * r.Origin.getZ());
-                    origin.setZ(sin_theta * r.Origin.getX() + cos_theta * r.Origin.getZ());
-                    direction.setX(cos_theta * r.Direction.getX() - sin_theta * r.Direction.getZ());
-                    direction.setZ(sin_theta * r.Direction.getX() + cos_theta * r.Direction.getZ());
+                    origin.setX(cos_theta * r.Origin.getX() - sin_theta * r.Origin.getY());
+                    origin.setY(sin_theta * r.Origin.getX() + cos_theta * r.Origin.getY());
+                    direction.setX(cos_theta * r.Direction.getX() - sin_theta * r.Direction.getY());
+                    direction.setY(sin_theta * r.Direction.getX() + cos_theta * r.Direction.getY());
 
-                    Ray rotated(origin, direction, r.time());
-                    if (!ptr->hit(rotated, min, max, rec))
+                    Ray rotated_r(origin, direction, r.time());
+
+                    if (!ptr->hit(rotated_r, min, max, rec))
                         return false;
 
                     Math::Vector3D p(rec.getP());
                     Math::Vector3D normal(rec.getNormal());
 
-                    p.setX(cos_theta * rec.getP().getX() + sin_theta * rec.getP().getZ());
-                    p.setZ(-sin_theta * rec.getP().getX() + cos_theta * rec.getP().getZ());
-                    normal.setX(cos_theta * rec.getNormal().getX() + sin_theta * rec.getNormal().getZ());
-                    normal.setZ(-sin_theta * rec.getNormal().getX() + cos_theta * rec.getNormal().getZ());
+                    p.setX(cos_theta * rec.getP().getX() + sin_theta * rec.getP().getY());
+                    p.setY(-sin_theta * rec.getP().getX() + cos_theta * rec.getP().getY());
+                    normal.setX(cos_theta * rec.getNormal().getX() + sin_theta * rec.getNormal().getY());
+                    normal.setY(-sin_theta * rec.getNormal().getX() + cos_theta * rec.getNormal().getY());
 
                     rec.setP(p);
-                    rec.setFaceNormal(rotated, normal);
+                    rec.setNormal(normal);
+
                     return true;
                 }
 
@@ -83,8 +84,9 @@
                     return hasBox;
                 }
 
-                virtual double densityValue(UNUSED const Math::Vector3D &o, UNUSED const Math::Vector3D &v) const override {return 0;};
                 virtual Math::Vector3D random(UNUSED const Math::Vector3D & o) const override {return Math::Vector3D(1, 0, 0);};
+                virtual double densityValue(UNUSED const Math::Vector3D &o, UNUSED const Math::Vector3D &v) const override {return 0;};
+
 
             protected:
             private:
@@ -96,4 +98,5 @@
         };
     }
 
-#endif /* !YROTATION_HPP_ */
+
+#endif /* !XROTATION_HPP_ */

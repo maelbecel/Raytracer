@@ -2,36 +2,30 @@
 ** EPITECH PROJECT, 2023
 ** Raytracer
 ** File description:
-** Translation
+** DirectionnalLight
 */
 
-#ifndef TRANSLATION_HPP_
-    #define TRANSLATION_HPP_
+#ifndef DIRECTIONNALLIGHT_HPP_
+    #define DIRECTIONNALLIGHT_HPP_
 
     #include "IShape.hpp"
 
     namespace raytracer {
-        class Translation : public IShape{
+        class DirectionnalLight : public IShape {
             public:
-                Translation(std::shared_ptr<IShape> p, Math::Vector3D o) : ptr(p), offset(o) {}
+                DirectionnalLight(std::shared_ptr<IShape> p) : ptr(p) {}
 
                 virtual bool hit(const Ray &r, double min, double max, HitRecord &rec) const override
                 {
-                    Ray moved(r.Origin - offset, r.Direction, r.time());
-
-                    if (!ptr->hit(moved, min, max, rec))
+                    if (!ptr->hit(r, min, max, rec))
                         return false;
-                    rec.setP(rec.getP() + offset);
-                    rec.setFaceNormal(moved, rec.getNormal());
+                    rec.setFrontFace(!rec.isFrontFace());
                     return true;
                 }
 
                 virtual bool bounding_box(double time0, double time1, raytracer::AABB& output_box) const override
                 {
-                    if(!ptr->bounding_box(time0, time1, output_box))
-                        return false;
-                    output_box = AABB(output_box.min() + offset, output_box.max() + offset);
-                    return true;
+                    return ptr->bounding_box(time0, time1, output_box);
                 }
 
                 virtual double densityValue(UNUSED const Math::Vector3D &o, UNUSED const Math::Vector3D &v) const override {return 0;};
@@ -40,8 +34,7 @@
             protected:
             private:
                 std::shared_ptr<IShape> ptr;
-                Math::Vector3D offset;
         };
     }
 
-#endif /* !TRANSLATION_HPP_ */
+#endif /* !DIRECTIONNALLIGHT_HPP_ */

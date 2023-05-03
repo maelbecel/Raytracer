@@ -54,6 +54,9 @@
                     return boundary->bounding_box(time0, time1, output_box);
                 }
 
+                virtual double densityValue(UNUSED const Math::Vector3D &o, UNUSED const Math::Vector3D &v) const override {return 0;};
+                virtual Math::Vector3D random(UNUSED const Math::Vector3D & o) const override {return Math::Vector3D(1, 0, 0);};
+
             protected:
             private:
                 std::shared_ptr<IShape> boundary;

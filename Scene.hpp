@@ -11,6 +11,9 @@
     #include <iostream>
     #include <vector>
     #include "./Object/HitRecord.hpp"
+    #include "./Object/Cosine.hpp"
+    #include "./Object/Mix.hpp"
+    #include "./Object/HittablePDF.hpp"
     #include "./Maths/Vector3D.hpp"
     #include "./Material/IMaterial.hpp"
     #include "./Shapes/IShape.hpp"
@@ -18,6 +21,7 @@
     #include <iostream>
     #include <fstream>
     #include <memory>
+
     namespace raytracer {
         class Scene {
             public:
@@ -26,7 +30,7 @@
 
                 bool hit(const raytracer::Ray &r, double min, double max, raytracer::HitRecord &rec);
                 bool bounding_box(double time0, double time1, AABB &output) const;
-                Math::Color rayColor(Ray r, const Math::Color &background, int depth);
+                Math::Color rayColor(Ray r, const Math::Color &background, std::shared_ptr<IShape> &lights, int depth);
 
                 static void writePixel(std::ofstream &out, Math::Color pixel, int samples);
 

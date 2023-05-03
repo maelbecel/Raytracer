@@ -15,8 +15,9 @@
         class IMaterial {
             public:
                 ~IMaterial() = default ;
-                virtual bool scatter(const Ray& r_in, const HitRecord& rec, Math::Color& attenuation, Ray& scattered) const = 0;
-                virtual Math::Color emitted(double u, double v, const Math::Vector3D &p) const = 0;
+                virtual bool scatter(const Ray& r_in, const HitRecord& rec, Math::Color& albedo, Ray& scattered, double &pdf) const = 0;
+                virtual double scatter_pdf(const Ray& r_in, const HitRecord& rec, const Ray& scattered) const = 0;
+                virtual Math::Color emitted(double u, double v, const HitRecord &rec , const Math::Vector3D &p) const = 0;
 
             protected:
             private:

@@ -34,7 +34,7 @@ namespace raytracer {
         return _objects;
     }
 
-    Math::Color Scene::rayColor(Ray r, const Math::Color &background, int depth)
+    Math::Color Scene::rayColor(Ray r, const Math::Color &background, std::shared_ptr<IShape> &lights, int depth)
     {
         HitRecord rec;
 
@@ -45,11 +45,20 @@ namespace raytracer {
 
         Ray scattered;
         Math::Color attenuation;
-        Math::Color emitted = rec.getMaterial()->emitted(rec.getU(), rec.getV(), rec.getP());
+        Math::Color emitted = rec.getMaterial()->emitted(rec.getU(), rec.getV(), rec, rec.getP());
+        double pdf;
+        Math::Color albedo;
 
-        if (!rec.getMaterial()->scatter(r, rec, attenuation, scattered))
+        if (!rec.getMaterial()->scatter(r, rec, albedo, scattered, pdf))
             return emitted;
-        return emitted + attenuation * rayColor(scattered, background, depth - 1);
+
+        auto p0 = std::make_shared<raytracer::HittablePDF>(lights, rec.getP());
+        auto p1 = std::make_shared<raytracer::Cosine>(rec.getNormal());
+        raytracer::Mix mixed(p0, p1);
+
+        scattered = Ray(rec.getP(), mixed.generate(), r.time());
+        pdf = mixed.value(scattered.Direction);
+        return emitted + albedo * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1) / pdf;
     }
 
     bool Scene::hit(const Ray &r, double min, double max, HitRecord &rec)

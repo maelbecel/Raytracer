@@ -11,6 +11,7 @@
     #include "IMaterial.hpp"
     #include "../Texture/ITexture.hpp"
     #include "../Texture/SolidColor.hpp"
+    #include "../Maths/Orthonormal.hpp"
 
     namespace raytracer {
         class Lambertian : public IMaterial {
@@ -18,17 +19,24 @@
                 Lambertian(const Math::Color &color) : albedo(std::make_shared<SolidColor>(color)) {};
                 Lambertian(std::shared_ptr<ITexture> a) : albedo(a) {};
 
-                virtual bool scatter(UNUSED const Ray& r_in, const HitRecord& rec, Math::Color& attenuation, Ray& scattered) const override
+                virtual bool scatter(UNUSED const Ray& r_in, const HitRecord& rec, Math::Color& alb, Ray& scattered, UNUSED double &pdf) const override
                 {
-                    auto scatter_direction = rec.getNormal() + Math::Vector3D::random_unit_vector();
-                    if (scatter_direction.near_zero())
-                        scatter_direction = rec.getNormal();
-                    scattered = Ray(rec.getP(), scatter_direction, r_in.time());
-                    attenuation = albedo->value(rec.u, rec.v, rec.getP());
+                    Math::Orthonormal uvw;
+                    uvw.build_from_w(rec.getNormal());
+                    auto direction = uvw.local(Math::Orthonormal::random_cosine_direction());
+                    scattered = Ray(rec.getP(), direction.unit_vector(), r_in.time());
+                    alb = albedo->value(rec.u, rec.v, rec.getP());
+                    pdf = uvw.w().dot(scattered.Direction) / M_PI;
                     return true;
                 }
 
-                virtual Math::Color emitted(UNUSED double u, UNUSED double v, UNUSED const Math::Vector3D &p) const override
+                virtual double scatter_pdf(UNUSED const Ray& r_in, const HitRecord& rec, const Ray& scattered) const
+                {
+                    auto cosine = rec.getNormal().dot(scattered.Direction.unit_vector());
+                    return cosine < 0 ? 0 : cosine / M_PI;
+                }
+
+                virtual Math::Color emitted(UNUSED double u, UNUSED double v, UNUSED const HitRecord& rec, UNUSED const Math::Vector3D &p) const override
                 {
                     return Math::Color(0, 0, 0);
                 }

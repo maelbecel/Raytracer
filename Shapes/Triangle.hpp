@@ -58,6 +58,9 @@
                     return true;
                 }
 
+                virtual double densityValue(UNUSED const Math::Vector3D &o, UNUSED const Math::Vector3D &v) const override {return 0;};
+                virtual Math::Vector3D random(UNUSED const Math::Vector3D & o) const override {return Math::Vector3D(1, 0, 0);};
+
                 Math::Vector3D _A;
                 Math::Vector3D _B;
                 Math::Vector3D _C;

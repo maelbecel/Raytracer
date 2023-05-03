@@ -45,6 +45,24 @@
                     return true;
                 }
 
+                virtual double densityValue(UNUSED const Math::Vector3D &o, UNUSED const Math::Vector3D &v) const override
+                {
+                    HitRecord rec;
+                    if (!hit(Ray(o, v), 0.001, INFINITY, rec))
+                        return 0;
+                    auto area = (x1 - x0) * (z1 - z0);
+                    auto distance_squared = rec.getT() * rec.getT() * v.len_squared();
+                    auto cosine = fabs(v.dot(rec.getNormal()) / v.len());
+
+                    return distance_squared / (cosine * area);
+                }
+
+                virtual Math::Vector3D random(UNUSED const Math::Vector3D & o) const override
+                {
+                    auto point = Math::Vector3D(random_double_mm(x0, x1), k, random_double_mm(z0, z1));
+                    return point - o;
+                }
+
             protected:
             private:
                 double x0, x1, z0, z1, k;

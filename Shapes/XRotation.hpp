@@ -2,19 +2,18 @@
 ** EPITECH PROJECT, 2023
 ** Raytracer
 ** File description:
-** YRotation
+** XRotation
 */
 
-#ifndef YROTATION_HPP_
-    #define YROTATION_HPP_
+#ifndef XROTATION_HPP_
+    #define XROTATION_HPP_
 
     #include "IShape.hpp"
 
-    namespace raytracer
-    {
-        class YRotation : public IShape {
+    namespace raytracer {
+        class XRotation : public IShape {
             public:
-                YRotation(std::shared_ptr<IShape> p, double angle) : ptr(p)
+                XRotation(std::shared_ptr<IShape> p, double angle) : ptr(p)
                 {
                     auto radians = angle * M_PI / 180;
 
@@ -32,10 +31,10 @@
                                 auto y = j * bbox.max().getY() + (1 - j) * bbox.min().getY();
                                 auto z = k * bbox.max().getZ() + (1 - k) * bbox.min().getZ();
 
-                                auto newx =  cos_theta * x + sin_theta * z;
-                                auto newz = -sin_theta * x + cos_theta * z;
+                                auto newy =  cos_theta * y + sin_theta * z;
+                                auto newz = -sin_theta * y + cos_theta * z;
 
-                                Math::Vector3D tester(newx, y, newz);
+                                Math::Vector3D tester(x, newy, newz);
 
                                 min.setX(fmin(min.getX(), tester.getX()));
                                 max.setX(fmax(max.getX(), tester.getX()));
@@ -55,25 +54,27 @@
                     Math::Vector3D origin(r.Origin);
                     Math::Vector3D direction(r.Direction);
 
-                    origin.setX(cos_theta * r.Origin.getX() - sin_theta * r.Origin.getZ());
-                    origin.setZ(sin_theta * r.Origin.getX() + cos_theta * r.Origin.getZ());
-                    direction.setX(cos_theta * r.Direction.getX() - sin_theta * r.Direction.getZ());
-                    direction.setZ(sin_theta * r.Direction.getX() + cos_theta * r.Direction.getZ());
+                    origin.setY(cos_theta * r.Origin.getY() - sin_theta * r.Origin.getZ());
+                    origin.setZ(sin_theta * r.Origin.getY() + cos_theta * r.Origin.getZ());
+                    direction.setY(cos_theta * r.Direction.getY() - sin_theta * r.Direction.getZ());
+                    direction.setZ(sin_theta * r.Direction.getY() + cos_theta * r.Direction.getZ());
 
-                    Ray rotated(origin, direction, r.time());
-                    if (!ptr->hit(rotated, min, max, rec))
+                    Ray rotated_r(origin, direction, r.time());
+
+                    if (!ptr->hit(rotated_r, min, max, rec))
                         return false;
 
                     Math::Vector3D p(rec.getP());
                     Math::Vector3D normal(rec.getNormal());
 
-                    p.setX(cos_theta * rec.getP().getX() + sin_theta * rec.getP().getZ());
-                    p.setZ(-sin_theta * rec.getP().getX() + cos_theta * rec.getP().getZ());
-                    normal.setX(cos_theta * rec.getNormal().getX() + sin_theta * rec.getNormal().getZ());
-                    normal.setZ(-sin_theta * rec.getNormal().getX() + cos_theta * rec.getNormal().getZ());
+                    p.setY(cos_theta * rec.getP().getY() + sin_theta * rec.getP().getZ());
+                    p.setZ(-sin_theta * rec.getP().getY() + cos_theta * rec.getP().getZ());
+                    normal.setY(cos_theta * rec.getNormal().getY() + sin_theta * rec.getNormal().getZ());
+                    normal.setZ(-sin_theta * rec.getNormal().getY() + cos_theta * rec.getNormal().getZ());
 
                     rec.setP(p);
-                    rec.setFaceNormal(rotated, normal);
+                    rec.setNormal(normal);
+
                     return true;
                 }
 
@@ -96,4 +97,4 @@
         };
     }
 
-#endif /* !YROTATION_HPP_ */
+#endif /* !XROTATION_HPP_ */

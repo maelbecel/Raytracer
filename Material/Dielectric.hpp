@@ -15,9 +15,9 @@
             public:
                 Dielectric(double index) : _index(index) {};
 
-                virtual bool scatter(const Ray& r_in, const HitRecord& rec, Math::Color& attenuation, Ray& scattered) const override
+                virtual bool scatter(const Ray& r_in, const HitRecord& rec, Math::Color& albedo, Ray& scattered, UNUSED double &pdf) const override
                 {
-                    attenuation = Math::Color(1.0, 1.0, 1.0);
+                    albedo = Math::Color(1.0, 1.0, 1.0);
                     double refraction_ratio = rec.isFrontFace() ? (1.0 / _index) : _index;
                     Math::Vector3D unit_direction = r_in.Direction.unit_vector();
                     double cos_theta = fmin((-unit_direction).dot(rec.getNormal()), 1.0);
@@ -32,7 +32,9 @@
                     return true;
                 }
 
-                virtual Math::Color emitted(UNUSED double u, UNUSED double v, UNUSED const Math::Vector3D &p) const override
+                virtual double scatter_pdf(UNUSED const Ray& r_in, UNUSED const HitRecord& rec, UNUSED const Ray& scattered) const {return 0;};
+
+                virtual Math::Color emitted(UNUSED double u, UNUSED double v, UNUSED const HitRecord& rec, UNUSED const Math::Vector3D &p) const override
                 {
                     return Math::Color(0, 0, 0);
                 }
