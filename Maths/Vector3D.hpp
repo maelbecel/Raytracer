@@ -63,6 +63,7 @@
                 static Vector3D random_in_unit_disk();
                 static Vector3D random();
                 static Vector3D random(double min, double max);
+                static Vector3D random_to_sphere(double radius, double distance_squared);
 
 
 

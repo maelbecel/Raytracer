@@ -15,9 +15,11 @@
             public:
                 Dielectric(double index) : _index(index) {};
 
-                virtual bool scatter(const Ray& r_in, const HitRecord& rec, Math::Color& albedo, Ray& scattered, UNUSED double &pdf) const override
+                virtual bool scatter(const Ray& r_in, const HitRecord& rec, ScatterRecord &srec) const override
                 {
-                    albedo = Math::Color(1.0, 1.0, 1.0);
+                    srec.is_specular = true;
+                    srec.density_ptr = nullptr;
+                    srec.attenuation = Math::Color(1.0, 1.0, 1.0);
                     double refraction_ratio = rec.isFrontFace() ? (1.0 / _index) : _index;
                     Math::Vector3D unit_direction = r_in.Direction.unit_vector();
                     double cos_theta = fmin((-unit_direction).dot(rec.getNormal()), 1.0);
@@ -28,13 +30,13 @@
                         direction = Math::Vector3D::reflect(unit_direction, rec.getNormal());
                     else
                         direction = Math::Vector3D::refract(unit_direction, rec.getNormal(), refraction_ratio);
-                    scattered = Ray(rec.getP(), direction, r_in.time());
+                    srec.specular = Ray(rec.getP(), direction, r_in.time());
                     return true;
                 }
 
                 virtual double scatter_pdf(UNUSED const Ray& r_in, UNUSED const HitRecord& rec, UNUSED const Ray& scattered) const {return 0;};
 
-                virtual Math::Color emitted(UNUSED double u, UNUSED double v, UNUSED const HitRecord& rec, UNUSED const Math::Vector3D &p) const override
+                virtual Math::Color emitted(UNUSED const Ray &r_in, UNUSED double u, UNUSED double v, UNUSED const HitRecord& rec, UNUSED const Math::Vector3D &p) const override
                 {
                     return Math::Color(0, 0, 0);
                 }

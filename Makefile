@@ -19,14 +19,14 @@ SRC=		main.cpp 						\
 
 OBJ=$(SRC:.cpp=.o)
 
-CXXFLAGS= -Wall -Wextra -Werror -std=c++17
+CXXFLAGS= -Wall -Wextra -Werror -Ofast -std=c++17
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) -o $(NAME) $(OBJ) -lconfig++
+	$(CXX) -o $(NAME) $(OBJ) $(CXXFLAGS) -Ofast -lconfig++
 
-debug: CXXFLAGS += -g
+debug: CXXFLAGS += -g -pg
 debug: re
 
 clean:

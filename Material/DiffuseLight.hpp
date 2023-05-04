@@ -18,7 +18,7 @@
                 DiffuseLight(std::shared_ptr<ITexture> e) : emit(e) {}
                 DiffuseLight(Math::Color c) : emit(std::make_shared<SolidColor>(c)) {}
 
-                virtual Math::Color emitted(double u, double v, UNUSED const HitRecord& rec, const Math::Vector3D &p) const override
+                virtual Math::Color emitted(UNUSED const Ray &r_in, double u, double v, UNUSED const HitRecord& rec, const Math::Vector3D &p) const override
                 {
                     if (rec.isFrontFace())
                         return emit->value(u, v, p);
@@ -28,7 +28,7 @@
 
                 virtual double scatter_pdf(UNUSED const Ray& r_in, UNUSED const HitRecord& rec, UNUSED const Ray& scattered) const {return 0;};
 
-                virtual bool scatter(UNUSED const Ray& r_in, UNUSED const HitRecord& rec, UNUSED Math::Color& albedo, UNUSED Ray& scattered, UNUSED double &pdf) const override
+                virtual bool scatter(UNUSED const Ray& r_in, UNUSED const HitRecord& rec, UNUSED ScatterRecord &srec) const override
                 {
                     return false;
                 }

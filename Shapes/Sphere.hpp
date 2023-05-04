@@ -10,6 +10,7 @@
 
     #include "../Ray.hpp"
     #include "../Maths/Vector3D.hpp"
+    #include "../Maths/Orthonormal.hpp"
     #include "IShape.hpp"
     #include <iostream>
 
@@ -67,8 +68,26 @@
                     return true;
                 }
 
-                virtual double densityValue(UNUSED const Math::Vector3D &o, UNUSED const Math::Vector3D &v) const override {return 0;};
-                virtual Math::Vector3D random(UNUSED const Math::Vector3D & o) const override {return Math::Vector3D(1, 0, 0);};
+                virtual double densityValue(const Math::Vector3D &o, const Math::Vector3D &v) const
+                {
+                    HitRecord rec;
+                    if (!this->hit(Ray(o, v), 0.001, INFINITY, rec))
+                        return 0;
+
+                    auto cos_theta_max = sqrt(1 - _radius * _radius / (_center - o).len_squared());
+                    auto solid_angle = 2 * M_PI * (1 - cos_theta_max);
+
+                    return 1 / solid_angle;
+                }
+
+                virtual Math::Vector3D random(const Math::Vector3D &o) const
+                {
+                    Math::Vector3D direction = _center - o;
+                    auto distance_squared = direction.len_squared();
+                    Math::Orthonormal uvw;
+                    uvw.build_from_w(direction);
+                    return uvw.local(Math::Vector3D::random_to_sphere(_radius, distance_squared));
+                }
 
             protected:
             private:

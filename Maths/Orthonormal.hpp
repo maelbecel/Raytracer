@@ -48,11 +48,6 @@
                     double y = sin(phi) * sqrt(r2);
                     return Math::Vector3D(x, y, z);
                 }
-
-
-
-
-
             protected:
             private:
                 Math::Vector3D _axis[3];

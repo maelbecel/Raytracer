@@ -1,0 +1,907 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 11.50      3.09     3.09 530378015     0.00     0.00  raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+ 10.08      5.80     2.71 424302412     0.00     0.00  raytracer::YZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  7.46      7.81     2.01 106075603     0.00     0.00  raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&)
+  6.57      9.57     1.77                             raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int)
+  5.92     11.16     1.59 228448173     0.00     0.00  Math::Vector3D::unit_vector() const
+  5.82     12.73     1.57 52790596     0.00     0.00  raytracer::Lambertian::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const
+  5.25     14.14     1.41 36000000     0.00     0.00  Math::Vector3D::random_in_unit_disk()
+  4.54     15.36     1.22 106075603     0.00     0.00  raytracer::Box::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  4.39     16.54     1.18 318226809     0.00     0.00  raytracer::XYRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  3.24     17.41     0.87 52790596     0.00     0.00  raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const
+  2.64     18.12     0.71 423808781     0.00     0.00  raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double)
+  2.42     18.77     0.65 106075603     0.00     0.00  raytracer::YRotation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  2.23     19.37     0.60 376030650     0.00     0.00  Math::Vector3D::operator-(Math::Vector3D const&) const
+  2.20     19.96     0.59 465019877     0.00     0.00  Math::Vector3D::dot(Math::Vector3D const&) const
+  2.08     20.52     0.56                             raytracer::Camera::getRay(double, double) const
+  1.97     21.05     0.53 346438903     0.00     0.00  Math::Vector3D::len_squared() const
+  1.49     21.45     0.40 52790596     0.00     0.00  raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const
+  1.49     21.85     0.40 26385450     0.00     0.00  raytracer::Cosine::generate() const
+  1.49     22.25     0.40 147077678     0.00     0.00  raytracer::Ray::at(double) const
+  1.45     22.64     0.39 414654174     0.00     0.00  Math::Vector3D::operator+(Math::Vector3D const&) const
+  1.30     22.99     0.35 105581194     0.00     0.00  Math::Vector3D::cross(Math::Vector3D const&) const
+  1.08     23.28     0.29 26405146     0.00     0.00  raytracer::HittablePDF::generate() const
+  1.04     23.56     0.28 70076383     0.00     0.00  raytracer::Ray::Ray(raytracer::Ray const&)
+  0.89     23.80     0.24 106075603     0.00     0.00  raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  0.86     24.03     0.23 165491376     0.00     0.00  raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&)
+  0.78     24.24     0.21 94487862     0.00     0.00  raytracer::Ray::Ray()
+  0.74     24.44     0.20 70076383     0.00     0.00  Math::Vector3D::operator*(Math::Vector3D const&) const
+  0.71     24.63     0.19 26405146     0.00     0.00  raytracer::XZRectangle::random(Math::Vector3D const&) const
+  0.67     24.81     0.18 124790596     0.00     0.00  Math::Vector3D::operator*(double const&) const
+  0.63     24.98     0.17 72073477     0.00     0.00  raytracer::SolidColor::value(double, double, Math::Vector3D const&) const
+  0.56     25.13     0.15 52790596     0.00     0.00  raytracer::Lambertian::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const
+  0.56     25.28     0.15  8808151     0.00     0.00  Math::Vector3D::random_in_unit_sphere()
+  0.48     25.41     0.13 106075603     0.00     0.00  raytracer::DirectionnalLight::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  0.45     25.53     0.12 108980085     0.00     0.00  Math::Vector3D::operator-() const
+  0.33     25.62     0.09 52790596     0.00     0.00  raytracer::Lambertian::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const
+  0.33     25.71     0.09 24411479     0.00     0.00  raytracer::DiffuseLight::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const
+  0.30     25.79     0.08                             std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.28     25.86     0.08  8477636     0.00     0.00  raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const
+  0.22     25.92     0.06 52790596     0.00     0.00  raytracer::Cosine::value(Math::Vector3D const&) const
+  0.22     25.98     0.06  7933557     0.00     0.00  Math::Vector3D::refract(Math::Vector3D const&, Math::Vector3D const&, double)
+  0.19     26.03     0.05 52790596     0.00     0.00  raytracer::HittablePDF::~HittablePDF()
+  0.19     26.08     0.05 52790596     0.00     0.00  raytracer::HittablePDF::value(Math::Vector3D const&) const
+  0.19     26.13     0.05        5    10.00    10.00  std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.19     26.18     0.05                             raytracer::Node::~Node()
+  0.19     26.23     0.05                             Math::Vector3D::near_zero() const
+  0.19     26.28     0.05                             raytracer::Sphere::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  0.19     26.33     0.05                             std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace()
+  0.17     26.38     0.05 52790596     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.15     26.42     0.04 63371265     0.00     0.00  Math::Vector3D::operator/(double const&) const
+  0.15     26.46     0.04 17285787     0.00     0.00  raytracer::Ray::operator=(raytracer::Ray const&)
+  0.15     26.50     0.04                             std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)
+  0.11     26.53     0.03  8808151     0.00     0.00  raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const
+  0.11     26.56     0.03 26603474     0.00     0.00  Math::Vector3D::len() const
+  0.11     26.59     0.03 24411479     0.00     0.00  raytracer::DiffuseLight::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const
+  0.11     26.62     0.03                             Math::Vector3D::operator+=(Math::Vector3D const&)
+  0.11     26.65     0.03                             raytracer::box_x_compare(std::shared_ptr<raytracer::IShape>, std::shared_ptr<raytracer::IShape>)
+  0.11     26.68     0.03                             std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace()
+  0.07     26.70     0.02 52790596     0.00     0.00  raytracer::Cosine::~Cosine()
+  0.07     26.72     0.02 52790596     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.07     26.74     0.02 52790596     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.07     26.76     0.02  9352230     0.00     0.00  Math::Vector3D::reflect(Math::Vector3D const&, Math::Vector3D const&)
+  0.07     26.78     0.02                             Math::Vector3D::operator/=(double const&)
+  0.07     26.80     0.02                             raytracer::DiffuseLight::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const
+  0.07     26.82     0.02                             raytracer::YRotation::random(Math::Vector3D const&) const
+  0.06     26.83     0.02 52790596     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.06     26.85     0.02                             std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)
+  0.04     26.86     0.01        5     2.00     2.00  raytracer::SolidColor::~SolidColor()
+  0.04     26.87     0.01                             Math::Vector3D::random_in_hemisphere(Math::Vector3D const&)
+  0.04     26.88     0.01                             std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.02     26.88     0.01                             std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace()
+  0.00     26.88     0.00  8808151     0.00     0.00  raytracer::Metal::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const
+  0.00     26.88     0.00  8477636     0.00     0.00  raytracer::Dielectric::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const
+  0.00     26.88     0.00        8     0.00     0.00  raytracer::Scene::addObject(std::shared_ptr<raytracer::IShape>)
+  0.00     26.88     0.00        6     0.00     2.00  raytracer::XZRectangle::~XZRectangle()
+  0.00     26.88     0.00        6     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        6     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        5     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        4     0.00     6.00  raytracer::YZRectangle::~YZRectangle()
+  0.00     26.88     0.00        4     0.00     2.00  std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        4     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        4     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        4     0.00     0.00  void std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::_M_realloc_insert<std::shared_ptr<raytracer::IShape> const&>(__gnu_cxx::__normal_iterator<std::shared_ptr<raytracer::IShape>*, std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > > >, std::shared_ptr<raytracer::IShape> const&)
+  0.00     26.88     0.00        4     0.00     0.00  void std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::_M_realloc_insert<std::shared_ptr<raytracer::IShape> >(__gnu_cxx::__normal_iterator<std::shared_ptr<raytracer::IShape>*, std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > > >, std::shared_ptr<raytracer::IShape>&&)
+  0.00     26.88     0.00        3     0.00     0.00  Parser::Parser::parseVector3D(libconfig::Setting const&)
+  0.00     26.88     0.00        3     0.00     4.00  raytracer::XYRectangle::~XYRectangle()
+  0.00     26.88     0.00        3     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        3     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        3     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        2     0.00     0.00  raytracer::Sphere::~Sphere()
+  0.00     26.88     0.00        2     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        2     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN6Parser6ParserC2ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN9raytracer15MaterialFactoryC2Ev
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN9raytracer3RayC2Ev
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN9raytracer4NodeC2ERKSt6vectorISt10shared_ptrINS_6IShapeEESaIS4_EEmmdd
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN9raytracer5Scene10writePixelERSt14basic_ofstreamIcSt11char_traitsIcEEN4Math8Vector3DEi
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN9raytracer6CameraC2EN4Math8Vector3DES2_S2_dddddd
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN9raytracer6Perlin7permuteEPii
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZN9raytracer9HitRecord13setFaceNormalERKNS_3RayERKN4Math8Vector3DE
+  0.00     26.88     0.00        1     0.00     0.00  _GLOBAL__sub_I__ZNK4Math8Vector3DngEv
+  0.00     26.88     0.00        1     0.00    24.00  raytracer::Translation::~Translation()
+  0.00     26.88     0.00        1     0.00     2.00  raytracer::DirectionnalLight::~DirectionnalLight()
+  0.00     26.88     0.00        1     0.00     0.00  raytracer::Box::Box(Math::Vector3D const&, Math::Vector3D const&, std::shared_ptr<raytracer::IMaterial>)
+  0.00     26.88     0.00        1     0.00    24.00  raytracer::Box::~Box()
+  0.00     26.88     0.00        1     0.00     0.00  raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double)
+  0.00     26.88     0.00        1     0.00    24.00  raytracer::YRotation::~YRotation()
+  0.00     26.88     0.00        1     0.00     0.00  raytracer::Box::bounding_box(double, double, raytracer::AABB&) const
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        1     0.00     2.00  std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  0.00     26.88     0.00        1     0.00     0.00  std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.04% of 26.88 seconds
+
+index % time    self  children    called     name
+                             70076383             raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[1]     89.0    1.77   22.16       0+70076383 raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+                2.01   11.29 106075603/106075603     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+                1.57    1.21 52790596/52790596     raytracer::Lambertian::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [8]
+                0.05    2.08 52790596/52790596     raytracer::HittablePDF::value(Math::Vector3D const&) const [10]
+                0.09    0.43 52790596/52790596     raytracer::Lambertian::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const [23]
+                0.29    0.23 26405146/26405146     raytracer::HittablePDF::generate() const [24]
+                0.06    0.43 52790596/52790596     raytracer::Cosine::value(Math::Vector3D const&) const [25]
+                0.40    0.05 26385450/26385450     raytracer::Cosine::generate() const [26]
+                0.03    0.27 8808151/8808151     raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+                0.28    0.00 70076383/70076383     raytracer::Ray::Ray(raytracer::Ray const&) [30]
+                0.08    0.17 8477636/8477636     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.21    0.00 94487862/94487862     raytracer::Ray::Ray() [33]
+                0.20    0.00 70076383/70076383     Math::Vector3D::operator*(Math::Vector3D const&) const [34]
+                0.15    0.00 52790596/52790596     raytracer::Lambertian::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [37]
+                0.09    0.05 24411479/24411479     raytracer::DiffuseLight::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [39]
+                0.09    0.00 52790596/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+                0.08    0.00 52790596/124790596     Math::Vector3D::operator*(double const&) const [35]
+                0.05    0.00 52790596/52790596     raytracer::HittablePDF::~HittablePDF() [43]
+                0.05    0.00 52790596/414654174     Math::Vector3D::operator+(Math::Vector3D const&) const [27]
+                0.05    0.00 52790596/52790596     std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [50]
+                0.03    0.00 52790596/63371265     Math::Vector3D::operator/(double const&) const [53]
+                0.03    0.00 24411479/24411479     raytracer::DiffuseLight::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [55]
+                0.02    0.00 52790596/52790596     raytracer::Cosine::~Cosine() [63]
+                0.02    0.00 52790596/52790596     std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [65]
+                0.02    0.00 52790596/52790596     std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [64]
+                0.02    0.00 52790596/52790596     std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [70]
+                0.00    0.00 8808151/8808151     raytracer::Metal::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [92]
+                0.00    0.00 8477636/8477636     raytracer::Dielectric::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [93]
+                             70076383             raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+-----------------------------------------------
+                2.01   11.29 106075603/106075603     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[2]     49.5    2.01   11.29 106075603         raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+                0.24    6.22 106075603/106075603     raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [3]
+                1.36    0.10 212151206/424302412     raytracer::YZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [7]
+                1.24    0.15 212151206/530378015     raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [6]
+                0.13    0.69 106075603/106075603     raytracer::DirectionnalLight::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [16]
+                0.39    0.07 106075603/318226809     raytracer::XYRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [14]
+                0.32    0.00 212151206/346438903     Math::Vector3D::len_squared() const [22]
+                0.18    0.00 114553239/376030650     Math::Vector3D::operator-(Math::Vector3D const&) const [18]
+                0.13    0.00 106075603/465019877     Math::Vector3D::dot(Math::Vector3D const&) const [19]
+                0.02    0.01 8477636/147077678     raytracer::Ray::at(double) const [21]
+                0.01    0.02 8477636/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+                0.01    0.00 8477636/63371265     Math::Vector3D::operator/(double const&) const [53]
+-----------------------------------------------
+                0.24    6.22 106075603/106075603     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+[3]     24.0    0.24    6.22 106075603         raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [3]
+                0.65    5.19 106075603/106075603     raytracer::YRotation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [4]
+                0.18    0.00 106075603/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+                0.17    0.00 106075603/376030650     Math::Vector3D::operator-(Math::Vector3D const&) const [18]
+                0.01    0.02 9206849/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+                0.01    0.00 9206849/414654174     Math::Vector3D::operator+(Math::Vector3D const&) const [27]
+-----------------------------------------------
+                0.65    5.19 106075603/106075603     raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [3]
+[4]     21.7    0.65    5.19 106075603         raytracer::YRotation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [4]
+                1.22    3.76 106075603/106075603     raytracer::Box::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [5]
+                0.18    0.00 106075603/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+                0.01    0.02 9206849/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+-----------------------------------------------
+                1.22    3.76 106075603/106075603     raytracer::YRotation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [4]
+[5]     18.5    1.22    3.76 106075603         raytracer::Box::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [5]
+                1.36    0.10 212151206/424302412     raytracer::YZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [7]
+                1.24    0.15 212151206/530378015     raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [6]
+                0.79    0.13 212151206/318226809     raytracer::XYRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [14]
+-----------------------------------------------
+                0.62    0.07 106075603/530378015     raytracer::DirectionnalLight::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [16]
+                1.24    0.15 212151206/530378015     raytracer::Box::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [5]
+                1.24    0.15 212151206/530378015     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+[6]     12.9    3.09    0.37 530378015         raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [6]
+                0.14    0.05 52798952/147077678     raytracer::Ray::at(double) const [21]
+                0.07    0.10 52798952/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+-----------------------------------------------
+                1.36    0.10 212151206/424302412     raytracer::Box::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [5]
+                1.36    0.10 212151206/424302412     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+[7]     10.8    2.71    0.20 424302412         raytracer::YZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [7]
+                0.08    0.03 28525679/147077678     raytracer::Ray::at(double) const [21]
+                0.04    0.06 28525679/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+-----------------------------------------------
+                1.57    1.21 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[8]     10.3    1.57    1.21 52790596         raytracer::Lambertian::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [8]
+                0.73    0.00 105581192/228448173     Math::Vector3D::unit_vector() const [12]
+                0.35    0.00 105581192/105581194     Math::Vector3D::cross(Math::Vector3D const&) const [28]
+                0.12    0.00 52790596/72073477     raytracer::SolidColor::value(double, double, Math::Vector3D const&) const [36]
+-----------------------------------------------
+                                                 <spontaneous>
+[9]      8.9    0.56    1.82                 raytracer::Camera::getRay(double, double) const [9]
+                1.41    0.00 36000000/36000000     Math::Vector3D::random_in_unit_disk() [13]
+                0.14    0.00 144000000/414654174     Math::Vector3D::operator+(Math::Vector3D const&) const [27]
+                0.11    0.00 72000000/376030650     Math::Vector3D::operator-(Math::Vector3D const&) const [18]
+                0.10    0.00 72000000/124790596     Math::Vector3D::operator*(double const&) const [35]
+                0.06    0.00 36000000/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+-----------------------------------------------
+                0.05    2.08 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[10]     7.9    0.05    2.08 52790596         raytracer::HittablePDF::value(Math::Vector3D const&) const [10]
+                0.40    1.68 52790596/52790596     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+-----------------------------------------------
+                0.40    1.68 52790596/52790596     raytracer::HittablePDF::value(Math::Vector3D const&) const [10]
+[11]     7.7    0.40    1.68 52790596         raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.87    0.38 52790596/52790596     raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+                0.16    0.00 107684223/346438903     Math::Vector3D::len_squared() const [22]
+                0.09    0.00 56996658/376030650     Math::Vector3D::operator-(Math::Vector3D const&) const [18]
+                0.09    0.00 52790596/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+                0.07    0.00 52790596/465019877     Math::Vector3D::dot(Math::Vector3D const&) const [19]
+                0.01    0.00 2103031/147077678     raytracer::Ray::at(double) const [21]
+                0.00    0.00 2103031/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+                0.00    0.00 2103031/63371265     Math::Vector3D::operator/(double const&) const [53]
+-----------------------------------------------
+                0.00    0.00       2/228448173     raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double) [82]
+                0.06    0.00 8477636/228448173     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.06    0.00 8808151/228448173     raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+                0.37    0.00 52790596/228448173     raytracer::Lambertian::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const [23]
+                0.37    0.00 52790596/228448173     raytracer::Cosine::value(Math::Vector3D const&) const [25]
+                0.73    0.00 105581192/228448173     raytracer::Lambertian::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [8]
+[12]     5.9    1.59    0.00 228448173         Math::Vector3D::unit_vector() const [12]
+-----------------------------------------------
+                1.41    0.00 36000000/36000000     raytracer::Camera::getRay(double, double) const [9]
+[13]     5.2    1.41    0.00 36000000         Math::Vector3D::random_in_unit_disk() [13]
+-----------------------------------------------
+                0.39    0.07 106075603/318226809     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+                0.79    0.13 212151206/318226809     raytracer::Box::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [5]
+[14]     5.1    1.18    0.20 318226809         raytracer::XYRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [14]
+                0.08    0.03 28568906/147077678     raytracer::Ray::at(double) const [21]
+                0.04    0.06 28568906/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+-----------------------------------------------
+                0.87    0.38 52790596/52790596     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+[15]     4.6    0.87    0.38 52790596         raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+                0.07    0.03 26603474/147077678     raytracer::Ray::at(double) const [21]
+                0.04    0.05 26603474/165491376     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+                0.09    0.00 52790596/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+                0.04    0.00 26603474/346438903     Math::Vector3D::len_squared() const [22]
+                0.03    0.00 26603474/465019877     Math::Vector3D::dot(Math::Vector3D const&) const [19]
+                0.03    0.00 26603474/26603474     Math::Vector3D::len() const [54]
+-----------------------------------------------
+                0.13    0.69 106075603/106075603     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+[16]     3.1    0.13    0.69 106075603         raytracer::DirectionnalLight::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [16]
+                0.62    0.07 106075603/530378015     raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [6]
+-----------------------------------------------
+                0.01    0.00 8477636/423808781     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.01    0.00 8808151/423808781     raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+                0.06    0.00 36000000/423808781     raytracer::Camera::getRay(double, double) const [9]
+                0.09    0.00 52790596/423808781     raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+                0.09    0.00 52790596/423808781     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+                0.09    0.00 52790596/423808781     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.18    0.00 106075603/423808781     raytracer::YRotation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [4]
+                0.18    0.00 106075603/423808781     raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [3]
+[17]     2.6    0.71    0.00 423808781         raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+-----------------------------------------------
+                0.00    0.00       4/376030650     raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double) [82]
+                0.04    0.00 26405146/376030650     raytracer::XZRectangle::random(Math::Vector3D const&) const [32]
+                0.09    0.00 56996658/376030650     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.11    0.00 72000000/376030650     raytracer::Camera::getRay(double, double) const [9]
+                0.17    0.00 106075603/376030650     raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [3]
+                0.18    0.00 114553239/376030650     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+[18]     2.2    0.60    0.00 376030650         Math::Vector3D::operator-(Math::Vector3D const&) const [18]
+-----------------------------------------------
+                0.01    0.00 8477636/465019877     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.03    0.00 26603474/465019877     raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+                0.07    0.00 52790596/465019877     raytracer::Lambertian::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const [23]
+                0.07    0.00 52790596/465019877     raytracer::Cosine::value(Math::Vector3D const&) const [25]
+                0.07    0.00 52790596/465019877     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.13    0.00 106075603/465019877     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+                0.21    0.00 165491376/465019877     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+[19]     2.2    0.59    0.00 465019877         Math::Vector3D::dot(Math::Vector3D const&) const [19]
+-----------------------------------------------
+                0.00    0.00 2103031/165491376     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.01    0.02 8477636/165491376     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+                0.01    0.02 9206849/165491376     raytracer::YRotation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [4]
+                0.01    0.02 9206849/165491376     raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [3]
+                0.04    0.05 26603474/165491376     raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+                0.04    0.06 28525679/165491376     raytracer::YZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [7]
+                0.04    0.06 28568906/165491376     raytracer::XYRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [14]
+                0.07    0.10 52798952/165491376     raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [6]
+[20]     2.0    0.23    0.32 165491376         raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+                0.21    0.00 165491376/465019877     Math::Vector3D::dot(Math::Vector3D const&) const [19]
+                0.11    0.00 100502449/108980085     Math::Vector3D::operator-() const [40]
+-----------------------------------------------
+                0.01    0.00 2103031/147077678     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.02    0.01 8477636/147077678     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+                0.07    0.03 26603474/147077678     raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+                0.08    0.03 28525679/147077678     raytracer::YZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [7]
+                0.08    0.03 28568906/147077678     raytracer::XYRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [14]
+                0.14    0.05 52798952/147077678     raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [6]
+[21]     2.0    0.40    0.14 147077678         raytracer::Ray::at(double) const [21]
+                0.14    0.00 147077678/414654174     Math::Vector3D::operator+(Math::Vector3D const&) const [27]
+-----------------------------------------------
+                0.04    0.00 26603474/346438903     raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+                0.16    0.00 107684223/346438903     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.32    0.00 212151206/346438903     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+[22]     2.0    0.53    0.00 346438903         Math::Vector3D::len_squared() const [22]
+-----------------------------------------------
+                0.09    0.43 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[23]     2.0    0.09    0.43 52790596         raytracer::Lambertian::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const [23]
+                0.37    0.00 52790596/228448173     Math::Vector3D::unit_vector() const [12]
+                0.07    0.00 52790596/465019877     Math::Vector3D::dot(Math::Vector3D const&) const [19]
+-----------------------------------------------
+                0.29    0.23 26405146/26405146     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[24]     1.9    0.29    0.23 26405146         raytracer::HittablePDF::generate() const [24]
+                0.19    0.04 26405146/26405146     raytracer::XZRectangle::random(Math::Vector3D const&) const [32]
+-----------------------------------------------
+                0.06    0.43 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[25]     1.8    0.06    0.43 52790596         raytracer::Cosine::value(Math::Vector3D const&) const [25]
+                0.37    0.00 52790596/228448173     Math::Vector3D::unit_vector() const [12]
+                0.07    0.00 52790596/465019877     Math::Vector3D::dot(Math::Vector3D const&) const [19]
+-----------------------------------------------
+                0.40    0.05 26385450/26385450     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[26]     1.7    0.40    0.05 26385450         raytracer::Cosine::generate() const [26]
+                0.05    0.00 52770900/414654174     Math::Vector3D::operator+(Math::Vector3D const&) const [27]
+-----------------------------------------------
+                0.01    0.00 8808151/414654174     raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+                0.01    0.00 9206849/414654174     raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [3]
+                0.05    0.00 52770900/414654174     raytracer::Cosine::generate() const [26]
+                0.05    0.00 52790596/414654174     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+                0.14    0.00 144000000/414654174     raytracer::Camera::getRay(double, double) const [9]
+                0.14    0.00 147077678/414654174     raytracer::Ray::at(double) const [21]
+[27]     1.5    0.39    0.00 414654174         Math::Vector3D::operator+(Math::Vector3D const&) const [27]
+-----------------------------------------------
+                0.00    0.00       2/105581194     raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double) [82]
+                0.35    0.00 105581192/105581194     raytracer::Lambertian::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [8]
+[28]     1.3    0.35    0.00 105581194         Math::Vector3D::cross(Math::Vector3D const&) const [28]
+-----------------------------------------------
+                0.03    0.27 8808151/8808151     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[29]     1.1    0.03    0.27 8808151         raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+                0.15    0.00 8808151/8808151     Math::Vector3D::random_in_unit_sphere() [38]
+                0.06    0.00 8808151/228448173     Math::Vector3D::unit_vector() const [12]
+                0.02    0.00 8808151/17285787     raytracer::Ray::operator=(raytracer::Ray const&) [51]
+                0.02    0.00 8808151/9352230     Math::Vector3D::reflect(Math::Vector3D const&, Math::Vector3D const&) [66]
+                0.01    0.00 8808151/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+                0.01    0.00 8808151/414654174     Math::Vector3D::operator+(Math::Vector3D const&) const [27]
+-----------------------------------------------
+                0.28    0.00 70076383/70076383     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[30]     1.0    0.28    0.00 70076383         raytracer::Ray::Ray(raytracer::Ray const&) [30]
+-----------------------------------------------
+                0.08    0.17 8477636/8477636     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[31]     0.9    0.08    0.17 8477636         raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.06    0.00 7933557/7933557     Math::Vector3D::refract(Math::Vector3D const&, Math::Vector3D const&, double) [42]
+                0.06    0.00 8477636/228448173     Math::Vector3D::unit_vector() const [12]
+                0.02    0.00 8477636/17285787     raytracer::Ray::operator=(raytracer::Ray const&) [51]
+                0.01    0.00 8477636/423808781     raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [17]
+                0.01    0.00 8477636/465019877     Math::Vector3D::dot(Math::Vector3D const&) const [19]
+                0.01    0.00 8477636/108980085     Math::Vector3D::operator-() const [40]
+                0.00    0.00  544079/9352230     Math::Vector3D::reflect(Math::Vector3D const&, Math::Vector3D const&) [66]
+-----------------------------------------------
+                0.19    0.04 26405146/26405146     raytracer::HittablePDF::generate() const [24]
+[32]     0.9    0.19    0.04 26405146         raytracer::XZRectangle::random(Math::Vector3D const&) const [32]
+                0.04    0.00 26405146/376030650     Math::Vector3D::operator-(Math::Vector3D const&) const [18]
+-----------------------------------------------
+                0.21    0.00 94487862/94487862     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[33]     0.8    0.21    0.00 94487862         raytracer::Ray::Ray() [33]
+-----------------------------------------------
+                0.20    0.00 70076383/70076383     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[34]     0.7    0.20    0.00 70076383         Math::Vector3D::operator*(Math::Vector3D const&) const [34]
+-----------------------------------------------
+                0.08    0.00 52790596/124790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+                0.10    0.00 72000000/124790596     raytracer::Camera::getRay(double, double) const [9]
+[35]     0.7    0.18    0.00 124790596         Math::Vector3D::operator*(double const&) const [35]
+-----------------------------------------------
+                0.05    0.00 19282881/72073477     raytracer::DiffuseLight::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [39]
+                0.12    0.00 52790596/72073477     raytracer::Lambertian::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [8]
+[36]     0.6    0.17    0.00 72073477         raytracer::SolidColor::value(double, double, Math::Vector3D const&) const [36]
+-----------------------------------------------
+                0.15    0.00 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[37]     0.6    0.15    0.00 52790596         raytracer::Lambertian::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [37]
+-----------------------------------------------
+                0.15    0.00 8808151/8808151     raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+[38]     0.6    0.15    0.00 8808151         Math::Vector3D::random_in_unit_sphere() [38]
+-----------------------------------------------
+                0.09    0.05 24411479/24411479     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[39]     0.5    0.09    0.05 24411479         raytracer::DiffuseLight::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [39]
+                0.05    0.00 19282881/72073477     raytracer::SolidColor::value(double, double, Math::Vector3D const&) const [36]
+-----------------------------------------------
+                0.01    0.00 8477636/108980085     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.11    0.00 100502449/108980085     raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [20]
+[40]     0.4    0.12    0.00 108980085         Math::Vector3D::operator-() const [40]
+-----------------------------------------------
+                                                 <spontaneous>
+[41]     0.3    0.08    0.00                 std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [41]
+-----------------------------------------------
+                0.06    0.00 7933557/7933557     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+[42]     0.2    0.06    0.00 7933557         Math::Vector3D::refract(Math::Vector3D const&, Math::Vector3D const&, double) [42]
+-----------------------------------------------
+                0.05    0.00 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[43]     0.2    0.05    0.00 52790596         raytracer::HittablePDF::~HittablePDF() [43]
+-----------------------------------------------
+                0.01    0.00       1/5           raytracer::XYRectangle::~XYRectangle() [73]
+                0.01    0.00       1/5           raytracer::XZRectangle::~XZRectangle() [72]
+                0.01    0.00       1/5           std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release() [74]
+                0.02    0.00       2/5           raytracer::YZRectangle::~YZRectangle() [59]
+[44]     0.2    0.05    0.00       5         std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [44]
+-----------------------------------------------
+                                                 <spontaneous>
+[45]     0.2    0.05    0.00                 raytracer::Node::~Node() [45]
+-----------------------------------------------
+                                                 <spontaneous>
+[46]     0.2    0.05    0.00                 Math::Vector3D::near_zero() const [46]
+-----------------------------------------------
+                                                 <spontaneous>
+[47]     0.2    0.05    0.00                 raytracer::Sphere::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [47]
+-----------------------------------------------
+                                                 <spontaneous>
+[48]     0.2    0.05    0.00                 std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace() [48]
+-----------------------------------------------
+                                                 <spontaneous>
+[49]     0.2    0.00    0.05                 std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+                0.00    0.02       1/1           raytracer::Translation::~Translation() [60]
+                0.00    0.01       2/4           raytracer::YZRectangle::~YZRectangle() [59]
+                0.00    0.01       3/6           raytracer::XZRectangle::~XZRectangle() [72]
+                0.00    0.00       1/3           raytracer::XYRectangle::~XYRectangle() [73]
+                0.00    0.00       1/1           raytracer::DirectionnalLight::~DirectionnalLight() [81]
+                0.00    0.00       4/6           std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [95]
+                0.00    0.00       3/3           std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [103]
+                0.00    0.00       3/6           std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [96]
+                0.00    0.00       2/2           raytracer::Sphere::~Sphere() [106]
+                0.00    0.00       2/2           std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [108]
+                0.00    0.00       2/4           std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [99]
+                0.00    0.00       2/2           std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [107]
+                0.00    0.00       2/4           std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [98]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [120]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [131]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [123]
+                0.00    0.00       1/3           std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [105]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [126]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [122]
+                0.00    0.00       1/3           std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [104]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [125]
+-----------------------------------------------
+                0.05    0.00 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[50]     0.2    0.05    0.00 52790596         std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [50]
+-----------------------------------------------
+                0.02    0.00 8477636/17285787     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.02    0.00 8808151/17285787     raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+[51]     0.1    0.04    0.00 17285787         raytracer::Ray::operator=(raytracer::Ray const&) [51]
+-----------------------------------------------
+                                                 <spontaneous>
+[52]     0.1    0.04    0.00                 std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&) [52]
+-----------------------------------------------
+                0.00    0.00       2/63371265     raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double) [82]
+                0.00    0.00 2103031/63371265     raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [11]
+                0.01    0.00 8477636/63371265     raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [2]
+                0.03    0.00 52790596/63371265     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[53]     0.1    0.04    0.00 63371265         Math::Vector3D::operator/(double const&) const [53]
+-----------------------------------------------
+                0.03    0.00 26603474/26603474     raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [15]
+[54]     0.1    0.03    0.00 26603474         Math::Vector3D::len() const [54]
+-----------------------------------------------
+                0.03    0.00 24411479/24411479     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[55]     0.1    0.03    0.00 24411479         raytracer::DiffuseLight::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [55]
+-----------------------------------------------
+                                                 <spontaneous>
+[56]     0.1    0.03    0.00                 Math::Vector3D::operator+=(Math::Vector3D const&) [56]
+-----------------------------------------------
+                                                 <spontaneous>
+[57]     0.1    0.03    0.00                 raytracer::box_x_compare(std::shared_ptr<raytracer::IShape>, std::shared_ptr<raytracer::IShape>) [57]
+-----------------------------------------------
+                                                 <spontaneous>
+[58]     0.1    0.03    0.00                 std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace() [58]
+-----------------------------------------------
+                0.00    0.01       2/4           raytracer::Box::~Box() [61]
+                0.00    0.01       2/4           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[59]     0.1    0.00    0.02       4         raytracer::YZRectangle::~YZRectangle() [59]
+                0.02    0.00       2/5           std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [44]
+                0.00    0.00       2/4           std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [78]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [130]
+-----------------------------------------------
+                0.00    0.02       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[60]     0.1    0.00    0.02       1         raytracer::Translation::~Translation() [60]
+                0.00    0.02       1/1           raytracer::YRotation::~YRotation() [62]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [127]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [132]
+-----------------------------------------------
+                0.00    0.02       1/1           raytracer::YRotation::~YRotation() [62]
+[61]     0.1    0.00    0.02       1         raytracer::Box::~Box() [61]
+                0.00    0.01       2/4           raytracer::YZRectangle::~YZRectangle() [59]
+                0.00    0.01       2/3           raytracer::XYRectangle::~XYRectangle() [73]
+                0.00    0.00       2/6           raytracer::XZRectangle::~XZRectangle() [72]
+                0.00    0.00       2/4           std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [99]
+                0.00    0.00       2/6           std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [96]
+                0.00    0.00       2/3           std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [105]
+                0.00    0.00       2/4           std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [98]
+                0.00    0.00       2/6           std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [95]
+                0.00    0.00       2/3           std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [104]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [129]
+-----------------------------------------------
+                0.00    0.02       1/1           raytracer::Translation::~Translation() [60]
+[62]     0.1    0.00    0.02       1         raytracer::YRotation::~YRotation() [62]
+                0.00    0.02       1/1           raytracer::Box::~Box() [61]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [128]
+-----------------------------------------------
+                0.02    0.00 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[63]     0.1    0.02    0.00 52790596         raytracer::Cosine::~Cosine() [63]
+-----------------------------------------------
+                0.02    0.00 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[64]     0.1    0.02    0.00 52790596         std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [64]
+-----------------------------------------------
+                0.02    0.00 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[65]     0.1    0.02    0.00 52790596         std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [65]
+-----------------------------------------------
+                0.00    0.00  544079/9352230     raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [31]
+                0.02    0.00 8808151/9352230     raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [29]
+[66]     0.1    0.02    0.00 9352230         Math::Vector3D::reflect(Math::Vector3D const&, Math::Vector3D const&) [66]
+-----------------------------------------------
+                                                 <spontaneous>
+[67]     0.1    0.02    0.00                 Math::Vector3D::operator/=(double const&) [67]
+-----------------------------------------------
+                                                 <spontaneous>
+[68]     0.1    0.02    0.00                 raytracer::DiffuseLight::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const [68]
+-----------------------------------------------
+                                                 <spontaneous>
+[69]     0.1    0.02    0.00                 raytracer::YRotation::random(Math::Vector3D const&) const [69]
+-----------------------------------------------
+                0.02    0.00 52790596/52790596     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[70]     0.1    0.02    0.00 52790596         std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [70]
+-----------------------------------------------
+                                                 <spontaneous>
+[71]     0.1    0.02    0.00                 std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&) [71]
+-----------------------------------------------
+                0.00    0.00       1/6           raytracer::DirectionnalLight::~DirectionnalLight() [81]
+                0.00    0.00       2/6           raytracer::Box::~Box() [61]
+                0.00    0.01       3/6           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[72]     0.0    0.00    0.01       6         raytracer::XZRectangle::~XZRectangle() [72]
+                0.01    0.00       1/5           std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [44]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [80]
+-----------------------------------------------
+                0.00    0.00       1/3           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+                0.00    0.01       2/3           raytracer::Box::~Box() [61]
+[73]     0.0    0.00    0.01       3         raytracer::XYRectangle::~XYRectangle() [73]
+                0.01    0.00       1/5           std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [44]
+                0.00    0.00       1/4           std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [78]
+-----------------------------------------------
+                                                 <spontaneous>
+[74]     0.0    0.00    0.01                 std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release() [74]
+                0.01    0.00       1/5           std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [44]
+                0.00    0.00       1/4           std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [78]
+-----------------------------------------------
+                0.00    0.00       1/5           std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [80]
+                0.01    0.00       4/5           std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [78]
+[75]     0.0    0.01    0.00       5         raytracer::SolidColor::~SolidColor() [75]
+-----------------------------------------------
+                                                 <spontaneous>
+[76]     0.0    0.01    0.00                 Math::Vector3D::random_in_hemisphere(Math::Vector3D const&) [76]
+-----------------------------------------------
+                                                 <spontaneous>
+[77]     0.0    0.01    0.00                 std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [77]
+-----------------------------------------------
+                0.00    0.00       1/4           raytracer::XYRectangle::~XYRectangle() [73]
+                0.00    0.00       1/4           std::_Sp_counted_base<(__gnu_cxx::_Lock_policy)2>::_M_release() [74]
+                0.00    0.00       2/4           raytracer::YZRectangle::~YZRectangle() [59]
+[78]     0.0    0.00    0.01       4         std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [78]
+                0.01    0.00       4/5           raytracer::SolidColor::~SolidColor() [75]
+                0.00    0.00       4/5           std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [97]
+-----------------------------------------------
+                                                 <spontaneous>
+[79]     0.0    0.01    0.00                 std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace() [79]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::XZRectangle::~XZRectangle() [72]
+[80]     0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [80]
+                0.00    0.00       1/5           raytracer::SolidColor::~SolidColor() [75]
+                0.00    0.00       1/5           std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [97]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[81]     0.0    0.00    0.00       1         raytracer::DirectionnalLight::~DirectionnalLight() [81]
+                0.00    0.00       1/6           raytracer::XZRectangle::~XZRectangle() [72]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [124]
+                0.00    0.00       1/6           std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [96]
+-----------------------------------------------
+                0.00    0.00       1/1           Parser::Parser::parseCamera() [83]
+[82]     0.0    0.00    0.00       1         raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double) [82]
+                0.00    0.00       2/228448173     Math::Vector3D::unit_vector() const [12]
+                0.00    0.00       2/105581194     Math::Vector3D::cross(Math::Vector3D const&) const [28]
+                0.00    0.00       4/376030650     Math::Vector3D::operator-(Math::Vector3D const&) const [18]
+                0.00    0.00       2/63371265     Math::Vector3D::operator/(double const&) const [53]
+-----------------------------------------------
+                                                 <spontaneous>
+[83]     0.0    0.00    0.00                 Parser::Parser::parseCamera() [83]
+                0.00    0.00       1/1           raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double) [82]
+                0.00    0.00       3/3           Parser::Parser::parseVector3D(libconfig::Setting const&) [102]
+-----------------------------------------------
+                0.00    0.00 8808151/8808151     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[92]     0.0    0.00    0.00 8808151         raytracer::Metal::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [92]
+-----------------------------------------------
+                0.00    0.00 8477636/8477636     raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [1]
+[93]     0.0    0.00    0.00 8477636         raytracer::Dielectric::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [93]
+-----------------------------------------------
+                0.00    0.00       8/8           final_scene() [133]
+[94]     0.0    0.00    0.00       8         raytracer::Scene::addObject(std::shared_ptr<raytracer::IShape>) [94]
+-----------------------------------------------
+                0.00    0.00       2/6           raytracer::Box::~Box() [61]
+                0.00    0.00       4/6           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[95]     0.0    0.00    0.00       6         std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [95]
+-----------------------------------------------
+                0.00    0.00       1/6           raytracer::DirectionnalLight::~DirectionnalLight() [81]
+                0.00    0.00       2/6           raytracer::Box::~Box() [61]
+                0.00    0.00       3/6           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[96]     0.0    0.00    0.00       6         std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [96]
+-----------------------------------------------
+                0.00    0.00       1/5           std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [80]
+                0.00    0.00       4/5           std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [78]
+[97]     0.0    0.00    0.00       5         std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [97]
+-----------------------------------------------
+                0.00    0.00       2/4           raytracer::Box::~Box() [61]
+                0.00    0.00       2/4           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[98]     0.0    0.00    0.00       4         std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [98]
+-----------------------------------------------
+                0.00    0.00       2/4           raytracer::Box::~Box() [61]
+                0.00    0.00       2/4           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[99]     0.0    0.00    0.00       4         std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [99]
+-----------------------------------------------
+                0.00    0.00       4/4           final_scene() [133]
+[100]    0.0    0.00    0.00       4         void std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::_M_realloc_insert<std::shared_ptr<raytracer::IShape> const&>(__gnu_cxx::__normal_iterator<std::shared_ptr<raytracer::IShape>*, std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > > >, std::shared_ptr<raytracer::IShape> const&) [100]
+-----------------------------------------------
+                0.00    0.00       4/4           raytracer::Box::Box(Math::Vector3D const&, Math::Vector3D const&, std::shared_ptr<raytracer::IMaterial>) [118]
+[101]    0.0    0.00    0.00       4         void std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::_M_realloc_insert<std::shared_ptr<raytracer::IShape> >(__gnu_cxx::__normal_iterator<std::shared_ptr<raytracer::IShape>*, std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > > >, std::shared_ptr<raytracer::IShape>&&) [101]
+-----------------------------------------------
+                0.00    0.00       3/3           Parser::Parser::parseCamera() [83]
+[102]    0.0    0.00    0.00       3         Parser::Parser::parseVector3D(libconfig::Setting const&) [102]
+-----------------------------------------------
+                0.00    0.00       3/3           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[103]    0.0    0.00    0.00       3         std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [103]
+-----------------------------------------------
+                0.00    0.00       1/3           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+                0.00    0.00       2/3           raytracer::Box::~Box() [61]
+[104]    0.0    0.00    0.00       3         std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [104]
+-----------------------------------------------
+                0.00    0.00       1/3           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+                0.00    0.00       2/3           raytracer::Box::~Box() [61]
+[105]    0.0    0.00    0.00       3         std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [105]
+-----------------------------------------------
+                0.00    0.00       2/2           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[106]    0.0    0.00    0.00       2         raytracer::Sphere::~Sphere() [106]
+                0.00    0.00       1/1           std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [121]
+-----------------------------------------------
+                0.00    0.00       2/2           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[107]    0.0    0.00    0.00       2         std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [107]
+-----------------------------------------------
+                0.00    0.00       2/2           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[108]    0.0    0.00    0.00       2         std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [108]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[109]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN6Parser6ParserC2ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE [109]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[110]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN9raytracer15MaterialFactoryC2Ev [110]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[111]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN9raytracer3RayC2Ev [111]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[112]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN9raytracer4NodeC2ERKSt6vectorISt10shared_ptrINS_6IShapeEESaIS4_EEmmdd [112]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[113]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN9raytracer5Scene10writePixelERSt14basic_ofstreamIcSt11char_traitsIcEEN4Math8Vector3DEi [113]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[114]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN9raytracer6CameraC2EN4Math8Vector3DES2_S2_dddddd [114]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[115]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN9raytracer6Perlin7permuteEPii [115]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[116]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZN9raytracer9HitRecord13setFaceNormalERKNS_3RayERKN4Math8Vector3DE [116]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [264]
+[117]    0.0    0.00    0.00       1         _GLOBAL__sub_I__ZNK4Math8Vector3DngEv [117]
+-----------------------------------------------
+                0.00    0.00       1/1           final_scene() [133]
+[118]    0.0    0.00    0.00       1         raytracer::Box::Box(Math::Vector3D const&, Math::Vector3D const&, std::shared_ptr<raytracer::IMaterial>) [118]
+                0.00    0.00       4/4           void std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::_M_realloc_insert<std::shared_ptr<raytracer::IShape> >(__gnu_cxx::__normal_iterator<std::shared_ptr<raytracer::IShape>*, std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > > >, std::shared_ptr<raytracer::IShape>&&) [101]
+-----------------------------------------------
+                0.00    0.00       1/1           final_scene() [133]
+[119]    0.0    0.00    0.00       1         raytracer::Box::bounding_box(double, double, raytracer::AABB&) const [119]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[120]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [120]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::Sphere::~Sphere() [106]
+[121]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [121]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[122]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [122]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[123]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [123]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::DirectionnalLight::~DirectionnalLight() [81]
+[124]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [124]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[125]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [125]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[126]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [126]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::Translation::~Translation() [60]
+[127]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [127]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::YRotation::~YRotation() [62]
+[128]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [128]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::Box::~Box() [61]
+[129]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [129]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::YZRectangle::~YZRectangle() [59]
+[130]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [130]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::~vector() [49]
+[131]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy() [131]
+-----------------------------------------------
+                0.00    0.00       1/1           raytracer::Translation::~Translation() [60]
+[132]    0.0    0.00    0.00       1         std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose() [132]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+ [109] _GLOBAL__sub_I__ZN6Parser6ParserC2ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE (Parser.cpp) [12] Math::Vector3D::unit_vector() const [120] std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+ [110] _GLOBAL__sub_I__ZN9raytracer15MaterialFactoryC2Ev (MaterialFactory.cpp) [19] Math::Vector3D::dot(Math::Vector3D const&) const [121] std::_Sp_counted_ptr_inplace<raytracer::Dielectric, std::allocator<raytracer::Dielectric>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+ [111] _GLOBAL__sub_I__ZN9raytracer3RayC2Ev (Ray.cpp) [54] Math::Vector3D::len() const [103] std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+ [112] _GLOBAL__sub_I__ZN9raytracer4NodeC2ERKSt6vectorISt10shared_ptrINS_6IShapeEESaIS4_EEmmdd (main.cpp) [28] Math::Vector3D::cross(Math::Vector3D const&) const [78] std::_Sp_counted_ptr_inplace<raytracer::Lambertian, std::allocator<raytracer::Lambertian>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+ [113] _GLOBAL__sub_I__ZN9raytracer5Scene10writePixelERSt14basic_ofstreamIcSt11char_traitsIcEEN4Math8Vector3DEi (Scene.cpp) [46] Math::Vector3D::near_zero() const [44] std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+ [114] _GLOBAL__sub_I__ZN9raytracer6CameraC2EN4Math8Vector3DES2_S2_dddddd (Camera.cpp) [53] Math::Vector3D::operator/(double const&) const [97] std::_Sp_counted_ptr_inplace<raytracer::SolidColor, std::allocator<raytracer::SolidColor>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+ [115] _GLOBAL__sub_I__ZN9raytracer6Perlin7permuteEPii (Perlin.cpp) [18] Math::Vector3D::operator-(Math::Vector3D const&) const [70] std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+ [116] _GLOBAL__sub_I__ZN9raytracer9HitRecord13setFaceNormalERKNS_3RayERKN4Math8Vector3DE (HitRecord.cpp) [34] Math::Vector3D::operator*(Math::Vector3D const&) const [50] std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+ [117] _GLOBAL__sub_I__ZNK4Math8Vector3DngEv (Vector3D.cpp) [35] Math::Vector3D::operator*(double const&) const [71] std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)
+  [13] Math::Vector3D::random_in_unit_disk() [40] Math::Vector3D::operator-() const [79] std::_Sp_counted_ptr_inplace<raytracer::HittablePDF, std::allocator<raytracer::HittablePDF>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace()
+  [76] Math::Vector3D::random_in_hemisphere(Math::Vector3D const&) [27] Math::Vector3D::operator+(Math::Vector3D const&) const [122] std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [38] Math::Vector3D::random_in_unit_sphere() [93] raytracer::Dielectric::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [123] std::_Sp_counted_ptr_inplace<raytracer::Translation, std::allocator<raytracer::Translation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [66] Math::Vector3D::reflect(Math::Vector3D const&, Math::Vector3D const&) [31] raytracer::Dielectric::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [104] std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [42] Math::Vector3D::refract(Math::Vector3D const&, Math::Vector3D const&, double) [23] raytracer::Lambertian::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const [105] std::_Sp_counted_ptr_inplace<raytracer::XYRectangle, std::allocator<raytracer::XYRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [67] Math::Vector3D::operator/=(double const&) [37] raytracer::Lambertian::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [95] std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [56] Math::Vector3D::operator+=(Math::Vector3D const&) [8] raytracer::Lambertian::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [96] std::_Sp_counted_ptr_inplace<raytracer::XZRectangle, std::allocator<raytracer::XZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+ [102] Parser::Parser::parseVector3D(libconfig::Setting const&) [36] raytracer::SolidColor::value(double, double, Math::Vector3D const&) const [98] std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [75] raytracer::SolidColor::~SolidColor() [10] raytracer::HittablePDF::value(Math::Vector3D const&) const [99] std::_Sp_counted_ptr_inplace<raytracer::YZRectangle, std::allocator<raytracer::YZRectangle>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [43] raytracer::HittablePDF::~HittablePDF() [24] raytracer::HittablePDF::generate() const [124] std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [60] raytracer::Translation::~Translation() [3] raytracer::Translation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [80] std::_Sp_counted_ptr_inplace<raytracer::DiffuseLight, std::allocator<raytracer::DiffuseLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [73] raytracer::XYRectangle::~XYRectangle() [14] raytracer::XYRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [125] std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [72] raytracer::XZRectangle::~XZRectangle() [15] raytracer::XZRectangle::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [126] std::_Sp_counted_ptr_inplace<raytracer::DirectionnalLight, std::allocator<raytracer::DirectionnalLight>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [59] raytracer::YZRectangle::~YZRectangle() [6] raytracer::XZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [127] std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [57] raytracer::box_x_compare(std::shared_ptr<raytracer::IShape>, std::shared_ptr<raytracer::IShape>) [32] raytracer::XZRectangle::random(Math::Vector3D const&) const [128] std::_Sp_counted_ptr_inplace<raytracer::Box, std::allocator<raytracer::Box>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [81] raytracer::DirectionnalLight::~DirectionnalLight() [7] raytracer::YZRectangle::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [129] std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+ [118] raytracer::Box::Box(Math::Vector3D const&, Math::Vector3D const&, std::shared_ptr<raytracer::IMaterial>) [68] raytracer::DiffuseLight::scatter_pdf(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::Ray const&) const [130] std::_Sp_counted_ptr_inplace<raytracer::Metal, std::allocator<raytracer::Metal>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [61] raytracer::Box::~Box() [39] raytracer::DiffuseLight::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [77] std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [17] raytracer::Ray::Ray(Math::Vector3D, Math::Vector3D, double) [55] raytracer::DiffuseLight::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [41] std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [30] raytracer::Ray::Ray(raytracer::Ray const&) [16] raytracer::DirectionnalLight::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [52] std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::_M_get_deleter(std::type_info const&)
+  [33] raytracer::Ray::Ray() [119] raytracer::Box::bounding_box(double, double, raytracer::AABB&) const [48] std::_Sp_counted_ptr_inplace<raytracer::Scene, std::allocator<raytracer::Scene>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace()
+  [51] raytracer::Ray::operator=(raytracer::Ray const&) [5] raytracer::Box::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [64] std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [45] raytracer::Node::~Node() [21] raytracer::Ray::at(double) const [65] std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+   [2] raytracer::Scene::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) [92] raytracer::Metal::emitted(raytracer::Ray const&, double, double, raytracer::HitRecord const&, Math::Vector3D const&) const [58] std::_Sp_counted_ptr_inplace<raytracer::Cosine, std::allocator<raytracer::Cosine>, (__gnu_cxx::_Lock_policy)2>::~_Sp_counted_ptr_inplace()
+   [1] raytracer::Scene::rayColor(raytracer::Ray, Math::Vector3D const&, std::shared_ptr<raytracer::Scene>, int) [29] raytracer::Metal::scatter(raytracer::Ray const&, raytracer::HitRecord const&, raytracer::ScatterRecord&) const [107] std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [94] raytracer::Scene::addObject(std::shared_ptr<raytracer::IShape>) [11] raytracer::Scene::densityValue(Math::Vector3D const&, Math::Vector3D const&) const [108] std::_Sp_counted_ptr_inplace<raytracer::Sphere, std::allocator<raytracer::Sphere>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+  [82] raytracer::Camera::Camera(Math::Vector3D, Math::Vector3D, Math::Vector3D, double, double, double, double, double, double) [9] raytracer::Camera::getRay(double, double) const [131] std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_destroy()
+  [63] raytracer::Cosine::~Cosine() [25] raytracer::Cosine::value(Math::Vector3D const&) const [132] std::_Sp_counted_ptr_inplace<raytracer::YRotation, std::allocator<raytracer::YRotation>, (__gnu_cxx::_Lock_policy)2>::_M_dispose()
+ [106] raytracer::Sphere::~Sphere() [26] raytracer::Cosine::generate() const [100] void std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::_M_realloc_insert<std::shared_ptr<raytracer::IShape> const&>(__gnu_cxx::__normal_iterator<std::shared_ptr<raytracer::IShape>*, std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > > >, std::shared_ptr<raytracer::IShape> const&)
+  [20] raytracer::HitRecord::setFaceNormal(raytracer::Ray const&, Math::Vector3D const&) [47] raytracer::Sphere::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const [101] void std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > >::_M_realloc_insert<std::shared_ptr<raytracer::IShape> >(__gnu_cxx::__normal_iterator<std::shared_ptr<raytracer::IShape>*, std::vector<std::shared_ptr<raytracer::IShape>, std::allocator<std::shared_ptr<raytracer::IShape> > > >, std::shared_ptr<raytracer::IShape>&&)
+  [62] raytracer::YRotation::~YRotation() [4] raytracer::YRotation::hit(raytracer::Ray const&, double, double, raytracer::HitRecord&) const
+  [22] Math::Vector3D::len_squared() const [69] raytracer::YRotation::random(Math::Vector3D const&) const

@@ -11,6 +11,7 @@
     #include "IMaterial.hpp"
     #include "../Texture/ITexture.hpp"
     #include "../Texture/SolidColor.hpp"
+    #include "../Object/Cosine.hpp"
     #include "../Maths/Orthonormal.hpp"
 
     namespace raytracer {
@@ -19,14 +20,11 @@
                 Lambertian(const Math::Color &color) : albedo(std::make_shared<SolidColor>(color)) {};
                 Lambertian(std::shared_ptr<ITexture> a) : albedo(a) {};
 
-                virtual bool scatter(UNUSED const Ray& r_in, const HitRecord& rec, Math::Color& alb, Ray& scattered, UNUSED double &pdf) const override
+                virtual bool scatter(UNUSED const Ray& r_in, const HitRecord& rec, ScatterRecord &srec) const override
                 {
-                    Math::Orthonormal uvw;
-                    uvw.build_from_w(rec.getNormal());
-                    auto direction = uvw.local(Math::Orthonormal::random_cosine_direction());
-                    scattered = Ray(rec.getP(), direction.unit_vector(), r_in.time());
-                    alb = albedo->value(rec.u, rec.v, rec.getP());
-                    pdf = uvw.w().dot(scattered.Direction) / M_PI;
+                    srec.is_specular = false;
+                    srec.attenuation = albedo->value(rec.u, rec.v, rec.getP());
+                    srec.density_ptr = std::make_shared<Cosine>(rec.getNormal());
                     return true;
                 }
 
@@ -36,7 +34,7 @@
                     return cosine < 0 ? 0 : cosine / M_PI;
                 }
 
-                virtual Math::Color emitted(UNUSED double u, UNUSED double v, UNUSED const HitRecord& rec, UNUSED const Math::Vector3D &p) const override
+                virtual Math::Color emitted(UNUSED const Ray &r_in, UNUSED double u, UNUSED double v, UNUSED const HitRecord& rec, UNUSED const Math::Vector3D &p) const override
                 {
                     return Math::Color(0, 0, 0);
                 }
