@@ -18,6 +18,7 @@
 #include "Lambertian.hpp"
 #include "Metal.hpp"
 #include "Dielectric.hpp"
+#include "DiffuseLight.hpp"
 
 namespace raytracer {
     class MaterialFactory {

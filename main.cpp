@@ -28,7 +28,7 @@
 #include "Texture/Checker.hpp"
 #include "Texture/Noise.hpp"
 #include "Texture/Image.hpp"
-#include "Parser/Parser.hpp"
+#include "Parser/Builder.hpp"
 #include "Shapes/Triangle.hpp"
 #include "Shapes/Plan.hpp"
 #include "Shapes/AmbientLight.hpp"
@@ -89,9 +89,9 @@ raytracer::Scene room()
 
 int main ()
 {
-    // Parser
+    // Builder
 
-    Parser::Parser parser("scene.cfg");
+    Builder::Builder parser("scene.cfg");
     raytracer::Camera cam = parser.parseCamera();
 
     // Image
@@ -102,9 +102,14 @@ int main ()
     const int depth = parser.getMaxDepth();
     Math::Vector3D background(0, 0, 0);
 
+    // Scene
 
+    // raytracer::Scene world = final_scene();
+    raytracer::Scene world = parser.buildScene();
 
-    raytracer::Scene world = final_scene();
+    // Camera
+
+    // raytracer::Scene world = final_scene();
     auto white = std::make_shared<raytracer::Lambertian>(Math::Color(0, 0,0));
 
     raytracer::Scene lights;

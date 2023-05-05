@@ -12,10 +12,11 @@ SRC=		main.cpp 						\
 			Camera.cpp	  		  			\
 			Scene.cpp	    				\
 			Maths/Vector3D.cpp	    		\
-			Parser/Parser.cpp				\
+			Parser/Builder.cpp				\
 			Texture/Perlin.cpp	    		\
 			Object/HitRecord.cpp			\
 			Material/MaterialFactory.cpp	\
+			Shapes/ShapeFactory.cpp			\
 
 OBJ=$(SRC:.cpp=.o)
 

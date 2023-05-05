@@ -2,13 +2,13 @@
 ** EPITECH PROJECT, 2023
 ** Raytracer
 ** File description:
-** Parser
+** Builder
 */
 
-#include "Parser.hpp"
+#include "Builder.hpp"
 
-namespace Parser {
-    Parser::Parser(std::string path)
+namespace Builder {
+    Builder::Builder(std::string path)
     {
         try {
             _cfg.readFile(path.c_str());
@@ -21,7 +21,7 @@ namespace Parser {
         }
     }
 
-    raytracer::Camera Parser::parseCamera(void)
+    raytracer::Camera Builder::parseCamera(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
         try {
@@ -40,7 +40,7 @@ namespace Parser {
         return raytracer::Camera();
     }
 
-    Math::Vector3D Parser::parseVector3D(const libconfig::Setting &setting)
+    Math::Vector3D Builder::parseVector3D(const libconfig::Setting &setting)
     {
         double x, y, z;
 
@@ -52,13 +52,65 @@ namespace Parser {
         return Math::Vector3D(x, y, z);
     }
 
-    raytracer::Scene Parser::parseScene(void)
+    raytracer::Scene Builder::buildScene(void)
     {
         raytracer::Scene scene;
+        buildSphere(scene);
+        buildRectangle(scene);
         return scene;
     }
 
-    int Parser::getImageHeight(void)
+    void Builder::buildSphere(raytracer::Scene &scene)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        const libconfig::Setting &spheres = root["primitives"]["sphere"];
+        raytracer::ShapeFactory factory;
+
+        for (int i = 0; i < spheres.getLength(); i++) {
+            const libconfig::Setting &sphere = spheres[i];
+            std::shared_ptr<raytracer::IMaterial> material = buildMaterial(sphere["material"]);
+            double radius = sphere["r"];
+            std::shared_ptr<raytracer::IShape> shape = factory.createShape("sphere", parseVector3D(sphere["center"]), radius, material);
+            scene.addObject(shape);
+        }
+    }
+
+    void Builder::buildRectangle(raytracer::Scene &scene)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        const libconfig::Setting &rectangles = root["primitives"]["rectangle"];
+        raytracer::ShapeFactory factory;
+
+        for (int i = 0; i < rectangles.getLength(); i++) {
+            const libconfig::Setting &rect = rectangles[i];
+            std::shared_ptr<raytracer::IMaterial> material = buildMaterial(rect["material"]);
+            std::string axis = rect["axis"];
+            double a = rect["a"], b = rect["b"], c = rect["c"], d = rect["d"], k = rect["k"];
+            std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, a, b, c, d, k, material);
+            scene.addObject(shape);
+        }
+    }
+
+    std::shared_ptr<raytracer::IMaterial> Builder::buildMaterial(std::string name)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        const libconfig::Setting &mat = root["material"][name];
+        raytracer::MaterialFactory factory;
+        std::string type = mat["type"];
+
+        if (type == "lambertian") {
+            return factory.createMaterial(type, parseVector3D(mat["albedo"]));
+        } else if (type == "metal") {
+            return factory.createMaterial(type, parseVector3D(mat["albedo"]), mat["fuzz"]);
+        } else if (type == "dielectric") {
+            return factory.createMaterial(type, mat["refraction"]);
+        } else if (type == "diffuseLight") {
+            return factory.createMaterial(type, parseVector3D(mat["color"]));
+        }
+        return nullptr;
+    }
+
+    int Builder::getImageHeight(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
         try {
@@ -71,7 +123,7 @@ namespace Parser {
         return 0;
     }
 
-    int Parser::getSamplesPerPixel(void)
+    int Builder::getSamplesPerPixel(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
         try {
@@ -84,7 +136,7 @@ namespace Parser {
         return 0;
     }
 
-    int Parser::getMaxDepth(void)
+    int Builder::getMaxDepth(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
         try {
