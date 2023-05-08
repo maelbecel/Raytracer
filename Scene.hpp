@@ -21,6 +21,9 @@
     #include <fstream>
     #include <memory>
 
+    namespace Parser {
+        class Parser;
+    }
     namespace raytracer {
         class Scene {
             public:
@@ -38,6 +41,12 @@
                 std::vector<std::shared_ptr<raytracer::IShape>> getObjects(void) const;
                 double densityValue(const Math::Vector3D &o, const Math::Vector3D &v) const;
                 Math::Vector3D random(const Math::Vector3D &o) const;
+                void ppmRenderer(Parser::Parser &parser, Scene lights);
+                void gifRenderer(Parser::Parser &parser, Scene lights);
+                Scene applyMovement(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> moves, int frame);
+                Scene applyRotation(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> rotations, int frame);
+
+
             protected:
             private:
                 std::vector<std::shared_ptr<raytracer::IShape>> _objects;

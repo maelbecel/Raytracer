@@ -408,4 +408,16 @@ namespace Math {
         auto y = sin(phi) * sqrt(1 - z * z);
         return Vector3D(x, y, z);
     }
+
+    Vector3D &Vector3D::rotate(double angle)
+    {
+        double rad = angle * M_PI / 180.0;
+        double cs = cos(rad);
+        double sn = sin(rad);
+        auto x = cs * _x + sn * _z;
+        auto z = -sn * _x + cs * _z;
+        _x = x;
+        _z = z;
+        return *this;
+    }
 }

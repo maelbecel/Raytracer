@@ -7,6 +7,12 @@
 
 #include "Scene.hpp"
 #include "./Object/HittablePDF.hpp"
+#include "./Shapes/Translation.hpp"
+#include "./Shapes/XRotation.hpp"
+#include "./Shapes/YRotation.hpp"
+#include "./Shapes/ZRotation.hpp"
+#include "./Parser/Parser.hpp"
+#include "GifCreator.hpp"
 #include <exception>
 
 namespace raytracer {
@@ -248,6 +254,152 @@ namespace raytracer {
         auto int_size = static_cast<int>(_objects.size());
         auto index = static_cast<int>(random_double_mm(0, int_size - 1));
         return _objects[index]->random(o);
+    }
+
+
+    /**
+     * La fonction rend une scène à l'aide d'un raytracer et enregistre la sortie
+     * sous forme de fichier image PPM.
+     *
+     * @param parser Référence à un objet Parser qui contient des informations sur
+     * la scène à restituer, telles que la position de la caméra, les positions
+     * des objets et l'éclairage.
+     * @param lights Le paramètre "lights" est une instance de la classe "Scene",
+     * qui représente la scène en cours de rendu et contient des informations sur
+     * les objets et les lumières de la scène. Il est passé en tant que pointeur
+     * partagé à la fonction "rayColor" pour permettre les calculs de lancer de
+     * rayons impliquant les objets et les lumières dans le
+     */
+    void Scene::ppmRenderer(Parser::Parser &parser, Scene lights)
+    {
+        raytracer::Camera cam = parser.parseCamera();
+        const int image_height = parser.getImageHeight();
+        const int image_width = parser.getImageHeight() * cam.getRatio();
+        const int samples_per_pixel = parser.getSamplesPerPixel();
+        const int depth = parser.getMaxDepth();
+        Math::Vector3D background(0, 0, 0);
+
+        std::ofstream _file("Rendu.ppm", std::ios::binary);
+
+        _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
+        for (int j = image_height-1; j >= 0; --j) {
+            std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
+            for (int i = 0; i < image_width; ++i) {
+                Math::Color pixel_color(0, 0, 0);
+                for (int s = 0; s < samples_per_pixel; ++s) {
+                    auto u = (i + random_double()) / (image_width-1);
+                    auto v = (j + random_double()) / (image_height-1);
+                    raytracer::Ray r = cam.getRay(u, v);
+                    pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth);
+                }
+                raytracer::Scene::writePixel(_file, pixel_color, samples_per_pixel);
+            }
+        }
+        std::cerr << "\nDone.\n";
+        _file.close();
+    }
+
+    /**
+     * La fonction applique une liste de traductions à une liste de formes et
+     * renvoie une nouvelle scène avec les formes traduites.
+     *
+     * @param list Un vecteur de pointeurs partagés vers des objets qui
+     * implémentent l'interface IShape. Ces objets représentent les formes de la
+     * scène qui seront traduites.
+     * @param moves move est un vecteur d'objets Math::Vector3D qui représentent
+     * le mouvement de translation à appliquer à chaque forme du vecteur liste. La
+     * taille du vecteur de déplacement doit être égale ou inférieure à la taille
+     * du vecteur de liste.
+     *
+     * @return une nouvelle instance de la classe Scene avec les objets de la
+     * liste d'entrée traduits par les mouvements correspondants dans le vecteur
+     * de mouvements d'entrée.
+     */
+    Scene Scene::applyMovement(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> moves, int frame)
+    {
+        Scene scene;
+        for (size_t i = 0; i < list.size() && i < moves.size(); i++)
+        {
+            scene.addObject(std::make_shared<Translation>(list[i], moves[i] * frame));
+        }
+        return scene;
+    }
+
+    Scene Scene::applyRotation(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> rotations, int frame)
+    {
+        Scene scene;
+        for (size_t i = 0; i < list.size() && i < rotations.size(); i++)
+        {
+            scene.addObject(std::make_shared<XRotation>(std::make_shared<YRotation>(std::make_shared<ZRotation>(list[i], rotations[i].getZ() * frame), rotations[i].getY() * frame), rotations[i].getX() * frame));
+        }
+        return scene;
+    }
+
+
+
+    /**
+     * La fonction rend une animation GIF en générant plusieurs images d'une scène
+     * à l'aide du lancer de rayons.
+     *
+     * @param parser Référence à un objet Parser qui contient des informations sur
+     * la scène à restituer, telles que la position de la caméra, les positions
+     * des objets et l'éclairage.
+     * @param lights Le paramètre "lights" est une instance de la classe Scene,
+     * qui représente la scène contenant tous les objets et sources de lumière de
+     * la scène en cours de rendu. Il est utilisé pour créer un pointeur partagé
+     * vers un objet Scene qui est passé à la fonction rayColor() pour calculer la
+     * couleur de chaque pixel dans le
+     */
+    void Scene::gifRenderer(Parser::Parser &parser, Scene lights)
+    {
+        raytracer::Camera cam = parser.parseCamera();
+        const int image_height = parser.getImageHeight();
+        const int image_width = parser.getImageHeight() * cam.getRatio();
+        const int samples_per_pixel = parser.getSamplesPerPixel();
+        const int depth = parser.getMaxDepth();
+
+        Math::Vector3D background(0, 0, 0);
+        std::vector<Math::Vector3D> moves;
+        moves.push_back(Math::Vector3D(3, 0, 0));
+        moves.push_back(Math::Vector3D(5, 0, 0));
+        std::vector<Math::Vector3D> rotation;
+        rotation.push_back(Math::Vector3D(0, 1, 0));
+
+        for (; moves.size() < this->getObjects().size() ;)
+            moves.push_back(Math::Vector3D(0, 0, 0));
+
+        for (; rotation.size() < this->getObjects().size() ;)
+            rotation.push_back(Math::Vector3D(0, 0, 0));
+
+
+        std::vector<std::string> ppm_buffer;
+        int fps = 24;
+        int time = 5;
+        auto glass = std::make_shared<raytracer::Dielectric>(1.5);
+
+        for (int i = 0; i < fps * time; i++) {
+            std::string file;
+            file += "P6\n";
+            file += std::to_string(image_width) + ' ';
+            file += std::to_string(image_height) + "\n255\n";
+            Scene render = applyMovement(getObjects(), moves, i);
+            render = applyRotation(render.getObjects(), rotation, i);
+            for (int j = image_height-1; j >= 0; --j) {
+                std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << " [" << i << " / " << time * fps << "]" <<' ' << std::flush;
+                for (int i = 0; i < image_width; ++i) {
+                    Math::Color pixel_color(0, 0, 0);
+                    for (int s = 0; s < samples_per_pixel; ++s) {
+                        auto u = (i + random_double()) / (image_width-1);
+                        auto v = (j + random_double()) / (image_height-1);
+                        raytracer::Ray r = cam.getRay(u, v);
+                        pixel_color += render.rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth);
+                    }
+                    raytracer::Scene::writePixel(file, pixel_color, samples_per_pixel);
+                }
+            }
+            ppm_buffer.push_back(file);
+        }
+        raytracer::GifCreator::createGif("Rendu.gif", ppm_buffer, fps);
     }
 
 }
