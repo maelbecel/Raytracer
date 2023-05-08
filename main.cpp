@@ -26,7 +26,7 @@
 #include "Texture/Checker.hpp"
 #include "Texture/Noise.hpp"
 #include "Texture/Image.hpp"
-#include "Parser/Parser.hpp"
+#include "Parser/Builder.hpp"
 #include "Shapes/Triangle.hpp"
 #include "Shapes/Plan.hpp"
 #include "Shapes/AmbientLight.hpp"
@@ -70,7 +70,6 @@ raytracer::Scene room()
 
     objects.addObject(std::make_shared<raytracer::YZRectangle>(0, 555, 0, 555, 555, green));
     objects.addObject(std::make_shared<raytracer::YZRectangle>(0, 555, 0, 555, 0, red));
-    objects.addObject(std::make_shared<raytracer::DirectionnalLight>(std::make_shared<raytracer::XZRectangle>(213, 343, 227, 332, 554, light)));
     objects.addObject(std::make_shared<raytracer::XZRectangle>(0, 555, 0, 555, 555, white));
     objects.addObject(std::make_shared<raytracer::XZRectangle>(0, 555, 0, 555, 0, white));
     objects.addObject(std::make_shared<raytracer::XYRectangle>(0, 555, 0, 555, 555, white));
@@ -85,9 +84,9 @@ raytracer::Scene room()
 
 int main ()
 {
-    // Parser
+    // Builder
 
-    Parser::Parser parser("scene.cfg");
+    Builder::Builder builder("scene.cfg");
     raytracer::Scene world = final_scene();
     raytracer::Scene lights;
     auto white = std::make_shared<raytracer::Lambertian>(Math::Color(0, 0,0));
@@ -97,8 +96,8 @@ int main ()
 
     // Image
 
-    world.ppmRenderer(parser, lights);
-    world.gifRenderer(parser, lights);
+    world.ppmRenderer(builder, lights);
+    world.gifRenderer(builder, lights);
 
     return 0;
 }

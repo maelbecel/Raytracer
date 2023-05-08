@@ -11,7 +11,7 @@
 #include "./Shapes/XRotation.hpp"
 #include "./Shapes/YRotation.hpp"
 #include "./Shapes/ZRotation.hpp"
-#include "./Parser/Parser.hpp"
+#include "./Parser/Builder.hpp"
 #include "GifCreator.hpp"
 #include <exception>
 
@@ -270,7 +270,7 @@ namespace raytracer {
      * partagé à la fonction "rayColor" pour permettre les calculs de lancer de
      * rayons impliquant les objets et les lumières dans le
      */
-    void Scene::ppmRenderer(Parser::Parser &parser, Scene lights)
+    void Scene::ppmRenderer(Builder::Builder &parser, Scene lights)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
@@ -350,7 +350,7 @@ namespace raytracer {
      * vers un objet Scene qui est passé à la fonction rayColor() pour calculer la
      * couleur de chaque pixel dans le
      */
-    void Scene::gifRenderer(Parser::Parser &parser, Scene lights)
+    void Scene::gifRenderer(Builder::Builder &parser, Scene lights)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();

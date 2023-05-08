@@ -8,14 +8,22 @@
 #ifndef SHAPEFACTORY_HPP_
     #define SHAPEFACTORY_HPP_
 
+    #include <memory>
+    #include "../Shapes/IShape.hpp"
+    #include "../Material/IMaterial.hpp"
+    #include "../Shapes/Sphere.hpp"
+    #include "../Shapes/XYRectangle.hpp"
+    #include "../Shapes/XZRectangle.hpp"
+    #include "../Shapes/YZRectangle.hpp"
+
     namespace raytracer {
         class ShapeFactory {
             public:
                 ShapeFactory();
-                ~ShapeFactory();
+                ~ShapeFactory() = default;
 
-                
-
+                std::shared_ptr<IShape> createShape(std::string type, Math::Vector3D center, double radius, std::shared_ptr<IMaterial> material);
+                std::shared_ptr<IShape> createShape(std::string type, std::string axis, double a, double b, double c, double d, double k, std::shared_ptr<IMaterial> material);
             protected:
             private:
         };

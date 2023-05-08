@@ -2,3 +2,7 @@
 *.o
 raytracer
 *.ppm
+vgcore.*
+gmon.out
+*.ppm
+*.gif
