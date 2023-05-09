@@ -39,6 +39,8 @@
                 Math::Vector3D parseVector3D(const libconfig::Setting &setting);
                 void buildSphere(raytracer::Scene &scene);
                 void buildRectangle(raytracer::Scene &scene);
+                void buildLights(raytracer::Scene &scene);
+                void buildBox(raytracer::Scene &scene);
                 std::shared_ptr<raytracer::IMaterial> buildMaterial(std::string name);
         };
     }

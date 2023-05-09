@@ -57,7 +57,45 @@ namespace Builder {
         raytracer::Scene scene;
         buildSphere(scene);
         buildRectangle(scene);
+        buildLights(scene);
+        buildBox(scene);
         return scene;
+    }
+
+    void Builder::buildBox(raytracer::Scene &scene)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        const libconfig::Setting &boxes = root["objects"]["box"];
+        raytracer::ShapeFactory factory;
+
+        try {
+            for (int i = 0; i < boxes.getLength(); i++) {
+                const libconfig::Setting &box = boxes[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(box["material"]);
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("box", parseVector3D(box["max"]), parseVector3D(box["min"]), material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+    }
+
+    void Builder::buildLights(raytracer::Scene &scene)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        const libconfig::Setting &lights = root["objects"]["directionalLight"];
+        raytracer::ShapeFactory factory;
+
+        for (int i = 0; i < lights.getLength(); i++) {
+            const libconfig::Setting &light = lights[i];
+            std::shared_ptr<raytracer::IMaterial> material = buildMaterial(light["material"]);
+            std::string axis = light["axis"];
+            double a = light["a"], b = light["b"], c = light["c"], d = light["d"], k = light["k"];
+            std::shared_ptr<raytracer::IShape> shape = factory.createShape("light", axis, a, b, c, d, k, material);
+            scene.addObject(shape);
+        }
     }
 
     void Builder::buildSphere(raytracer::Scene &scene)

@@ -87,12 +87,12 @@ int main ()
     // Builder
 
     Builder::Builder builder("scene.cfg");
-    raytracer::Scene world = final_scene();
+    raytracer::Scene world = builder.buildScene();
     raytracer::Scene lights;
     auto white = std::make_shared<raytracer::Lambertian>(Math::Color(0, 0,0));
 
     lights.addObject(std::make_shared<raytracer::XZRectangle>(213, 343, 227, 332, 554, white));
-    lights.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(190, 90, 190), 90, white));
+    // lights.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(190, 90, 190), 90, white));
 
     // Image
 
