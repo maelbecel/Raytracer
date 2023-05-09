@@ -12,6 +12,7 @@
 #include "./Shapes/YRotation.hpp"
 #include "./Shapes/ZRotation.hpp"
 #include "./Parser/Builder.hpp"
+#include "./Preview/Preview.hpp"
 #include "GifCreator.hpp"
 #include <exception>
 
@@ -256,6 +257,55 @@ namespace raytracer {
         return _objects[index]->random(o);
     }
 
+
+    /**
+     * La fonction rend une scène à l'aide d'un raytracer et enregistre la sortie
+     * sous forme de fichier image PPM et effectue un rendu de l'image lors du chargement
+     * de celle-ci.
+     *
+     * @param parser Référence à un objet Parser qui contient des informations sur
+     * la scène à restituer, telles que la position de la caméra, les positions
+     * des objets et l'éclairage.
+     * @param lights Le paramètre "lights" est une instance de la classe "Scene",
+     * qui représente la scène en cours de rendu et contient des informations sur
+     * les objets et les lumières de la scène. Il est passé en tant que pointeur
+     * partagé à la fonction "rayColor" pour permettre les calculs de lancer de
+     * rayons impliquant les objets et les lumières de la scène.
+     * @param quality Le paramètre "quality" est un double qui représente la qualité
+     * du preview. Plus la valeur est élevée, plus la qualité est faible.
+     */
+    void Scene::previewRenderer(Builder::Builder &parser, Scene lights, int quality)
+    {
+        raytracer::Camera cam = parser.parseCamera();
+        const int image_height = parser.getImageHeight();
+        const int image_width = parser.getImageHeight() * cam.getRatio();
+        const int samples_per_pixel = parser.getSamplesPerPixel();
+        const int depth = parser.getMaxDepth();
+        Math::Vector3D background(0, 0, 0);
+        Preview preview(image_width, image_height);
+
+        std::ofstream _file("Rendu.ppm", std::ios::binary);
+
+        _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
+        for (int j = image_height-1; j >= 0; --j) {
+            std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
+            for (int i = 0; i < image_width; ++i) {
+                Math::Color pixel_color(0, 0, 0);
+                for (int s = 0; s < samples_per_pixel; ++s) {
+                    auto u = (i + random_double()) / (image_width-1);
+                    auto v = (j + random_double()) / (image_height-1);
+                    raytracer::Ray r = cam.getRay(u, v);
+                    pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth);
+                }
+                raytracer::Scene::writePixel(_file, pixel_color, samples_per_pixel);
+                if (i % quality == 0 && j % quality == 0)
+                    preview.addPixel(pixel_color, i, image_height - j - 1, quality);
+            }
+        }
+        preview.win.close();
+        std::cerr << "\nDone.\n";
+        _file.close();
+    }
 
     /**
      * La fonction rend une scène à l'aide d'un raytracer et enregistre la sortie

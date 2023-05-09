@@ -17,6 +17,7 @@ SRC=		main.cpp 						\
 			Object/HitRecord.cpp			\
 			Material/MaterialFactory.cpp	\
 			Shapes/ShapeFactory.cpp			\
+			Preview/Preview.cpp			\
 
 OBJ=$(SRC:.cpp=.o)
 
@@ -25,7 +26,7 @@ CXXFLAGS= -Wall -Wextra -Werror -Ofast -std=c++17
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) -o $(NAME) $(OBJ) $(CXXFLAGS) -Ofast -lconfig++
+	$(CXX) -o $(NAME) $(OBJ) $(CXXFLAGS) -Ofast -lconfig++ -lsfml-graphics -lsfml-window -lsfml-system
 
 debug: CXXFLAGS += -g -pg
 debug: re

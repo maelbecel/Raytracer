@@ -41,6 +41,7 @@
                 std::vector<std::shared_ptr<raytracer::IShape>> getObjects(void) const;
                 double densityValue(const Math::Vector3D &o, const Math::Vector3D &v) const;
                 Math::Vector3D random(const Math::Vector3D &o) const;
+                void previewRenderer(Builder::Builder &parser, Scene lights, int quality);
                 void ppmRenderer(Builder::Builder &parser, Scene lights);
                 void gifRenderer(Builder::Builder &parser, Scene lights);
                 Scene applyMovement(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> moves, int frame);
