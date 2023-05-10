@@ -138,48 +138,66 @@ namespace Builder {
 
     void Builder::buildLights(raytracer::Scene &scene)
     {
-        const libconfig::Setting &root = _cfg.getRoot();
-        const libconfig::Setting &lights = root["objects"]["directionalLight"];
-        raytracer::ShapeFactory factory;
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &lights = root["objects"]["directionalLight"];
+            raytracer::ShapeFactory factory;
 
-        for (int i = 0; i < lights.getLength(); i++) {
-            const libconfig::Setting &light = lights[i];
-            std::shared_ptr<raytracer::IMaterial> material = buildMaterial(light["material"]);
-            std::string axis = light["axis"];
-            double a = light["a"], b = light["b"], c = light["c"], d = light["d"], k = light["k"];
-            std::shared_ptr<raytracer::IShape> shape = factory.createShape("light", axis, a, b, c, d, k, material);
-            scene.addObject(shape);
+            for (int i = 0; i < lights.getLength(); i++) {
+                const libconfig::Setting &light = lights[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(light["material"]);
+                std::string axis = light["axis"];
+                double a = light["a"], b = light["b"], c = light["c"], d = light["d"], k = light["k"];
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("light", axis, a, b, c, d, k, material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (lights)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
         }
     }
 
     void Builder::buildSphere(raytracer::Scene &scene)
     {
-        const libconfig::Setting &root = _cfg.getRoot();
-        const libconfig::Setting &spheres = root["primitives"]["sphere"];
-        raytracer::ShapeFactory factory;
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &spheres = root["primitives"]["sphere"];
+            raytracer::ShapeFactory factory;
 
-        for (int i = 0; i < spheres.getLength(); i++) {
-            const libconfig::Setting &sphere = spheres[i];
-            std::shared_ptr<raytracer::IMaterial> material = buildMaterial(sphere["material"]);
-            double radius = sphere["r"];
-            std::shared_ptr<raytracer::IShape> shape = factory.createShape("sphere", parseVector3D(sphere["center"]), radius, material);
-            scene.addObject(shape);
+            for (int i = 0; i < spheres.getLength(); i++) {
+                const libconfig::Setting &sphere = spheres[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(sphere["material"]);
+                double radius = sphere["r"];
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("sphere", parseVector3D(sphere["center"]), radius, material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (Sphere)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
         }
     }
 
     void Builder::buildRectangle(raytracer::Scene &scene)
     {
-        const libconfig::Setting &root = _cfg.getRoot();
-        const libconfig::Setting &rectangles = root["primitives"]["rectangle"];
-        raytracer::ShapeFactory factory;
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &rectangles = root["primitives"]["rectangle"];
+            raytracer::ShapeFactory factory;
 
-        for (int i = 0; i < rectangles.getLength(); i++) {
-            const libconfig::Setting &rect = rectangles[i];
-            std::shared_ptr<raytracer::IMaterial> material = buildMaterial(rect["material"]);
-            std::string axis = rect["axis"];
-            double a = rect["a"], b = rect["b"], c = rect["c"], d = rect["d"], k = rect["k"];
-            std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, a, b, c, d, k, material);
-            scene.addObject(shape);
+            for (int i = 0; i < rectangles.getLength(); i++) {
+                const libconfig::Setting &rect = rectangles[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(rect["material"]);
+                std::string axis = rect["axis"];
+                double a = rect["a"], b = rect["b"], c = rect["c"], d = rect["d"], k = rect["k"];
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, a, b, c, d, k, material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (Rectangle)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
         }
     }
 
