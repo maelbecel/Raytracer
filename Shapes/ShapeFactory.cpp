@@ -14,6 +14,17 @@ namespace raytracer {
     {
         if (type == "sphere")
             return std::make_shared<Sphere>(center, radius, material);
+        if (type == "cone")
+            return std::make_shared<Cone>(center, radius, material);
+        if (type == "cylinder")
+            return std::make_shared<Cylinder>(center, radius, material);
+        return nullptr;
+    }
+
+    std::shared_ptr<IShape> ShapeFactory::createShape(std::string type, Math::Vector3D center, double radius, double height, std::shared_ptr<IMaterial> material)
+    {
+        if (type == "cylinder")
+            return std::make_shared<LimitedCylinder>(center, radius, height, material);
         return nullptr;
     }
 

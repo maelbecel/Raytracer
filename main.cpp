@@ -96,8 +96,8 @@ int main ()
 
     // Image
 
-    // world.ppmRenderer(builder, lights);
-    world.previewRenderer(builder, lights, 3);
+    world.ppmRenderer(builder, lights);
+    // world.previewRenderer(builder, lights, 3);
     // world.gifRenderer(builder, lights);
 
     return 0;

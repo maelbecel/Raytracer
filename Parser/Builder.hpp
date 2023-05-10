@@ -41,6 +41,8 @@
                 void buildRectangle(raytracer::Scene &scene);
                 void buildLights(raytracer::Scene &scene);
                 void buildBox(raytracer::Scene &scene);
+                void buildCylinder(raytracer::Scene &scene);
+                void buildCone(raytracer::Scene &scene);
                 std::shared_ptr<raytracer::IMaterial> buildMaterial(std::string name);
         };
     }

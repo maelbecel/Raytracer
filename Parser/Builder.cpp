@@ -59,16 +59,70 @@ namespace Builder {
         buildRectangle(scene);
         buildLights(scene);
         buildBox(scene);
+        buildCylinder(scene);
+        buildCone(scene);
         return scene;
+    }
+
+    void Builder::buildCone(raytracer::Scene& scene)
+    {
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &cones = root["primitives"]["cone"];
+            raytracer::ShapeFactory factory;
+            for (int i = 0; i < cones.getLength(); i++) {
+                const libconfig::Setting &cone = cones[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(cone["material"]);
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("cone", parseVector3D(cone["center"]), cone["angle"], material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (cone)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+    }
+
+    void Builder::buildCylinder(raytracer::Scene &scene)
+    {
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &cylinders = root["primitives"]["limitedCylinder"];
+            raytracer::ShapeFactory factory;
+            for (int i = 0; i < cylinders.getLength(); i++) {
+                const libconfig::Setting &cylinder = cylinders[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(cylinder["material"]);
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("cylinder", parseVector3D(cylinder["center"]), cylinder["radius"], cylinder["height"], material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (limited cylinder)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &cylinders = root["primitives"]["cylinder"];
+            raytracer::ShapeFactory factory;
+            for (int i = 0; i < cylinders.getLength(); i++) {
+                const libconfig::Setting &cylinder = cylinders[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(cylinder["material"]);
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("cylinder", parseVector3D(cylinder["center"]), cylinder["radius"], material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (cylinder)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
     }
 
     void Builder::buildBox(raytracer::Scene &scene)
     {
-        const libconfig::Setting &root = _cfg.getRoot();
-        const libconfig::Setting &boxes = root["objects"]["box"];
-        raytracer::ShapeFactory factory;
-
         try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &boxes = root["objects"]["box"];
+            raytracer::ShapeFactory factory;
             for (int i = 0; i < boxes.getLength(); i++) {
                 const libconfig::Setting &box = boxes[i];
                 std::shared_ptr<raytracer::IMaterial> material = buildMaterial(box["material"]);
@@ -76,7 +130,7 @@ namespace Builder {
                 scene.addObject(shape);
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
-            std::cerr << "Setting not found." << std::endl;
+            std::cerr << "Setting not found (box)." << std::endl;
         } catch (const libconfig::SettingTypeException &stex) {
             std::cerr << "Setting type mismatch." << std::endl;
         }
