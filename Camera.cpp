@@ -55,6 +55,8 @@ namespace raytracer {
         _lens_radius = aperture / 2;
         time0 = t0;
         time1 = t1;
+        _from = from;
+        _direction = Math::Vector3D(at.getX() - from.getX(), at.getY() - from.getY(), at.getZ() - from.getZ());
     }
 
     /**

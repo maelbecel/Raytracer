@@ -114,7 +114,7 @@ namespace raytracer {
      * @return a Math::Color value, which represents the color of the ray after it
      * has interacted with objects in the scene.
      */
-    Math::Color Scene::rayColor(Ray r, const Math::Color &background, std::shared_ptr<Scene> lights, int depth)
+    Math::Color Scene::rayColor(Ray r, const Math::Color &background, std::shared_ptr<Scene> lights, int depth, Math::Color ambiant)
     {
         HitRecord rec;
 
@@ -130,14 +130,19 @@ namespace raytracer {
             return emitted;
 
         if (srec.is_specular)
-            return srec.attenuation * rayColor(srec.specular, background, lights, depth - 1);
+            return srec.attenuation * rayColor(srec.specular, background, lights, depth - 1, ambiant);
 
         std::shared_ptr<IDensity> light = std::make_shared<HittablePDF>(lights, rec.getP());
         Mix p(light, srec.density_ptr);
         Ray scattered = Ray(rec.getP(), p.generate(), r.time());
         auto pdf = p.value(scattered.Direction);
+        //std::cerr << "[" << depth << "] At = " << srec.attenuation << "\tPdf = "<< pdf << "\tscat = " << rec.getMaterial()->scatter_pdf(r, rec, scattered) << std::endl;
 
-        return emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1) / pdf;
+        auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1, ambiant) / pdf;
+        // auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1, ambiant) / pdf;
+        // std::cerr << "[" << depth << "]" << emitted << " + " << srec.attenuation << " * "<< rayColor(scattered, background, lights, depth - 1, ambiant)<< " / " << pdf << " = " << x << std::endl;
+        // std::cerr << "[" << depth << "]" << emitted << " + " << srec.attenuation << " * "<< rec.getMaterial()->scatter_pdf(r, rec, scattered)<< " * "<<rayColor(scattered, background, lights, depth - 1, ambiant)<< " / " << pdf << " = " << x << std::endl;
+        return x;
     }
 
     /**
@@ -257,24 +262,27 @@ namespace raytracer {
         return _objects[index]->random(o);
     }
 
-
     /**
-     * La fonction rend une scène à l'aide d'un raytracer et enregistre la sortie
-     * sous forme de fichier image PPM et effectue un rendu de l'image lors du chargement
-     * de celle-ci.
+     * The function generates a preview of a rendered scene using ray tracing.
      *
-     * @param parser Référence à un objet Parser qui contient des informations sur
-     * la scène à restituer, telles que la position de la caméra, les positions
-     * des objets et l'éclairage.
-     * @param lights Le paramètre "lights" est une instance de la classe "Scene",
-     * qui représente la scène en cours de rendu et contient des informations sur
-     * les objets et les lumières de la scène. Il est passé en tant que pointeur
-     * partagé à la fonction "rayColor" pour permettre les calculs de lancer de
-     * rayons impliquant les objets et les lumières de la scène.
-     * @param quality Le paramètre "quality" est un double qui représente la qualité
-     * du preview. Plus la valeur est élevée, plus la qualité est faible.
+     * @param parser A reference to a Builder object used to parse the scene file
+     * and extract relevant information such as camera settings, image dimensions,
+     * and rendering options.
+     * @param lights The `lights` parameter is an instance of the `Scene` class,
+     * which represents the scene containing all the objects and lights in the
+     * scene being rendered. It is passed as a shared pointer to the `rayColor`
+     * function to calculate the color of each pixel.
+     * @param quality The quality parameter is used to determine the level of
+     * detail in the preview image. It specifies the number of pixels that are
+     * skipped between each pixel that is actually rendered. A higher quality
+     * value will result in a lower resolution preview image, but will also render
+     * faster.
+     * @param ambiant The ambiant parameter is a Math::Color object that
+     * represents the ambient light in the scene. It is used in the rayColor
+     * function to calculate the color of a pixel based on the ambient light in
+     * the scene.
      */
-    void Scene::previewRenderer(Builder::Builder &parser, Scene lights, int quality)
+    void Scene::previewRenderer(Builder::Builder &parser, Scene lights, int quality, Math::Color ambiant)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
@@ -295,7 +303,7 @@ namespace raytracer {
                     auto u = (i + random_double()) / (image_width-1);
                     auto v = (j + random_double()) / (image_height-1);
                     raytracer::Ray r = cam.getRay(u, v);
-                    pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth);
+                    pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
                 }
                 raytracer::Scene::writePixel(_file, pixel_color, samples_per_pixel);
                 if (i % quality == 0 && j % quality == 0)
@@ -308,26 +316,30 @@ namespace raytracer {
     }
 
     /**
-     * La fonction rend une scène à l'aide d'un raytracer et enregistre la sortie
-     * sous forme de fichier image PPM.
+     * The function `ppmRenderer` renders a scene using the PPM image format and
+     * writes it to a file.
      *
-     * @param parser Référence à un objet Parser qui contient des informations sur
-     * la scène à restituer, telles que la position de la caméra, les positions
-     * des objets et l'éclairage.
-     * @param lights Le paramètre "lights" est une instance de la classe "Scene",
-     * qui représente la scène en cours de rendu et contient des informations sur
-     * les objets et les lumières de la scène. Il est passé en tant que pointeur
-     * partagé à la fonction "rayColor" pour permettre les calculs de lancer de
-     * rayons impliquant les objets et les lumières dans le
+     * @param parser An instance of the Builder class used to parse the scene file
+     * and extract relevant information such as camera position, image dimensions,
+     * and maximum depth for ray tracing.
+     * @param lights The `lights` parameter is an instance of the `Scene` class,
+     * which represents the scene containing all the objects and lights in the
+     * scene being rendered. It is used to compute the lighting and shading of the
+     * objects in the scene.
+     * @param ambiant The ambient color of the scene.
      */
-    void Scene::ppmRenderer(Builder::Builder &parser, Scene lights)
+    void Scene::ppmRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
         const int image_width = parser.getImageHeight() * cam.getRatio();
         const int samples_per_pixel = parser.getSamplesPerPixel();
         const int depth = parser.getMaxDepth();
-        Math::Vector3D background(0, 0, 0);
+        Math::Vector3D background(.1, .1, .2);
+        auto light = std::make_shared<raytracer::DiffuseLight>(ambiant);
+        addObject(std::make_shared<raytracer::Sphere>(cam.getPos() + cam.getDirection() * -1, 99, light));
+
+        std::cerr << "Light at " << cam.getPos() + cam.getDirection() * - 1 << " from " << cam.getPos() << " and dir " << cam.getDirection() <<  std::endl;
 
         std::ofstream _file("Rendu.ppm", std::ios::binary);
 
@@ -340,7 +352,9 @@ namespace raytracer {
                     auto u = (i + random_double()) / (image_width-1);
                     auto v = (j + random_double()) / (image_height-1);
                     raytracer::Ray r = cam.getRay(u, v);
-                    pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth);
+                    auto p = rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
+                    //std::cerr << "============================================================================\n[" << i << "][" << j << "] p = " << p << "\tpixel = "<< pixel_color << "\n=======================================================================================" << std::endl;
+                    pixel_color += p;
                 }
                 raytracer::Scene::writePixel(_file, pixel_color, samples_per_pixel);
             }
@@ -350,20 +364,22 @@ namespace raytracer {
     }
 
     /**
-     * La fonction applique une liste de traductions à une liste de formes et
-     * renvoie une nouvelle scène avec les formes traduites.
+     * The function applies a movement to a list of shapes based on a vector of
+     * moves and a frame number.
      *
-     * @param list Un vecteur de pointeurs partagés vers des objets qui
-     * implémentent l'interface IShape. Ces objets représentent les formes de la
-     * scène qui seront traduites.
-     * @param moves move est un vecteur d'objets Math::Vector3D qui représentent
-     * le mouvement de translation à appliquer à chaque forme du vecteur liste. La
-     * taille du vecteur de déplacement doit être égale ou inférieure à la taille
-     * du vecteur de liste.
+     * @param list A vector of shared pointers to objects that implement the
+     * IShape interface. These objects represent the shapes that will be moved in
+     * the scene.
+     * @param moves moves is a vector of Math::Vector3D objects representing the
+     * amount of movement to apply to each shape in the list. The movement is
+     * multiplied by the frame parameter to determine the total amount of movement
+     * to apply.
+     * @param frame The parameter "frame" represents the current frame of the
+     * animation. It is used to calculate the amount of movement to apply to each
+     * shape in the list based on the corresponding vector in the "moves" vector.
      *
-     * @return une nouvelle instance de la classe Scene avec les objets de la
-     * liste d'entrée traduits par les mouvements correspondants dans le vecteur
-     * de mouvements d'entrée.
+     * @return a new instance of the Scene class with objects that have been
+     * translated according to the moves vector and the current frame.
      */
     Scene Scene::applyMovement(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> moves, int frame)
     {
@@ -375,6 +391,23 @@ namespace raytracer {
         return scene;
     }
 
+    /**
+     * The function applies rotations to a list of shapes and returns a new scene
+     * with the rotated shapes.
+     *
+     * @param list A vector of shared pointers to objects that implement the
+     * IShape interface. These objects represent the shapes that will be rotated.
+     * @param rotations The `rotations` parameter is a vector of `Math::Vector3D`
+     * objects that represent the rotation angles to be applied to each shape in
+     * the `list` vector. The `x` component of the vector represents the rotation
+     * angle around the x-axis, the `y` component represents the
+     * @param frame The "frame" parameter is an integer value that represents the
+     * current frame of an animation. It is used to calculate the amount of
+     * rotation to apply to each shape in the "list" parameter based on the
+     * corresponding rotation vector in the "rotations" parameter.
+     *
+     * @return a `Scene` object.
+     */
     Scene Scene::applyRotation(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> rotations, int frame)
     {
         Scene scene;
@@ -385,22 +418,20 @@ namespace raytracer {
         return scene;
     }
 
-
-
     /**
-     * La fonction rend une animation GIF en générant plusieurs images d'une scène
-     * à l'aide du lancer de rayons.
+     * The function `gifRenderer` renders a scene as a GIF animation by applying
+     * movement and rotation to objects and using ray tracing to generate pixel
+     * colors.
      *
-     * @param parser Référence à un objet Parser qui contient des informations sur
-     * la scène à restituer, telles que la position de la caméra, les positions
-     * des objets et l'éclairage.
-     * @param lights Le paramètre "lights" est une instance de la classe Scene,
-     * qui représente la scène contenant tous les objets et sources de lumière de
-     * la scène en cours de rendu. Il est utilisé pour créer un pointeur partagé
-     * vers un objet Scene qui est passé à la fonction rayColor() pour calculer la
-     * couleur de chaque pixel dans le
+     * @param parser An instance of the Builder class used to parse the scene
+     * description file and extract relevant information such as camera settings,
+     * image dimensions, samples per pixel, and maximum recursion depth.
+     * @param lights The `lights` parameter is an instance of the `Scene` class,
+     * which represents the scene containing all the light sources in the scene
+     * being rendered.
+     * @param ambiant The ambient color of the scene.
      */
-    void Scene::gifRenderer(Builder::Builder &parser, Scene lights)
+    void Scene::gifRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
@@ -442,7 +473,7 @@ namespace raytracer {
                         auto u = (i + random_double()) / (image_width-1);
                         auto v = (j + random_double()) / (image_height-1);
                         raytracer::Ray r = cam.getRay(u, v);
-                        pixel_color += render.rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth);
+                        pixel_color += render.rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
                     }
                     raytracer::Scene::writePixel(file, pixel_color, samples_per_pixel);
                 }

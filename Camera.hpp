@@ -18,6 +18,8 @@
                 Camera(Math::Vector3D from, Math::Vector3D at, Math::Vector3D vup, double vfov, double ratio, double aperture, double focus, double t0, double t1);
                 Ray getRay(double s, double t) const;
                 double getRatio(void) const {return _ratio;};
+                Math::Vector3D getDirection(void) const {return _direction;};
+                Math::Vector3D getPos(void) const {return _from;};
 
                 ~Camera() = default;
             private:
@@ -29,6 +31,8 @@
                 double time0, time1;
                 double _lens_radius;
                 double _ratio;
+                Math::Vector3D _direction;
+                Math::Vector3D _from;
         };
     }
 
