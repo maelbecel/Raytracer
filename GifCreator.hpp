@@ -13,6 +13,7 @@
     #include <vector>
     #include <sstream>
     #include <cstdio>
+    #include "CommandRunner.hpp"
 
     namespace raytracer {
         class GifCreator {
@@ -38,12 +39,11 @@
                     }
                     convert_command << filename;
 
-                    FILE* pipe = popen(convert_command.str().c_str(), "r");
-                    if (!pipe) {
-                        std::cerr << "Failed to create GIF: popen failed\n";
-                        return;
+                    try {
+                        CommandRunner::run(convert_command.str());
+                    } catch (const std::exception& e) {
+                        std::cerr << e.what() <<std::endl;
                     }
-                    pclose(pipe);
 
                     // Step 3: Delete the temporary PPM files
                     for (size_t i = 0; i < ppm_filenames.size(); i++) {

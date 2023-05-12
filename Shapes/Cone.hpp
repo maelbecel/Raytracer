@@ -76,7 +76,7 @@
                 double _radius;
                 std::shared_ptr<IMaterial> _material;
                 static void get_cone_uv(const Math::Vector3D &p, double &u, double &v) {
-                    double theta = acos(-p.getY());
+                    double theta = std::acos(-p.getY());
                     double phi = atan2(-p.getZ(), p.getX()) + M_PI;
 
                     u = phi / (2 * M_PI);

@@ -14,6 +14,7 @@
 #include "./Parser/Builder.hpp"
 #include "./Preview/Preview.hpp"
 #include "GifCreator.hpp"
+#include "CommandRunner.hpp"
 #include <exception>
 
 namespace raytracer {
@@ -358,7 +359,6 @@ namespace raytracer {
         std::ofstream _file("Rendu.ppm", std::ios::binary);
 
         _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
-        Math::Vector3D background = parser.getBackground();
         for (int j = image_height-1; j >= 0; --j) {
             std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
             for (int i = 0; i < image_width; ++i) {
@@ -453,8 +453,10 @@ namespace raytracer {
         const int image_width = parser.getImageHeight() * cam.getRatio();
         const int samples_per_pixel = parser.getSamplesPerPixel();
         const int depth = parser.getMaxDepth();
-
         Math::Vector3D background = parser.getBackground();
+
+        if (!CommandRunner::isCommandExist("convert"))
+            throw CommandRunner::RunError::CommandNotFound("convert");
         std::vector<Math::Vector3D> moves;
         moves.push_back(Math::Vector3D(3, 0, 0));
         moves.push_back(Math::Vector3D(5, 0, 0));

@@ -96,9 +96,14 @@ int main ()
 
     // Image
 
-    world.ppmRenderer(builder, lights, ambiant);
     // world.previewRenderer(builder, lights, 3);
-    // world.gifRenderer(builder, lights);
-
+    switch (builder.getFileType()) {
+        case Builder::PPM : world.ppmRenderer(builder, lights, ambiant);
+            break;
+        case Builder::GIF : world.gifRenderer(builder, lights, ambiant);
+            break;
+        default : world.ppmRenderer(builder, lights, ambiant);
+            break;
+    }
     return 0;
 }

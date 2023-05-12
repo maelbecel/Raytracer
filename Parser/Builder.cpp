@@ -77,6 +77,20 @@ namespace Builder {
         return Math::Vector3D(0, 0, 0);
     }
 
+    fileType_e Builder::getFileType(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            std::string name = root["image"]["type"][0];
+            if      (name == "ppm") return PPM;
+            else if (name == "gif") return GIF;
+            else                    return PPM;
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (Image type)." << std::endl;
+        }
+        return PPM;
+    }
+
     /**
      * The function parses camera settings from a configuration file and returns a
      * camera object.

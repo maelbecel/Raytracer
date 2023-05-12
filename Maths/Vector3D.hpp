@@ -12,11 +12,12 @@
     #include <stdlib.h>
     #include <iostream>
     #include <cmath>
+    #include <cstdlib>
 
     using std::sqrt;
 
     #define CLAMP(x, min, max) (x < min) ? min : (x > max) ? max : x
-    #define random_double() rand() / (RAND_MAX + 1.0)
+    #define random_double() std::rand() / (RAND_MAX + 1.0)
     #define random_double_mm(min, max) min + (max - min) * random_double()
 
 

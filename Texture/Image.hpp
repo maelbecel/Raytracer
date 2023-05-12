@@ -10,8 +10,6 @@
 
     #include "ITexture.hpp"
     #include <iostream>
-    #define STB_IMAGE_IMPLEMENTATION
-    #include "stb_image.hpp"
 
     namespace raytracer {
         class Image : public ITexture {
@@ -22,7 +20,7 @@
                 Image(const char *filename) {
                     auto components_pixel = bytes_pixel;
 
-                    data = stbi_load(filename, &width, &height, &components_pixel, components_pixel);
+                    data = load_img(filename, &width, &height, &components_pixel);
 
                     if (!data) {
                         std::cerr << "Failed to load '" << filename << "'.\n";
@@ -35,6 +33,43 @@
 
                 ~Image() {
                     delete data;
+                }
+
+                unsigned char* load_img(const char* filename, int* width, int* height, int* comp)
+                {
+                    FILE* fp = fopen(filename, "rb");
+                    if (!fp) {
+                        return nullptr;
+                    }
+                    unsigned char header[54];
+                    if (fread(header, sizeof(unsigned char), 54, fp) != 54) {
+                        fclose(fp);
+                        return nullptr;
+                    }
+                    *width = *(int*)&header[18];
+                    *height = *(int*)&header[22];
+                    int bpp = *(int*)&header[28];
+                    *comp = bpp / 8;
+
+                    unsigned char* img_data = new unsigned char[*width * *height * *comp];
+                    size_t row_size = (*width * bpp + 31) / 32 * 4;
+                    unsigned char* row = new unsigned char[row_size];
+                    for (int y = 0; y < *height; y++) {
+                        if (fread(row, sizeof(unsigned char), row_size, fp) != row_size) {
+                            delete[] img_data;
+                            delete[] row;
+                            fclose(fp);
+                            return nullptr;
+                        }
+                        for (int x = 0; x < *width; x++) {
+                            for (int c = 0; c < *comp; c++) {
+                                img_data[(y * *width + x) * *comp + c] = row[x * *comp + *comp - c - 1];
+                            }
+                        }
+                    }
+                    delete[] row;
+                    fclose(fp);
+                    return img_data;
                 }
 
                 virtual Math::Color value(double u, double v, UNUSED const Math::Vector3D &p) const override {

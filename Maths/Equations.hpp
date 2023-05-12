@@ -83,7 +83,7 @@ namespace Math {
                 }
                 else if (D < 0)
                 {
-                    double phi = 1.0 / 3 * acos(-q / sqrt(-cb_p));
+                    double phi = 1.0 / 3 * std::acos(-q / sqrt(-cb_p));
                     double t = 2 * sqrt(-p);
 
                     solutions.push_back(t * cos(phi));

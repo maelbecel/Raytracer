@@ -23,6 +23,10 @@
     #include "../Shapes/YZRectangle.hpp"
 
     namespace Builder {
+        enum fileType_e {
+            PPM,
+            GIF
+        };
         class Builder {
             public:
                 Builder(std::string path);
@@ -35,6 +39,7 @@
                 int getMaxDepth(void);
                 Math::Color getAmbient(void);
                 Math::Color getBackground(void);
+                fileType_e getFileType(void);
             protected:
             private:
                 libconfig::Config _cfg;
