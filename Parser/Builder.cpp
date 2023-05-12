@@ -8,6 +8,17 @@
 #include "Builder.hpp"
 
 namespace Builder {
+    /**
+     * The function reads a configuration file and handles any exceptions that may
+     * occur during the process.
+     *
+     * @param path The path parameter is a string that represents the file path of
+     * the configuration file that the Builder object will read.
+     *
+     * @return If an exception is caught, the function will return without doing
+     * anything. If no exception is caught, the function will continue executing
+     * without returning anything.
+     */
     Builder::Builder(std::string path)
     {
         try {
@@ -21,6 +32,59 @@ namespace Builder {
         }
     }
 
+    /**
+     * The function returns the ambient light color from a configuration file.
+     *
+     * @return a Math::Color object, which is constructed from a Math::Vector3D
+     * object that is parsed from a configuration file setting called
+     * "ambientLight". If the setting is not found or there is a type mismatch, an
+     * error message is printed to the console and a default Math::Vector3D object
+     * with values (0, 0, 0) is returned.
+     */
+    Math::Color Builder::getAmbient(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return Math::Vector3D(parseVector3D(root["objects"]["ambientLight"]));
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (ambientLight)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return Math::Vector3D(0, 0, 0);
+    }
+
+    /**
+     * The function returns the background color of an image specified in a
+     * configuration file.
+     *
+     * @return a Math::Color object, which is constructed from a Math::Vector3D
+     * object that is parsed from a configuration file setting for the background
+     * color of an image. If the setting is not found or there is a type mismatch,
+     * an error message is printed to the console and a default black color is
+     * returned.
+     */
+    Math::Color Builder::getBackground(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return Math::Vector3D(parseVector3D(root["image"]["background"]));
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (Background)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return Math::Vector3D(0, 0, 0);
+    }
+
+    /**
+     * The function parses camera settings from a configuration file and returns a
+     * camera object.
+     *
+     * @return The function `parseCamera` returns a `raytracer::Camera` object. If
+     * there is an exception caught, it returns a default-constructed
+     * `raytracer::Camera` object.
+     */
     raytracer::Camera Builder::parseCamera(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
@@ -40,6 +104,18 @@ namespace Builder {
         return raytracer::Camera();
     }
 
+    /**
+     * The function parses a libconfig Setting object and returns a Math::Vector3D
+     * object with its x, y, and z values.
+     *
+     * @param setting `setting` is a reference to a `libconfig::Setting` object,
+     * which is a node in a configuration file. It is used to retrieve the values
+     * of a Vector3D object in the configuration file.
+     *
+     * @return The function `parseVector3D` is returning a `Math::Vector3D` object
+     * with the x, y, and z values parsed from the `libconfig::Setting` object
+     * passed as a parameter.
+     */
     Math::Vector3D Builder::parseVector3D(const libconfig::Setting &setting)
     {
         double x, y, z;
@@ -52,6 +128,13 @@ namespace Builder {
         return Math::Vector3D(x, y, z);
     }
 
+    /**
+     * The function builds a raytracer scene by adding various objects and lights
+     * to it.
+     *
+     * @return The function `buildScene` is returning an object of type
+     * `raytracer::Scene`.
+     */
     raytracer::Scene Builder::buildScene(void)
     {
         raytracer::Scene scene;
@@ -64,6 +147,14 @@ namespace Builder {
         return scene;
     }
 
+    /**
+     * The function builds cone shapes with specified materials and adds them to a
+     * scene.
+     *
+     * @param scene The `scene` parameter is a reference to a `raytracer::Scene`
+     * object, which represents the 3D scene being rendered by the raytracer. The
+     * `buildCone` function adds cone objects to this scene.
+     */
     void Builder::buildCone(raytracer::Scene& scene)
     {
         try {
@@ -83,6 +174,13 @@ namespace Builder {
         }
     }
 
+    /**
+     * The function builds cylinder shapes with specified materials and dimensions
+     * and adds them to a scene.
+     *
+     * @param scene The `scene` parameter is a reference to a `raytracer::Scene`
+     * object, which is where the created objects will be added to.
+     */
     void Builder::buildCylinder(raytracer::Scene &scene)
     {
         try {
@@ -117,6 +215,13 @@ namespace Builder {
         }
     }
 
+    /**
+     * This function builds a box object in a raytracer scene using settings from
+     * a configuration file.
+     *
+     * @param scene A reference to a raytracer::Scene object, which represents the
+     * scene being built.
+     */
     void Builder::buildBox(raytracer::Scene &scene)
     {
         try {
@@ -136,6 +241,13 @@ namespace Builder {
         }
     }
 
+    /**
+     * The function builds directional lights for a raytracer scene using settings
+     * from a configuration file.
+     *
+     * @param scene A reference to a raytracer::Scene object that will be modified
+     * by adding new objects to it.
+     */
     void Builder::buildLights(raytracer::Scene &scene)
     {
         try {
@@ -158,6 +270,13 @@ namespace Builder {
         }
     }
 
+    /**
+     * This function builds spheres with specified materials and adds them to a
+     * scene.
+     *
+     * @param scene A reference to a raytracer::Scene object, which represents the
+     * scene being built.
+     */
     void Builder::buildSphere(raytracer::Scene &scene)
     {
         try {
@@ -179,6 +298,13 @@ namespace Builder {
         }
     }
 
+    /**
+     * The function builds rectangles with specified dimensions and materials and
+     * adds them to a scene.
+     *
+     * @param scene A reference to a raytracer::Scene object, which represents the
+     * scene being built.
+     */
     void Builder::buildRectangle(raytracer::Scene &scene)
     {
         try {
@@ -201,6 +327,18 @@ namespace Builder {
         }
     }
 
+    /**
+     * The function builds a material object based on the type and properties
+     * specified in a configuration file.
+     *
+     * @param name The name of the material to be built, as specified in the
+     * configuration file.
+     *
+     * @return A `std::shared_ptr` to an object of type `raytracer::IMaterial`.
+     * The specific type of material being returned depends on the value of the
+     * `type` variable and the corresponding `if` statement that is executed. If
+     * none of the `if` statements match, then a `nullptr` is returned.
+     */
     std::shared_ptr<raytracer::IMaterial> Builder::buildMaterial(std::string name)
     {
         const libconfig::Setting &root = _cfg.getRoot();
@@ -220,6 +358,14 @@ namespace Builder {
         return nullptr;
     }
 
+    /**
+     * This function retrieves the height of an image from a configuration file
+     * using the libconfig library in C++.
+     *
+     * @return an integer value which represents the height of an image. However,
+     * if the height setting is not found or if there is a type mismatch, the
+     * function will return 0.
+     */
     int Builder::getImageHeight(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
@@ -233,6 +379,14 @@ namespace Builder {
         return 0;
     }
 
+    /**
+     * This function retrieves the number of samples per pixel from a
+     * configuration file.
+     *
+     * @return an integer value which represents the number of samples per pixel.
+     * If the value is not found or there is a type mismatch, the function returns
+     * 0.
+     */
     int Builder::getSamplesPerPixel(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
@@ -246,6 +400,12 @@ namespace Builder {
         return 0;
     }
 
+    /**
+     * This function retrieves the maximum depth value from a configuration file.
+     *
+     * @return an integer value which represents the maximum depth of an image. If
+     * the value is not found or there is a type mismatch, the function returns 0.
+     */
     int Builder::getMaxDepth(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();

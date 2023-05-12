@@ -48,6 +48,18 @@ namespace raytracer {
         out.put(static_cast<int>(256 * b));
     }
 
+    /**
+     * The function writes a pixel color to a buffer with a specified number of
+     * samples and applies gamma correction.
+     *
+     * @param buffer A reference to a string that will store the pixel data in the
+     * form of RGB values.
+     * @param pixel A Math::Color object representing the color of a pixel in the
+     * scene.
+     * @param samples The number of samples taken for each pixel to calculate the
+     * final color value. This is used to scale the color values before writing
+     * them to the output buffer.
+     */
     void Scene::writePixel(std::string &buffer, Math::Color pixel, int samples)
     {
         auto r = pixel.getX();
@@ -289,7 +301,8 @@ namespace raytracer {
         const int image_width = parser.getImageHeight() * cam.getRatio();
         const int samples_per_pixel = parser.getSamplesPerPixel();
         const int depth = parser.getMaxDepth();
-        Math::Vector3D background(0, 0, 0);
+        Math::Vector3D background = parser.getBackground();
+
         Preview preview(image_width, image_height);
 
         std::ofstream _file("Rendu.ppm", std::ios::binary);
@@ -335,7 +348,8 @@ namespace raytracer {
         const int image_width = parser.getImageHeight() * cam.getRatio();
         const int samples_per_pixel = parser.getSamplesPerPixel();
         const int depth = parser.getMaxDepth();
-        Math::Vector3D background(.1, .1, .2);
+        Math::Vector3D background = parser.getBackground();
+
         auto light = std::make_shared<raytracer::DiffuseLight>(ambiant);
         addObject(std::make_shared<raytracer::Sphere>(cam.getPos() + cam.getDirection() * -1, 99, light));
 
@@ -344,6 +358,7 @@ namespace raytracer {
         std::ofstream _file("Rendu.ppm", std::ios::binary);
 
         _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
+        Math::Vector3D background = parser.getBackground();
         for (int j = image_height-1; j >= 0; --j) {
             std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
             for (int i = 0; i < image_width; ++i) {
@@ -439,7 +454,7 @@ namespace raytracer {
         const int samples_per_pixel = parser.getSamplesPerPixel();
         const int depth = parser.getMaxDepth();
 
-        Math::Vector3D background(0, 0, 0);
+        Math::Vector3D background = parser.getBackground();
         std::vector<Math::Vector3D> moves;
         moves.push_back(Math::Vector3D(3, 0, 0));
         moves.push_back(Math::Vector3D(5, 0, 0));

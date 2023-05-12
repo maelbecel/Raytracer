@@ -33,6 +33,8 @@
                 int getImageHeight(void);
                 int getSamplesPerPixel(void);
                 int getMaxDepth(void);
+                Math::Color getAmbient(void);
+                Math::Color getBackground(void);
             protected:
             private:
                 libconfig::Config _cfg;

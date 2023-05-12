@@ -6,6 +6,8 @@
 */
 
 #include "Perlin.hpp"
+#include <memory>
+#include <vector>
 
 namespace raytracer {
 
@@ -37,16 +39,17 @@ namespace raytracer {
      * integer array `p`. The array `p` contains a permutation of integers from 0
      * to `point_count-1`.
      */
-    int *Perlin::perlin_generate_perm(void)
+    std::vector<int> Perlin::perlin_generate_perm(void)
     {
-        auto p = new int[point_count];
+        std::vector<int> p(point_count);
 
-        for(int i = 0; i < Perlin::point_count; i++)
+        for (int i = 0; i < point_count; i++) {
             p[i] = i;
+        }
 
-        permute(p, point_count);
+        permute(p.data(), point_count);
+
         return p;
-
     }
 
     /**
@@ -55,9 +58,12 @@ namespace raytracer {
      */
     Perlin::Perlin()
     {
-        randv = new Math::Vector3D[point_count];
-        for (int i = 0; i < point_count; ++i)
-            randv[i] = Math::Vector3D::random(-1, 1).unit_vector();
+        randv.reserve(point_count);
+
+        for (int i = 0; i < point_count; ++i) {
+            randv.emplace_back(Math::Vector3D::random(-1, 1).unit_vector());
+        }
+
         perm_x = perlin_generate_perm();
         perm_y = perlin_generate_perm();
         perm_z = perlin_generate_perm();
@@ -68,10 +74,6 @@ namespace raytracer {
      */
     Perlin::~Perlin()
     {
-        delete[] randv;
-        delete[] perm_x;
-        delete[] perm_y;
-        delete[] perm_z;
     }
 
     /**
