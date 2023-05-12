@@ -20,6 +20,7 @@
     #include <iostream>
     #include <fstream>
     #include <memory>
+    #include <thread>
 
     namespace Builder {
         class Builder;

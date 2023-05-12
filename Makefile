@@ -26,7 +26,7 @@ CXXFLAGS= -Wall -Wextra -Werror -Ofast -std=c++17
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) -o $(NAME) $(OBJ) $(CXXFLAGS) -Ofast -lconfig++ -lsfml-graphics -lsfml-window -lsfml-system
+	$(CXX) -o $(NAME) $(OBJ) $(CXXFLAGS) -Ofast -lconfig++ -lsfml-graphics -lsfml-window -lsfml-system -pthread
 
 debug: CXXFLAGS += -g -pg
 debug: re

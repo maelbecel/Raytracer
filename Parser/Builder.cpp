@@ -81,12 +81,14 @@ namespace Builder {
     {
         const libconfig::Setting &root = _cfg.getRoot();
         try {
-            std::string name = root["image"]["type"][0];
+            std::string name = root["image"]["type"];
             if      (name == "ppm") return PPM;
             else if (name == "gif") return GIF;
             else                    return PPM;
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (Image type)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
         }
         return PPM;
     }
