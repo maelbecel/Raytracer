@@ -329,7 +329,7 @@ namespace raytracer {
         _file.close();
     }
 
-    void ppmRendererRoutine(Builder::Builder &parser, Scene lights, int id, std::vector<std::string> &buffer, Scene &scene)
+    void ppmRendererRoutine(Builder::Builder &parser, Scene lights, int id, std::vector<std::string> &buffer, Scene &scene, Math::Color ambient)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
@@ -339,7 +339,6 @@ namespace raytracer {
         int start = id * (image_height / numThreads);
         int end = (id + 1) * (image_height / numThreads);
         int depth = parser.getMaxDepth();
-        Math::Color ambient = parser.getAmbient();
         Math::Vector3D background = parser.getBackground();
 
         std::cout << "Thread " << id << " : " << start << " - " << end << std::endl;
@@ -389,7 +388,7 @@ namespace raytracer {
 
         _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
         for (int i = 0; i < numThreads; ++i) {
-            threads.emplace_back(ppmRendererRoutine, std::ref(parser), lights, i, std::ref(lines), std::ref(*this));
+            threads.emplace_back(ppmRendererRoutine, std::ref(parser), lights, i, std::ref(lines), std::ref(*this), ambiant);
         }
 
         for (auto &thread : threads) {

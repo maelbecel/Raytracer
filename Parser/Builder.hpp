@@ -40,13 +40,14 @@
                 Math::Color getAmbient(void);
                 Math::Color getBackground(void);
                 fileType_e getFileType(void);
+                void addLights(raytracer::Scene &scene);
             protected:
             private:
+                void buildLights(raytracer::Scene &scene);
                 libconfig::Config _cfg;
                 Math::Vector3D parseVector3D(const libconfig::Setting &setting);
                 void buildSphere(raytracer::Scene &scene);
                 void buildRectangle(raytracer::Scene &scene);
-                void buildLights(raytracer::Scene &scene);
                 void buildBox(raytracer::Scene &scene);
                 void buildCylinder(raytracer::Scene &scene);
                 void buildCone(raytracer::Scene &scene);

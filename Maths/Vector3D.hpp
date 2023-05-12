@@ -19,6 +19,7 @@
     #define CLAMP(x, min, max) (x < min) ? min : (x > max) ? max : x
     #define random_double() std::rand() / (RAND_MAX + 1.0)
     #define random_double_mm(min, max) min + (max - min) * random_double()
+    #define EMPTY_VECTOR3D Math::Vector3D(0, 0, 0)
 
 
     namespace Math {

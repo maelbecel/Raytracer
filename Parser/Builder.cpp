@@ -287,6 +287,35 @@ namespace Builder {
     }
 
     /**
+     * The function builds directional lights for a raytracer scene using settings
+     * from a configuration file.
+     *
+     * @param scene A reference to a raytracer::Scene object that will be modified
+     * by adding new objects to it.
+     */
+    void Builder::addLights(raytracer::Scene &scene)
+    {
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &lights = root["objects"]["directionalLight"];
+            raytracer::ShapeFactory factory;
+
+            for (int i = 0; i < lights.getLength(); i++) {
+                const libconfig::Setting &light = lights[i];
+                std::shared_ptr<raytracer::IMaterial> material = std::make_shared<raytracer::Lambertian>(EMPTY_VECTOR3D);
+                std::string axis = light["axis"];
+                double a = light["a"], b = light["b"], c = light["c"], d = light["d"], k = light["k"];
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, a, b, c, d, k, material);
+                scene.addObject(shape);
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (lights)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+    }
+
+    /**
      * This function builds spheres with specified materials and adds them to a
      * scene.
      *
