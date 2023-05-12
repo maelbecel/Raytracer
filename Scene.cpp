@@ -338,6 +338,9 @@ namespace raytracer {
         const int numThreads = std::thread::hardware_concurrency();
         int start = id * (image_height / numThreads);
         int end = (id + 1) * (image_height / numThreads);
+        int depth = parser.getMaxDepth();
+        Math::Color ambient = parser.getAmbient();
+        Math::Vector3D background = parser.getBackground();
 
         std::cout << "Thread " << id << " : " << start << " - " << end << std::endl;
         for (int j = start; j <= end; j++) {
@@ -347,7 +350,7 @@ namespace raytracer {
                     auto u = (i + random_double()) / (image_width-1);
                     auto v = (j + random_double()) / (image_height-1);
                     raytracer::Ray r = cam.getRay(u, v);
-                    pixel_color += scene.rayColor(r, parser.getBackground(), std::make_shared<raytracer::Scene>(lights), parser.getMaxDepth(), parser.getAmbient());
+                    pixel_color += scene.rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambient);
                 }
                 raytracer::Scene::writePixel(buffer[j], pixel_color, samples_per_pixel);
             }
