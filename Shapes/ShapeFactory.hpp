@@ -18,6 +18,7 @@
     #include "../Shapes/DirectionnalLight.hpp"
     #include "../Shapes/Box.hpp"
     #include "../Shapes/Cylinder.hpp"
+    #include "../Shapes/Triangle.hpp"
     #include "../Shapes/LimitedCylinder.hpp"
     #include "../Shapes/Cone.hpp"
 
@@ -31,6 +32,7 @@
                 std::shared_ptr<IShape> createShape(std::string type, Math::Vector3D center, double radius, double height, std::shared_ptr<IMaterial> material);
                 std::shared_ptr<IShape> createShape(std::string type, std::string axis, double a, double b, double c, double d, double k, std::shared_ptr<IMaterial> material);
                 std::shared_ptr<IShape> createShape(std::string type, Math::Vector3D p0, Math::Vector3D p1, std::shared_ptr<IMaterial> material);
+                std::shared_ptr<IShape> createShape(std::string type, Math::Vector3D a, Math::Vector3D b, Math::Vector3D c, std::shared_ptr<IMaterial> material);
             protected:
             private:
         };

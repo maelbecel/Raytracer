@@ -409,6 +409,13 @@ namespace Math {
         return Vector3D(x, y, z);
     }
 
+   /**
+    * This function rotates a 3D vector around the y-axis by a given angle in
+    * degrees.
+    *
+    * @return A reference to the current instance of the Vector3D class, after it
+    * has been rotated by the specified angle.
+    */
     Vector3D &Vector3D::rotate(double angle)
     {
         double rad = angle * M_PI / 180.0;

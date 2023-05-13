@@ -99,6 +99,37 @@ namespace raytracer {
     }
 
     /**
+     * The function adds a shape object to a scene with specified rotations around
+     * the x, y, and z axes.
+     *
+     * @param object A shared pointer to an object that implements the IShape
+     * interface. This object represents a geometric shape that can be added to
+     * the scene.
+     * @param r r is a Math::Vector3D object that represents the rotation angles
+     * around the x, y, and z axes, respectively. The function adds the given
+     * object to the scene with the specified rotation angles. If any of the
+     * rotation angles are zero, no rotation is applied around that axis. If all
+     *
+     * @return The function does not return anything. It has a void return type.
+     */
+    void Scene::addObjectRotated(std::shared_ptr<raytracer::IShape> object, Math::Vector3D r)
+    {
+        if (object == nullptr) {
+            std::cerr << "cannot add nullptr object" << std::endl;
+            return;
+        }
+        auto obj = object;
+        if (r.getX() != 0)
+            obj = std::make_shared<XRotation>(obj, r.getX());
+        if (r.getY() != 0)
+            obj = std::make_shared<YRotation>(obj, r.getY());
+        if (r.getZ() != 0)
+            obj = std::make_shared<ZRotation>(obj, r.getZ());
+
+        _objects.push_back(obj);
+    }
+
+    /**
      * The function returns a vector of shared pointers to objects in a scene.
      *
      * @return A `std::vector` of `std::shared_ptr` objects that implement the
@@ -339,7 +370,7 @@ namespace raytracer {
      * function to calculate the color of a pixel based on the ambient light in
      * the scene.
      */
-    void Scene::previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant)
+    bool Scene::previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
@@ -351,7 +382,6 @@ namespace raytracer {
         Preview preview(image_width, image_height);
 
         for (int j = image_height-1; j >= 0; j--) {
-            std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
             for (int i = 0; i < image_width; i++) {
                 Math::Color pixel_color(0, 0, 0);
                 for (int s = 0; s < samples_per_pixel; ++s) {
@@ -364,11 +394,32 @@ namespace raytracer {
             }
         }
         preview.display();
-        if (preview.accept)
-            ppmRenderer(parser, lights, ambiant);
-        std::cerr << "\nDone.\n";
+        return (preview.accept);
     }
 
+    /**
+     * The function ppmRendererRoutine renders a scene using multi-threading and
+     * writes the pixel colors to a buffer.
+     *
+     * @param parser A reference to a Builder object used to parse the scene file
+     * and extract relevant information such as camera settings, image dimensions,
+     * and maximum recursion depth.
+     * @param lights The "lights" parameter is a Scene object that contains
+     * information about the lights in the scene, such as their positions, colors,
+     * and intensities. This information is used to calculate the lighting and
+     * shading of objects in the scene.
+     * @param id id is an integer representing the thread ID or index. It is used
+     * to divide the image into equal parts for parallel processing.
+     * @param buffer The "buffer" parameter is a reference to a vector of strings
+     * that will store the rendered image data. Each string in the vector
+     * represents a row of pixels in the image. The function will write the color
+     * data for each pixel to the appropriate string in the vector.
+     * @param scene The scene parameter is a reference to a Scene object, which
+     * contains all the objects and lights in the scene that will be rendered.
+     * @param ambient The ambient parameter is a Math::Color object representing
+     * the ambient light in the scene. It is used in the rayColor function to
+     * calculate the color of a pixel based on the ambient light in the scene.
+     */
     void ppmRendererRoutine(Builder::Builder &parser, Scene lights, int id, std::vector<std::string> &buffer, Scene &scene, Math::Color ambient)
     {
         raytracer::Camera cam = parser.parseCamera();
@@ -522,12 +573,8 @@ namespace raytracer {
 
         if (!CommandRunner::isCommandExist("convert"))
             throw CommandRunner::RunError::CommandNotFound("convert");
-        std::vector<Math::Vector3D> moves;
-        moves.push_back(Math::Vector3D(3, 0, 0));
-        moves.push_back(Math::Vector3D(5, 0, 0));
-        std::vector<Math::Vector3D> rotation;
-        rotation.push_back(Math::Vector3D(0, 1, 0));
-
+        std::vector<Math::Vector3D> moves = parser.getMovements();
+        std::vector<Math::Vector3D> rotation = parser.getRotations();
         for (; moves.size() < this->getObjects().size() ;)
             moves.push_back(Math::Vector3D(0, 0, 0));
 
@@ -536,8 +583,8 @@ namespace raytracer {
 
 
         std::vector<std::string> ppm_buffer;
-        int fps = 24;
-        int time = 5;
+        int fps = parser.getFPS();
+        int time = parser.getTime();
         auto glass = std::make_shared<raytracer::Dielectric>(1.5);
 
         for (int i = 0; i < fps * time; i++) {

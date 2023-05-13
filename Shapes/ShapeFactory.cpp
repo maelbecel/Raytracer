@@ -55,4 +55,12 @@ namespace raytracer {
         return nullptr;
     }
 
+    std::shared_ptr<IShape> ShapeFactory::createShape(std::string type, Math::Vector3D a, Math::Vector3D b, Math::Vector3D c, std::shared_ptr<IMaterial> material)
+    {
+        if (type == "triangle")
+            return std::make_shared<raytracer::Triangle>(a, b, c, material);
+        else
+            return nullptr;
+    }
+
 }

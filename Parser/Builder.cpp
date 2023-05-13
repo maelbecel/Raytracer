@@ -54,7 +54,7 @@ namespace Builder {
         return Math::Vector3D(0, 0, 0);
     }
 
-    /**
+    /*
      * The function returns the background color of an image specified in a
      * configuration file.
      *
@@ -77,6 +77,17 @@ namespace Builder {
         return Math::Vector3D(0, 0, 0);
     }
 
+    /**
+     * This function returns the file type specified in the configuration file, or
+     * PPM if not specified.
+     *
+     * @return The function `getFileType` returns a value of the enumerated type
+     * `fileType_e`, which represents the type of image file specified in the
+     * configuration file. The possible values of `fileType_e` are `PPM` and
+     * `GIF`. If the image type is not specified in the configuration file or if
+     * there is an error in the configuration file, the function returns the
+     * default value `PP
+     */
     fileType_e Builder::getFileType(void)
     {
         const libconfig::Setting &root = _cfg.getRoot();
@@ -156,6 +167,7 @@ namespace Builder {
         raytracer::Scene scene;
         buildSphere(scene);
         buildRectangle(scene);
+        buildTriangle(scene);
         buildLights(scene);
         buildBox(scene);
         buildCylinder(scene);
@@ -181,7 +193,10 @@ namespace Builder {
                 const libconfig::Setting &cone = cones[i];
                 std::shared_ptr<raytracer::IMaterial> material = buildMaterial(cone["material"]);
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("cone", parseVector3D(cone["center"]), cone["angle"], material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(cone["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(cone["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(cone["rotation"]));
+                _moves.push_back(parseVector3D(cone["move"]));
+                _rotations.push_back(parseVector3D(cone["turn"]));
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (cone)." << std::endl;
@@ -207,7 +222,11 @@ namespace Builder {
                 const libconfig::Setting &cylinder = cylinders[i];
                 std::shared_ptr<raytracer::IMaterial> material = buildMaterial(cylinder["material"]);
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("cylinder", parseVector3D(cylinder["center"]), cylinder["radius"], cylinder["height"], material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(cylinder["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(cylinder["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(cylinder["rotation"]));
+                _moves.push_back(parseVector3D(cylinder["move"]));
+                _rotations.push_back(parseVector3D(cylinder["turn"]));
+
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (limited cylinder)." << std::endl;
@@ -222,7 +241,11 @@ namespace Builder {
                 const libconfig::Setting &cylinder = cylinders[i];
                 std::shared_ptr<raytracer::IMaterial> material = buildMaterial(cylinder["material"]);
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("cylinder", parseVector3D(cylinder["center"]), cylinder["radius"], material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(cylinder["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(cylinder["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(cylinder["rotation"]));
+                _moves.push_back(parseVector3D(cylinder["move"]));
+                _rotations.push_back(parseVector3D(cylinder["turn"]));
+
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (cylinder)." << std::endl;
@@ -248,7 +271,11 @@ namespace Builder {
                 const libconfig::Setting &box = boxes[i];
                 std::shared_ptr<raytracer::IMaterial> material = buildMaterial(box["material"]);
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("box", parseVector3D(box["max"]), parseVector3D(box["min"]), material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(box["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(box["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(box["rotation"]));
+                _moves.push_back(parseVector3D(box["move"]));
+                _rotations.push_back(parseVector3D(box["turn"]));
+
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (box)." << std::endl;
@@ -277,7 +304,11 @@ namespace Builder {
                 std::string axis = light["axis"];
                 double a = light["a"], b = light["b"], c = light["c"], d = light["d"], k = light["k"];
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("light", axis, a, b, c, d, k, material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(light["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(light["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(light["rotation"]));
+                _moves.push_back(parseVector3D(light["move"]));
+                _rotations.push_back(parseVector3D(light["turn"]));
+
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (lights)." << std::endl;
@@ -306,7 +337,12 @@ namespace Builder {
                 std::string axis = light["axis"];
                 double a = light["a"], b = light["b"], c = light["c"], d = light["d"], k = light["k"];
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, a, b, c, d, k, material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(light["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(light["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(light["rotation"]));
+                _moves.push_back(parseVector3D(light["move"]));
+                _rotations.push_back(parseVector3D(light["turn"]));
+
+
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (lights)." << std::endl;
@@ -334,7 +370,10 @@ namespace Builder {
                 std::shared_ptr<raytracer::IMaterial> material = buildMaterial(sphere["material"]);
                 double radius = sphere["r"];
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("sphere", parseVector3D(sphere["center"]), radius, material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(sphere["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(sphere["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(sphere["rotation"]));
+                _moves.push_back(parseVector3D(sphere["move"]));
+                _rotations.push_back(parseVector3D(sphere["turn"]));
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (Sphere)." << std::endl;
@@ -342,6 +381,32 @@ namespace Builder {
             std::cerr << "Setting type mismatch." << std::endl;
         }
     }
+
+    void Builder::buildTriangle(raytracer::Scene &scene)
+    {
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &triangles = root["primitives"]["triangle"];
+            raytracer::ShapeFactory factory;
+
+            for (int i = 0; i < triangles.getLength(); i++) {
+                const libconfig::Setting &triangle = triangles[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(triangle["material"]);
+
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("triangle", parseVector3D(triangle["A"]), parseVector3D(triangle["B"]), parseVector3D(triangle["C"]), material);
+
+                shape = (ISEMPTY(parseVector3D(triangle["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(triangle["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(triangle["rotation"]));
+                _moves.push_back(parseVector3D(triangle["move"]));
+                _rotations.push_back(parseVector3D(triangle["turn"]));
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (Sphere)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+    }
+
 
     /**
      * The function builds rectangles with specified dimensions and materials and
@@ -363,7 +428,10 @@ namespace Builder {
                 std::string axis = rect["axis"];
                 double a = rect["a"], b = rect["b"], c = rect["c"], d = rect["d"], k = rect["k"];
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, a, b, c, d, k, material);
-                scene.addObject(shape);
+                shape = (ISEMPTY(parseVector3D(rect["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(rect["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(rect["rotation"]));
+                _moves.push_back(parseVector3D(rect["move"]));
+                _rotations.push_back(parseVector3D(rect["turn"]));
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (Rectangle)." << std::endl;
@@ -437,6 +505,47 @@ namespace Builder {
         const libconfig::Setting &root = _cfg.getRoot();
         try {
             return root["image"]["samples"];
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return 0;
+    }
+
+    /**
+     * The function returns the frames per second value from a configuration file.
+     *
+     * @return an integer value which is the frames per second (fps) value
+     * obtained from the "image" section of the configuration file. If the value
+     * is not found or there is a type mismatch, the function returns 0.
+     */
+    int Builder::getFPS(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return root["image"]["fps"];
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return 0;
+    }
+
+    /**
+     * The function returns the value of the "time" setting in the "image" section
+     * of a libconfig configuration object.
+     *
+     * @return an integer value, which is the value of the "time" setting under
+     * the "image" section in the configuration file. If the setting is not found
+     * or there is a type mismatch, the function returns 0.
+     */
+    int Builder::getTime(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return root["image"]["time"];
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found." << std::endl;
         } catch (const libconfig::SettingTypeException &stex) {

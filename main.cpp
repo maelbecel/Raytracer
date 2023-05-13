@@ -92,10 +92,8 @@ int main ()
     auto white = std::make_shared<raytracer::Lambertian>(Math::Color(0, 0, 0));
     Math::Color ambiant = builder.getAmbient();
 
-    //lights.addObject(std::make_shared<raytracer::XZRectangle>(213, 343, 227, 332, 554, white));
-    // lights.addObject(std::make_shared<raytracer::Sphere>(Math::Vector3D(190, 90, 190), 90, white));
-
-    // world.previewRenderer(builder, lights, 3);
+    if (!world.previewRenderer(builder, lights, ambiant))
+        return 0;
     switch (builder.getFileType()) {
         case Builder::PPM : world.ppmRenderer(builder, lights, ambiant);
             break;

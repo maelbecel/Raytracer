@@ -35,41 +35,42 @@
                     delete data;
                 }
 
-                unsigned char* load_img(const char* filename, int* width, int* height, int* comp)
+                unsigned char* load_img(UNUSED const char* filename, UNUSED int* width, UNUSED int* height, UNUSED int* comp)
                 {
-                    FILE* fp = fopen(filename, "rb");
-                    if (!fp) {
-                        return nullptr;
-                    }
-                    unsigned char header[54];
-                    if (fread(header, sizeof(unsigned char), 54, fp) != 54) {
-                        fclose(fp);
-                        return nullptr;
-                    }
-                    *width = *(int*)&header[18];
-                    *height = *(int*)&header[22];
-                    int bpp = *(int*)&header[28];
-                    *comp = bpp / 8;
+                    // FILE* fp = fopen(filename, "rb");
+                    // if (!fp) {
+                    //     return nullptr;
+                    // }
+                    // unsigned char header[54];
+                    // if (fread(header, sizeof(unsigned char), 54, fp) != 54) {
+                    //     fclose(fp);
+                    //     return nullptr;
+                    // }
+                    // *width = *(int*)&header[18];
+                    // *height = *(int*)&header[22];
+                    // int bpp = *(int*)&header[28];
+                    // *comp = bpp / 8;
 
-                    unsigned char* img_data = new unsigned char[*width * *height * *comp];
-                    size_t row_size = (*width * bpp + 31) / 32 * 4;
-                    unsigned char* row = new unsigned char[row_size];
-                    for (int y = 0; y < *height; y++) {
-                        if (fread(row, sizeof(unsigned char), row_size, fp) != row_size) {
-                            delete[] img_data;
-                            delete[] row;
-                            fclose(fp);
-                            return nullptr;
-                        }
-                        for (int x = 0; x < *width; x++) {
-                            for (int c = 0; c < *comp; c++) {
-                                img_data[(y * *width + x) * *comp + c] = row[x * *comp + *comp - c - 1];
-                            }
-                        }
-                    }
-                    delete[] row;
-                    fclose(fp);
-                    return img_data;
+                    // unsigned char* img_data = new unsigned char[*width * *height * *comp];
+                    // size_t row_size = (*width * bpp + 31) / 32 * 4;
+                    // unsigned char* row = new unsigned char[row_size];
+                    // for (int y = 0; y < *height; y++) {
+                    //     if (fread(row, sizeof(unsigned char), row_size, fp) != row_size) {
+                    //         delete[] img_data;
+                    //         delete[] row;
+                    //         fclose(fp);
+                    //         return nullptr;
+                    //     }
+                    //     for (int x = 0; x < *width; x++) {
+                    //         for (int c = 0; c < *comp; c++) {
+                    //             img_data[(y * *width + x) * *comp + c] = row[x * *comp + *comp - c - 1];
+                    //         }
+                    //     }
+                    // }
+                    // delete[] row;
+                    // fclose(fp);
+                    // return img_data;
+                    return nullptr;
                 }
 
                 virtual Math::Color value(double u, double v, UNUSED const Math::Vector3D &p) const override {

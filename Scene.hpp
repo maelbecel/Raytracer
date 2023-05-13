@@ -40,13 +40,14 @@
                 static void writePixel(std::string &buffer, Math::Color pixel, int samples);
 
                 void addObject(std::shared_ptr<raytracer::IShape> object);
+                void addObjectRotated(std::shared_ptr<raytracer::IShape> object, Math::Vector3D r);
                 std::vector<std::shared_ptr<raytracer::IShape>> getObjects(void) const;
                 double densityValue(const Math::Vector3D &o, const Math::Vector3D &v) const;
                 Math::Vector3D random(const Math::Vector3D &o) const;
                 Scene applyMovement(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> moves, int frame);
                 Scene applyRotation(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> rotations, int frame);
 
-                void previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
+                bool previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void ppmRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void gifRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
 

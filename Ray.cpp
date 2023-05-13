@@ -8,10 +8,36 @@
 #include "Ray.hpp"
 
 namespace raytracer {
+    /**
+     * This is the default constructor for the Ray class in C++, which initializes
+     * the Origin and Direction vectors to their default values.
+     */
     Ray::Ray(): Origin(), Direction() {};
 
+    /**
+     * This is a constructor for a Ray object that takes in an origin, direction,
+     * and time.
+     *
+     * @param origin The origin parameter is a Math::Vector3D object that
+     * represents the starting point of the ray. It is the point from which the
+     * ray is cast or emitted.
+     * @param direction The "direction" parameter in the constructor of the Ray
+     * class is a Math::Vector3D object that represents the direction in which the
+     * ray is pointing. This vector is used to determine the path that the ray
+     * will follow as it travels through space.
+     * @param time The "time" parameter in the constructor of the Ray class is a
+     * double value that represents the time at which the ray was created or used.
+     * This parameter is often used in ray tracing algorithms to simulate motion
+     * blur or other time-dependent effects.
+     */
     Ray::Ray(Math::Vector3D origin, Math::Vector3D direction, double time): Origin(origin), Direction(direction), tm(time) {}
 
+    /**
+     * This is a copy constructor for the Ray class in C++.
+     *
+     * @param other `other` is a reference to another `Ray` object that is being
+     * passed as an argument to the copy constructor of the `Ray` class.
+     */
     Ray::Ray(const Ray &other): Origin(other.Origin), Direction(other.Direction) {}
 
     /**
