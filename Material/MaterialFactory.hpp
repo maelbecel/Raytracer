@@ -19,6 +19,7 @@
 #include "Metal.hpp"
 #include "Dielectric.hpp"
 #include "DiffuseLight.hpp"
+#include "../Texture/Noise.hpp"
 
 namespace raytracer {
     class MaterialFactory {

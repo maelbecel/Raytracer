@@ -6,6 +6,8 @@
 */
 
 #include "Builder.hpp"
+#include "../Shapes/Node.hpp"
+
 
 namespace Builder {
     /**
@@ -21,8 +23,33 @@ namespace Builder {
      */
     Builder::Builder(std::string path)
     {
+        std::ifstream configFile(path);
+        if (!configFile.is_open()) {
+            std::cerr << "Failed to open configuration file." << std::endl;
+            return;
+        }
+
         try {
             _cfg.readFile(path.c_str());
+        } catch (const libconfig::FileIOException &fioex) {
+            std::cerr << "I/O error while reading file." << std::endl;
+            return;
+        } catch (const libconfig::ParseException &pex) {
+            std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine() << " - " << pex.getError() << std::endl;
+            return;
+        }
+    }
+
+    Builder::Builder(const char *path)
+    {
+        std::ifstream configFile(path);
+        if (!configFile.is_open()) {
+            std::cerr << "Failed to open configuration file." << std::endl;
+            return;
+        }
+
+        try {
+            _cfg.readFile(path);
         } catch (const libconfig::FileIOException &fioex) {
             std::cerr << "I/O error while reading file." << std::endl;
             return;
@@ -169,6 +196,7 @@ namespace Builder {
         buildRectangle(scene);
         buildTriangle(scene);
         buildLights(scene);
+        buildOtherScene(scene);
         buildBox(scene);
         buildCylinder(scene);
         buildCone(scene);
@@ -318,6 +346,30 @@ namespace Builder {
     }
 
     /**
+     * This function builds a scene by reading configuration settings and adding
+     * objects to it.
+     *
+     * @param scene A reference to a raytracer::Scene object that will be modified
+     * by adding an object to it.
+     */
+    void Builder::buildOtherScene(raytracer::Scene &scene)
+    {
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &oth = root["objects"]["otherScene"];
+            Builder builder(oth.c_str());
+            raytracer::Scene otherScene = builder.buildScene();
+            scene.addObject(std::make_shared<raytracer::Node>(otherScene, 0, 1));
+
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (otherScene)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+    }
+
+
+    /**
      * The function builds directional lights for a raytracer scene using settings
      * from a configuration file.
      *
@@ -341,14 +393,17 @@ namespace Builder {
                 scene.addObjectRotated(shape, parseVector3D(light["rotation"]));
                 _moves.push_back(parseVector3D(light["move"]));
                 _rotations.push_back(parseVector3D(light["turn"]));
-
-
             }
+
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (lights)." << std::endl;
         } catch (const libconfig::SettingTypeException &stex) {
             std::cerr << "Setting type mismatch." << std::endl;
         }
+        if ( scene.getObjects().size() == 0) {
+            scene.addObject(std::make_shared<raytracer::DirectionnalLight>(std::make_shared<raytracer::Sphere>(EMPTY_VECTOR3D, 0.0001, std::make_shared<raytracer::Lambertian>(Math::Color(0,0,0)))));
+        }
+
     }
 
     /**
@@ -382,6 +437,13 @@ namespace Builder {
         }
     }
 
+    /**
+     * The function builds triangles with specified materials, translations,
+     * rotations, and movements and adds them to a scene.
+     *
+     * @param scene The `scene` parameter is a reference to a `raytracer::Scene`
+     * object, which is where the created objects will be added to.
+     */
     void Builder::buildTriangle(raytracer::Scene &scene)
     {
         try {
@@ -467,6 +529,8 @@ namespace Builder {
             return factory.createMaterial(type, mat["refraction"]);
         } else if (type == "diffuseLight") {
             return factory.createMaterial(type, parseVector3D(mat["color"]));
+        } else if (type == "noise") {
+            return factory.createMaterial(type, mat["frequency"]);
         }
         return nullptr;
     }

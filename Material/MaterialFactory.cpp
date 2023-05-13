@@ -25,6 +25,8 @@ namespace raytracer {
     {
         if (type == "dielectric")
             return std::make_shared<Dielectric>(refraction);
+        if (type == "noise")
+            return std::make_shared<Lambertian>(std::make_shared<Noise>(refraction));
         return nullptr;
     }
 }

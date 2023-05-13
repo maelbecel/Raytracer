@@ -33,6 +33,7 @@
         class Builder {
             public:
                 Builder(std::string path);
+                Builder(const char *path);
                 ~Builder() = default;
 
                 raytracer::Camera parseCamera(void);
@@ -59,6 +60,7 @@
                 void buildRectangle(raytracer::Scene &scene);
                 void buildTriangle(raytracer::Scene &scene);
                 void buildBox(raytracer::Scene &scene);
+                void buildOtherScene(raytracer::Scene &scene);
                 void buildCylinder(raytracer::Scene &scene);
                 void buildCone(raytracer::Scene &scene);
                 std::shared_ptr<raytracer::IMaterial> buildMaterial(std::string name);

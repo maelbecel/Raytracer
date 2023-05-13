@@ -12,7 +12,6 @@
 #include "Material/Dielectric.hpp"
 #include "Material/DiffuseLight.hpp"
 #include "Shapes/MovingSphere.hpp"
-#include "Shapes/Node.hpp"
 #include "Shapes/XYRectangle.hpp"
 #include "Shapes/XZRectangle.hpp"
 #include "Shapes/YZRectangle.hpp"
@@ -81,16 +80,22 @@ raytracer::Scene room()
     return objects;
 }
 
-int main ()
+int main (int ac, char **av)
 {
     // Builder
 
-    Builder::Builder builder("scene.cfg");
+    if (ac != 2) {
+        std::cout << "Usage: ./raytracer <configuration file>" << std::endl;
+        return 0;
+    }
+
+    Builder::Builder builder(av[1]);
     raytracer::Scene world = builder.buildScene();
     raytracer::Scene lights;
     builder.addLights(lights);
     auto white = std::make_shared<raytracer::Lambertian>(Math::Color(0, 0, 0));
     Math::Color ambiant = builder.getAmbient();
+    
 
     if (!world.previewRenderer(builder, lights, ambiant))
         return 0;
