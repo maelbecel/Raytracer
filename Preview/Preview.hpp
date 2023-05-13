@@ -21,12 +21,19 @@
 
             ~Preview();
 
-            void addPixel(Math::Color color, double x, double y, int quality);
+            void addPixel(Math::Color color, double x, double y, int samples);
+            void display();
 
-            sf::RenderWindow win;
+            bool accept;
 
         private:
-            std::vector<sf::RectangleShape> pixels;
+            double _width;
+            double _height;
+            sf::RenderWindow win;
+            std::unique_ptr<sf::Uint8[]> pixels;
+            sf::Texture texture;
+            sf::Sprite sprite;
+            sf::RectangleShape buttons[2];
     };
 
 #endif /* !PREVIEW_HPP_ */

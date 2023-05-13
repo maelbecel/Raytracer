@@ -149,12 +149,56 @@ namespace raytracer {
         Mix p(light, srec.density_ptr);
         Ray scattered = Ray(rec.getP(), p.generate(), r.time());
         auto pdf = p.value(scattered.Direction);
-        //std::cerr << "[" << depth << "] At = " << srec.attenuation << "\tPdf = "<< pdf << "\tscat = " << rec.getMaterial()->scatter_pdf(r, rec, scattered) << std::endl;
+        // std::cerr << "[" << depth << "] At = " << srec.attenuation << "\tPdf = "<< pdf << "\tscat = " << rec.getMaterial()->scatter_pdf(r, rec, scattered) << std::endl;
 
         auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1, ambiant) / pdf;
         // auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1, ambiant) / pdf;
         // std::cerr << "[" << depth << "]" << emitted << " + " << srec.attenuation << " * "<< rayColor(scattered, background, lights, depth - 1, ambiant)<< " / " << pdf << " = " << x << std::endl;
         // std::cerr << "[" << depth << "]" << emitted << " + " << srec.attenuation << " * "<< rec.getMaterial()->scatter_pdf(r, rec, scattered)<< " * "<<rayColor(scattered, background, lights, depth - 1, ambiant)<< " / " << pdf << " = " << x << std::endl;
+        return x;
+    }
+
+    /**
+     * The function calculates the color of a ray in a scene by recursively
+     * tracing the path of the ray and accounting for material properties and
+     * lighting.
+     *
+     * @param r The ray being traced in the scene.
+     * @param background The background color to be used if the ray does not hit
+     * any objects in the scene.
+     * @param lights `lights` is a shared pointer to a `Scene` object that
+     * contains all the light sources in the scene. It is used to calculate the
+     * contribution of the lights to the final color of the object being rendered.
+     * @param depth The maximum recursion depth for ray tracing. It determines how
+     * many times the ray tracing algorithm will bounce a ray off surfaces before
+     * terminating.
+     *
+     * @return a Math::Color value, which represents the color of the ray after it
+     * has interacted with objects in the scene.
+     */
+    Math::Color Scene::previewRayColor(Ray r, const Math::Color &background, std::shared_ptr<Scene> lights, int depth, Math::Color ambiant)
+    {
+        HitRecord rec;
+
+        if (depth <= 0)
+            return Math::Color(0, 0, 0);
+        if (!hit(r, 0.001, INFINITY, rec))
+            return background;
+
+        ScatterRecord srec;
+        Math::Color emitted = rec.getMaterial()->emitted(r, rec.getU(), rec.getV(), rec, rec.getP());
+
+        if (!rec.getMaterial()->scatter(r, rec, srec))
+            return emitted;
+
+        if (srec.is_specular)
+            return srec.attenuation * rayColor(srec.specular, background, lights, depth - 1, ambiant);
+
+        std::shared_ptr<IDensity> light = std::make_shared<HittablePDF>(lights, rec.getP());
+        Mix p(light, srec.density_ptr);
+        Ray scattered = Ray(rec.getP(), p.generate(), r.time());
+
+        auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered);
         return x;
     }
 
@@ -295,38 +339,34 @@ namespace raytracer {
      * function to calculate the color of a pixel based on the ambient light in
      * the scene.
      */
-    void Scene::previewRenderer(Builder::Builder &parser, Scene lights, int quality, Math::Color ambiant)
+    void Scene::previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant)
     {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
         const int image_width = parser.getImageHeight() * cam.getRatio();
-        const int samples_per_pixel = parser.getSamplesPerPixel();
+        const int samples_per_pixel = 5;
         const int depth = parser.getMaxDepth();
         Math::Vector3D background = parser.getBackground();
 
         Preview preview(image_width, image_height);
 
-        std::ofstream _file("Rendu.ppm", std::ios::binary);
-
-        _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
-        for (int j = image_height-1; j >= 0; --j) {
+        for (int j = image_height-1; j >= 0; j--) {
             std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
-            for (int i = 0; i < image_width; ++i) {
+            for (int i = 0; i < image_width; i++) {
                 Math::Color pixel_color(0, 0, 0);
                 for (int s = 0; s < samples_per_pixel; ++s) {
                     auto u = (i + random_double()) / (image_width-1);
                     auto v = (j + random_double()) / (image_height-1);
                     raytracer::Ray r = cam.getRay(u, v);
-                    pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
+                    pixel_color += previewRayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
                 }
-                raytracer::Scene::writePixel(_file, pixel_color, samples_per_pixel);
-                if (i % quality == 0 && j % quality == 0)
-                    preview.addPixel(pixel_color, i, image_height - j - 1, quality);
+                preview.addPixel(pixel_color, i, image_height - j - 1, samples_per_pixel);
             }
         }
-        preview.win.close();
+        preview.display();
+        if (preview.accept)
+            ppmRenderer(parser, lights, ambiant);
         std::cerr << "\nDone.\n";
-        _file.close();
     }
 
     void ppmRendererRoutine(Builder::Builder &parser, Scene lights, int id, std::vector<std::string> &buffer, Scene &scene, Math::Color ambient)

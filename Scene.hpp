@@ -34,6 +34,7 @@
                 bool hit(const raytracer::Ray &r, double min, double max, raytracer::HitRecord &rec);
                 bool bounding_box(double time0, double time1, AABB &output) const;
                 Math::Color rayColor(Ray r, const Math::Color &background, std::shared_ptr<Scene> lights, int depth, Math::Color ambiant);
+                Math::Color previewRayColor(Ray r, const Math::Color &background, std::shared_ptr<Scene> lights, int depth, Math::Color ambiant);
 
                 static void writePixel(std::ofstream &out, Math::Color pixel, int samples);
                 static void writePixel(std::string &buffer, Math::Color pixel, int samples);
@@ -45,7 +46,7 @@
                 Scene applyMovement(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> moves, int frame);
                 Scene applyRotation(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> rotations, int frame);
 
-                void previewRenderer(Builder::Builder &parser, Scene lights, int quality, Math::Color ambiant);
+                void previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void ppmRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void gifRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
 
