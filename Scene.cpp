@@ -517,6 +517,42 @@ namespace raytracer {
         raytracer::Camera cam = parser.parseCamera();
         const int image_height = parser.getImageHeight();
         const int image_width = parser.getImageHeight() * cam.getRatio();
+        const int samples_per_pixel = parser.getSamplesPerPixel();
+        const int depth = parser.getMaxDepth();
+        Math::Vector3D background = parser.getBackground();
+
+        auto light = std::make_shared<raytracer::DiffuseLight>(ambiant);
+        addObject(std::make_shared<raytracer::Sphere>(cam.getPos() + cam.getDirection() * -1, 99, light));
+
+        std::cerr << "Light at " << cam.getPos() + cam.getDirection() * - 1 << " from " << cam.getPos() << " and dir " << cam.getDirection() <<  std::endl;
+
+        std::ofstream _file("Rendu.ppm", std::ios::binary);
+
+        _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
+        for (int j = image_height-1; j >= 0; --j) {
+            std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
+            for (int i = 0; i < image_width; ++i) {
+                Math::Color pixel_color(0, 0, 0);
+                for (int s = 0; s < samples_per_pixel; ++s) {
+                    auto u = (i + random_double()) / (image_width-1);
+                    auto v = (j + random_double()) / (image_height-1);
+                    raytracer::Ray r = cam.getRay(u, v);
+                    auto p = rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
+                    //std::cerr << "============================================================================\n[" << i << "][" << j << "] p = " << p << "\tpixel = "<< pixel_color << "\n=======================================================================================" << std::endl;
+                    pixel_color += p;
+                }
+                raytracer::Scene::writePixel(_file, pixel_color, samples_per_pixel);
+            }
+        }
+        std::cerr << "\nDone.\n";
+        _file.close();
+    }
+
+    void Scene::multithreadingRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant)
+    {
+        raytracer::Camera cam = parser.parseCamera();
+        const int image_height = parser.getImageHeight();
+        const int image_width = parser.getImageHeight() * cam.getRatio();
 
         auto light = std::make_shared<raytracer::DiffuseLight>(ambiant);
         addObject(std::make_shared<raytracer::Sphere>(cam.getPos() + cam.getDirection() * -1, 99, light));

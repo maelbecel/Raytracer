@@ -95,17 +95,20 @@ int main (int ac, char **av)
     builder.addLights(lights);
     auto white = std::make_shared<raytracer::Lambertian>(Math::Color(0, 0, 0));
     Math::Color ambiant = builder.getAmbient();
-    
 
     if (!world.previewRenderer(builder, lights, ambiant))
         return 0;
-    switch (builder.getFileType()) {
-        case Builder::PPM : world.ppmRenderer(builder, lights, ambiant);
-            break;
-        case Builder::GIF : world.gifRenderer(builder, lights, ambiant);
-            break;
-        default : world.ppmRenderer(builder, lights, ambiant);
-            break;
+    if (builder.getMultithreading())
+        world.multithreadingRenderer(builder, lights, ambiant);
+    else {
+        switch (builder.getFileType()) {
+            case Builder::PPM : world.ppmRenderer(builder, lights, ambiant);
+                break;
+            case Builder::GIF : world.gifRenderer(builder, lights, ambiant);
+                break;
+            default : world.ppmRenderer(builder, lights, ambiant);
+                break;
+        }
     }
     return 0;
 }

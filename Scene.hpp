@@ -50,8 +50,8 @@
                 void loadingRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 bool previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void ppmRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
+                void multithreadingRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void gifRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
-
             protected:
             private:
                 std::vector<std::shared_ptr<raytracer::IShape>> _objects;

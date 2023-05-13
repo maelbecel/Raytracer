@@ -45,6 +45,7 @@
                 int getMaxDepth(void);
                 int getFPS(void);
                 int getTime(void);
+                bool getMultithreading(void);
                 Math::Color getAmbient(void);
                 Math::Color getBackground(void);
                 fileType_e getFileType(void);

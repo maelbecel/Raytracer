@@ -59,6 +59,19 @@ namespace Builder {
         }
     }
 
+    bool Builder::getMultithreading(void)
+    {
+        const libconfig::Setting &root = _cfg.getRoot();
+        try {
+            return root["image"]["multithreading"];
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (multithreading)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+        return false;
+    }
+
     /**
      * The function returns the ambient light color from a configuration file.
      *
