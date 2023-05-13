@@ -386,6 +386,7 @@ namespace raytracer {
 
         _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
         for (int j = image_height-1; j >= 0; j--) {
+            std::cerr << "\rScanlines remaining: " << image_height - j - 1 << " / " << image_height << ' ' << std::flush;
             for (int i = 0; i < image_width; i++) {
                 Math::Color pixel_color(0, 0, 0);
                 for (int s = 0; s < samples_per_pixel; ++s) {
@@ -395,7 +396,7 @@ namespace raytracer {
                     pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
                 }
                 writePixel(_file, pixel_color, samples_per_pixel);
-                loading.addPixel(pixel_color, i, image_height - j - 1, 10);
+                loading.addPixel(pixel_color, i, image_height - j - 1, samples_per_pixel);
             }
         }
         std::cerr << "\nDone.\n";
