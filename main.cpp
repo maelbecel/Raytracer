@@ -98,7 +98,9 @@ int main (int ac, char **av)
 
     if (!world.previewRenderer(builder, lights, ambiant))
         return 0;
-    if (builder.getMultithreading())
+    if (builder.getLoading())
+        world.loadingRenderer(builder, lights, ambiant);
+    else if (builder.getMultithreading())
         world.multithreadingRenderer(builder, lights, ambiant);
     else {
         switch (builder.getFileType()) {
