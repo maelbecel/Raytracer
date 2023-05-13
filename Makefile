@@ -17,6 +17,7 @@ SRC=		main.cpp 						\
 			Object/HitRecord.cpp			\
 			Material/MaterialFactory.cpp	\
 			Shapes/ShapeFactory.cpp			\
+			Preview/Loading.cpp			\
 			Preview/Preview.cpp			\
 
 OBJ=$(SRC:.cpp=.o)

@@ -12,6 +12,7 @@
 #include "./Shapes/YRotation.hpp"
 #include "./Shapes/ZRotation.hpp"
 #include "./Parser/Builder.hpp"
+#include "./Preview/Loading.hpp"
 #include "./Preview/Preview.hpp"
 #include "GifCreator.hpp"
 #include "CommandRunner.hpp"
@@ -348,6 +349,56 @@ namespace raytracer {
         auto int_size = static_cast<int>(_objects.size());
         auto index = static_cast<int>(random_double_mm(0, int_size - 1));
         return _objects[index]->random(o);
+    }
+
+    /**
+     * The function generates a preview of a rendered scene using ray tracing.
+     *
+     * @param parser A reference to a Builder object used to parse the scene file
+     * and extract relevant information such as camera settings, image dimensions,
+     * and rendering options.
+     * @param lights The `lights` parameter is an instance of the `Scene` class,
+     * which represents the scene containing all the objects and lights in the
+     * scene being rendered. It is passed as a shared pointer to the `rayColor`
+     * function to calculate the color of each pixel.
+     * @param quality The quality parameter is used to determine the level of
+     * detail in the preview image. It specifies the number of pixels that are
+     * skipped between each pixel that is actually rendered. A higher quality
+     * value will result in a lower resolution preview image, but will also render
+     * faster.
+     * @param ambiant The ambiant parameter is a Math::Color object that
+     * represents the ambient light in the scene. It is used in the rayColor
+     * function to calculate the color of a pixel based on the ambient light in
+     * the scene.
+     */
+    void Scene::loadingRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant)
+    {
+        raytracer::Camera cam = parser.parseCamera();
+        const int image_height = parser.getImageHeight();
+        const int image_width = parser.getImageHeight() * cam.getRatio();
+        const int samples_per_pixel = parser.getSamplesPerPixel();
+        const int depth = parser.getMaxDepth();
+        Math::Vector3D background = parser.getBackground();
+
+        Loading loading(image_width, image_height);
+
+        std::ofstream _file("Rendu.ppm", std::ios::binary);
+
+        _file << "P6\n" << image_width << ' ' << image_height << "\n255\n";
+        for (int j = image_height-1; j >= 0; j--) {
+            for (int i = 0; i < image_width; i++) {
+                Math::Color pixel_color(0, 0, 0);
+                for (int s = 0; s < samples_per_pixel; ++s) {
+                    auto u = (i + random_double()) / (image_width-1);
+                    auto v = (j + random_double()) / (image_height-1);
+                    raytracer::Ray r = cam.getRay(u, v);
+                    pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
+                }
+                writePixel(_file, pixel_color, samples_per_pixel);
+                loading.addPixel(pixel_color, i, image_height - j - 1, 10);
+            }
+        }
+        std::cerr << "\nDone.\n";
     }
 
     /**

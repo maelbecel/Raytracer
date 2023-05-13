@@ -47,6 +47,7 @@
                 Scene applyMovement(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> moves, int frame);
                 Scene applyRotation(std::vector<std::shared_ptr<IShape>> list, std::vector<Math::Vector3D> rotations, int frame);
 
+                void loadingRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 bool previewRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void ppmRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
                 void gifRenderer(Builder::Builder &parser, Scene lights, Math::Color ambiant);
