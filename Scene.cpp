@@ -376,7 +376,7 @@ namespace raytracer {
         const int image_height = parser.getImageHeight();
         const int image_width = parser.getImageHeight() * cam.getRatio();
         const int samples_per_pixel = 5;
-        const int depth = parser.getMaxDepth();
+        const int depth = 5;
         Math::Vector3D background = parser.getBackground();
 
         Preview preview(image_width, image_height);
