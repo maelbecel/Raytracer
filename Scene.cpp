@@ -183,6 +183,7 @@ namespace raytracer {
         auto pdf = p.value(scattered.Direction);
         // std::cerr << "[" << depth << "] At = " << srec.attenuation << "\tPdf = "<< pdf << "\tscat = " << rec.getMaterial()->scatter_pdf(r, rec, scattered) << std::endl;
 
+        //auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1, ambiant) / pdf;
         auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1, ambiant) / pdf;
         // auto x = emitted + srec.attenuation * rec.getMaterial()->scatter_pdf(r, rec, scattered) * rayColor(scattered, background, lights, depth - 1, ambiant) / pdf;
         // std::cerr << "[" << depth << "]" << emitted << " + " << srec.attenuation << " * "<< rayColor(scattered, background, lights, depth - 1, ambiant)<< " / " << pdf << " = " << x << std::endl;

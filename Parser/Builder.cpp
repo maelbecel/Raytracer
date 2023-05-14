@@ -582,6 +582,8 @@ namespace Builder {
             return factory.createMaterial(type, parseVector3D(mat["color"]));
         } else if (type == "noise") {
             return factory.createMaterial(type, mat["frequency"]);
+        } else if (type == "chessboard") {
+            return factory.createMaterial(type, parseVector3D(mat["color1"]), parseVector3D(mat["color2"]));
         }
         return nullptr;
     }

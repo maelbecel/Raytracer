@@ -29,4 +29,11 @@ namespace raytracer {
             return std::make_shared<Lambertian>(std::make_shared<Noise>(refraction));
         return nullptr;
     }
+
+    std::shared_ptr<IMaterial> MaterialFactory::createMaterial(std::string type, Math::Vector3D colorA, Math::Vector3D colorB)
+    {
+        if (type == "chessboard")
+            return std::make_shared<Lambertian>(std::make_shared<Checker>(colorA, colorB));
+        return nullptr;
+    }
 }

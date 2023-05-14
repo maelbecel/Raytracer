@@ -20,6 +20,7 @@
 #include "Dielectric.hpp"
 #include "DiffuseLight.hpp"
 #include "../Texture/Noise.hpp"
+#include "../Texture/Checker.hpp"
 
 namespace raytracer {
     class MaterialFactory {
@@ -28,6 +29,7 @@ namespace raytracer {
             ~MaterialFactory() = default;
 
             std::shared_ptr<IMaterial> createMaterial(std::string type, Math::Vector3D albedo, double fuzz = 0.0);
+            std::shared_ptr<IMaterial> createMaterial(std::string type, Math::Vector3D colorA, Math::Vector3D colorB);
             std::shared_ptr<IMaterial> createMaterial(std::string type, double refraction);
         protected:
         private:
