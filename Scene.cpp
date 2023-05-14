@@ -396,7 +396,8 @@ namespace raytracer {
                     pixel_color += rayColor(r, background, std::make_shared<raytracer::Scene>(lights), depth, ambiant);
                 }
                 writePixel(_file, pixel_color, samples_per_pixel);
-                loading.addPixel(pixel_color, i, image_height - j - 1, samples_per_pixel);
+                if (!loading.addPixel(pixel_color, i, image_height - j - 1, samples_per_pixel))
+                    return;
             }
         }
         std::cerr << "\nDone.\n";

@@ -66,6 +66,7 @@
                 void buildCylinder(raytracer::Scene &scene);
                 void buildCone(raytracer::Scene &scene);
                 std::shared_ptr<raytracer::IMaterial> buildMaterial(std::string name);
+                void buildPlan(raytracer::Scene &scene);
         };
     }
 

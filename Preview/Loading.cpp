@@ -17,13 +17,15 @@ Loading::Loading(double width, double height)
     sprite.setTexture(texture, true);
 }
 
-void Loading::addPixel(Math::Color color, double x, double y, int samples)
+bool Loading::addPixel(Math::Color color, double x, double y, int samples)
 {
     if (win.isOpen()) {
         sf::Event event;
         while (win.pollEvent(event)) {
-            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
                 win.close();
+                return false;
+            }
         }
         auto r = color.getX();
         auto g = color.getY();
@@ -50,6 +52,7 @@ void Loading::addPixel(Math::Color color, double x, double y, int samples)
         win.draw(sprite);
         win.display();
     }
+    return true;
 }
 
 Loading::~Loading()

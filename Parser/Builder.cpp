@@ -226,6 +226,7 @@ namespace Builder {
         buildBox(scene);
         buildCylinder(scene);
         buildCone(scene);
+        buildPlan(scene);
         return scene;
     }
 
@@ -329,7 +330,6 @@ namespace Builder {
                 scene.addObjectRotated(shape, parseVector3D(box["rotation"]));
                 _moves.push_back(parseVector3D(box["move"]));
                 _rotations.push_back(parseVector3D(box["turn"]));
-
             }
         } catch (const libconfig::SettingNotFoundException &nfex) {
             std::cerr << "Setting not found (box)." << std::endl;
@@ -516,6 +516,31 @@ namespace Builder {
                 std::string axis = rect["axis"];
                 double a = rect["a"], b = rect["b"], c = rect["c"], d = rect["d"], k = rect["k"];
                 std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, a, b, c, d, k, material);
+                shape = (ISEMPTY(parseVector3D(rect["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(rect["translation"]));
+                scene.addObjectRotated(shape, parseVector3D(rect["rotation"]));
+                _moves.push_back(parseVector3D(rect["move"]));
+                _rotations.push_back(parseVector3D(rect["turn"]));
+            }
+        } catch (const libconfig::SettingNotFoundException &nfex) {
+            std::cerr << "Setting not found (Rectangle)." << std::endl;
+        } catch (const libconfig::SettingTypeException &stex) {
+            std::cerr << "Setting type mismatch." << std::endl;
+        }
+    }
+
+    void Builder::buildPlan(raytracer::Scene &scene)
+    {
+        try {
+            const libconfig::Setting &root = _cfg.getRoot();
+            const libconfig::Setting &rectangles = root["primitives"]["plan"];
+            raytracer::ShapeFactory factory;
+
+            for (int i = 0; i < rectangles.getLength(); i++) {
+                const libconfig::Setting &rect = rectangles[i];
+                std::shared_ptr<raytracer::IMaterial> material = buildMaterial(rect["material"]);
+                std::string axis = rect["axis"];
+                double p = rect["p"];
+                std::shared_ptr<raytracer::IShape> shape = factory.createShape("rectangle", axis, -INFINITY, INFINITY, -INFINITY, INFINITY, p, material);
                 shape = (ISEMPTY(parseVector3D(rect["translation"]))) ? shape : std::make_shared<raytracer::Translation>(shape, parseVector3D(rect["translation"]));
                 scene.addObjectRotated(shape, parseVector3D(rect["rotation"]));
                 _moves.push_back(parseVector3D(rect["move"]));

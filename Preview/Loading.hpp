@@ -21,7 +21,7 @@
 
             ~Loading();
 
-            void addPixel(Math::Color color, double x, double y, int samples);
+            bool addPixel(Math::Color color, double x, double y, int samples);
 
         private:
             double _width;
